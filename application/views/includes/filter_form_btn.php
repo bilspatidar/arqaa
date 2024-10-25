@@ -1,0 +1,1 @@
+<button type="submit" class="btn btn-primary"><?php echo $this->lang->line('apply_filter');?></button>

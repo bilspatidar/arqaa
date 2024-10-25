@@ -1,0 +1,2 @@
+<button type="submit" class="btn btn-primary mr-2"><?php echo $this->lang->line('submit');?></button>
+<button class="btn btn-danger mr-2" type="reset"><?php echo $this->lang->line('cancel');?></button>

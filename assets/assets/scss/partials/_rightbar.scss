@@ -1,0 +1,46 @@
+.rightbar{
+    @include box-shadow(0 5px 10px 0px rgba(0,0,0,.3));
+    @include transition(all .3s ease-in-out);
+    background: $body-color;
+    position: fixed;
+    right: -420px;
+    top: 0;
+    width: 400px;    
+    height: 100vh;
+    z-index: 13;
+    padding: 15px 20px;
+
+    @include max-screen($break-large) {
+        width: 280px;
+    }
+
+    &.open{
+        right: 0;
+    }
+
+    &.detail{
+        .chat_detail{
+            display: block;
+
+            .chat-widget li img{
+                width: 35px;
+                height: 35px;
+            }
+        }
+        .chat_list{
+            display: none;
+        }
+    }
+
+    .chat_detail{
+        display: none;
+        height: calc(100vh - 30px);
+        position: relative;
+        overflow-y: auto;
+        
+        .input-group{
+            position: absolute;
+            bottom: 0;
+        }
+    }
+}

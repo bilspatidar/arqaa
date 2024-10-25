@@ -1,0 +1,138 @@
+*[dir="rtl"] .metismenu .arrow {
+    float: left;
+}
+*[dir="rtl"] .metismenu .plus-times {
+    float: left;
+}
+*[dir="rtl"] .metismenu .plus-minus {
+    float: left;
+}
+
+.metismenu{
+
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+
+    > li {
+        
+        @extend .p-b-5;
+        -webkit-box-flex: 1;
+        -ms-flex: 1 1 0%;
+        flex: 1 1 0%;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        position: relative;			
+
+        .active a {
+            font-weight: $font-weight-700;
+        }
+
+        i {
+            @extend .inlineblock;
+            position: relative;
+            top: 1px;
+            width: 31px;    			
+        }
+    }
+
+    li.header{
+        @extend .font-12;
+        @extend .m-t-20;
+        @extend .m-b-5;
+        color: rgba($white, 0.4);
+        padding: 0 15px;
+    }
+
+    a {
+        @include transition(all .3s ease-out);
+        @include display-block;
+        @extend .font-14;
+        color: $gray-300;
+        border-radius: $border-radius-small;
+        position: relative;			
+        padding: 7px 15px;
+        outline-width: 0;            
+    }
+
+    ul a {            
+        color: $gray-400;
+        font-size: $font-size;
+        padding: 6px 15px 6px 47px;
+        position: relative;			
+
+        &::before{
+            @include transition(all .4s ease-out);
+            @include border-radius(5px);
+            background: $gray-600;
+            content: '';
+            position: absolute;
+            left: 19px;
+            height: 5px;
+            width: 5px;
+            top: 14px;				
+        }
+        
+        &:hover{
+            &:before{
+                width: 20px;
+            }
+        }
+    }
+    
+    ul ul a {
+        padding: 10px 15px 10px 70px;
+    }
+
+    ul.collapse a {
+        &:hover,
+        &:focus {
+            text-decoration: none;
+        }
+    }		
+	
+    .arrow {
+        float: right;
+        line-height: 1.42857;
+    }
+
+    .collapse {
+        display: none;
+
+        &.in{
+            display: block;
+        }
+    }
+    .collapsing {
+        position: relative;
+        height: 0;
+        overflow: hidden;
+        transition-timing-function: ease;
+        transition-duration: .35s;
+        transition-property: height, visibility;
+    }
+    .has-arrow {
+        position: relative;
+
+        &:after {
+            @include transition(all .3s ease-out);
+            color: rgba($white, 0.1);
+            position: absolute;
+            content: '+';
+            right: 1em;            
+        }
+    }    
+}
+.metismenu .active > .has-arrow::after,
+.metismenu .has-arrow[aria-expanded="true"]::after {
+    content: '-';
+}
