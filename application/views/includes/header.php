@@ -67,6 +67,7 @@ $token = $_SESSION['user_details']['access_token'];
 <link rel="stylesheet" href="<?php echo base_url(); ?>assets/assets/vendor/bootstrap/css/bootstrap.min.css">
 <link rel="stylesheet" href="<?php echo base_url(); ?>assets/assets/vendor/font-awesome/css/font-awesome.min.css">
 <link rel="stylesheet" href="<?php echo base_url(); ?>assets/assets/vendor/animate-css/vivify.min.css">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
 
 <link rel="stylesheet" href="<?php echo base_url(); ?>assets/assets/vendor/c3/c3.min.css"/>
 <link rel="stylesheet" href="<?php echo base_url(); ?>assets/assets/vendor/chartist/css/chartist.css">
@@ -81,17 +82,27 @@ $token = $_SESSION['user_details']['access_token'];
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
 
+<link rel="stylesheet" href="<?php echo base_url(); ?>assets/assets/vendor/jquery-datatable/dataTables.bootstrap4.min.css">
+<
   <!-- Menu link -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script src="<?php echo base_url(); ?>assets/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <link rel="stylesheet" href="<?php echo base_url(); ?>assets/assets/vendor/bootstrap-datepicker/css/bootstrap-datepicker3.min.css">
 
   <!-- Menu link -->
 <link rel="stylesheet" href="<?php echo base_url(); ?>assets/assets/vendor/summernote/dist/summernote.css"/>
 <style>
+.select2-container--default .select2-selection--multiple {
+    color:#000 !important;
+}
+.select2-container .select2-selection--single {
+    height: 36px !important;
 
-    
+}
+
+  
+
     .dataTables_info{
         color:#fff !important;
     }

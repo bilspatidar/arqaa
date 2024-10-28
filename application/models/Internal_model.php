@@ -468,6 +468,25 @@ public function update_status($user_id=''){
         return $this->db->get()->result();
     }
 	
+    public function get_type($id='') {
+        $this->db->select("*");
+        $this->db->from('user_role');
+		if(!empty($id) && ($id)>0){  
+        $this->db->where("slug", $id);
+		}
+        $this->db->where("status", 'Active');
+        return $this->db->get()->result();
+    }
+    public function get_languages($id='') {
+        $this->db->select("*");
+        $this->db->from('languages');
+		if(!empty($id) && ($id)>0){  
+        $this->db->where("id", $id);
+		}
+        // $this->db->where("status", 'Active');
+        return $this->db->get()->result();
+    }
+
 	public function getUserDetails($users_id='') {
         $this->db->select('*');
         $this->db->from('users');

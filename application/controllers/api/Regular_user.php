@@ -70,7 +70,12 @@ class Regular_user extends REST_Controller {
             $_POST = json_decode($this->input->raw_input_stream, true);
 
             // set validation rules
-            $this->form_validation->set_rules('name', 'Name', 'trim|required|xss_clean|alpha_numeric_spaces');
+            $this->form_validation->set_rules('name', 'Username', 'trim|required|xss_clean|alpha_numeric|min_length[3]');
+            $this->form_validation->set_rules('email', 'Email', 'trim|required|xss_clean|is_unique[users.email]');
+            $this->form_validation->set_rules('mobile', 'Mobile Number', 'trim|required|xss_clean|min_length[10]');
+            $this->form_validation->set_rules('password', 'Password', 'trim|required|xss_clean|min_length[6]');
+            $this->form_validation->set_rules('confirm_password', 'Confirm Password', 'trim|required|xss_clean|min_length[6]|matches[password]');
+		
             if ($this->form_validation->run() === false) {
                 $array_error = array_map(function ($val) {
                     return str_replace(array("\r", "\n"), '', strip_tags($val));
@@ -87,7 +92,7 @@ class Regular_user extends REST_Controller {
                 $data['last_name'] = $this->input->post('last_name',TRUE);
                 $data['date_of_birth'] = $this->input->post('date_of_birth',TRUE);
                 $data['country'] = $this->input->post('country',TRUE);
-                $data['mail'] = $this->input->post('mail',TRUE);
+                $data['email'] = $this->input->post('email',TRUE);
                 $data['state'] = $this->input->post('state',TRUE);
                 $data['cologne'] = $this->input->post('cologne',TRUE);
                 $data['street'] = $this->input->post('street',TRUE);
@@ -97,15 +102,31 @@ class Regular_user extends REST_Controller {
                 $data['zip_code'] = $this->input->post('zip_code',TRUE);
                 $data['password'] = password_hash($this->input->post('password',TRUE),PASSWORD_DEFAULT);
                 $data['confirm_password'] = $this->input->post('confirm_password',TRUE);
-                $data['cellular'] = $this->input->post('cellular',TRUE);
-                $data['guy'] = $this->input->post('guy',TRUE);
-                $data['radio'] = $this->input->post('radio',TRUE);
-                $data['languages'] = $this->input->post('languages',TRUE);
+                $data['mobile'] = $this->input->post('mobile',TRUE);
+                $data['user_type'] = $this->input->post('guy',TRUE);
+                $radius = $this->input->post('radius', TRUE);
+               $data['radius'] = (is_null($radius) || $radius === '') ? 0 : (int)$radius; // Ensure it's an integer
+
+
+               $languages = $this->input->post('languages');
+if (is_array($languages)) {
+    $languages = implode(',', $languages);
+} else {
+    $languages = ''; // Handle the case where no languages are selected
+}
+$data['languages'] = $languages;
+
+        $languages = $this->input->post('languages');
+            if(!empty($languages)){
+            $languages = implode(",",$languages);
+            $data['languages'] = $languages;
+            }
+                
                // $data['image'] = $this->input->post('image',TRUE);
 				if(!empty($_POST['image'])){
 					$base64_image = $_POST['image'];
 					$quality = 90;
-					$radioConfig = [
+					$radiusConfig = [
 						'resize' => [
 						'width' => 500,
 						'height' => 300
@@ -113,7 +134,7 @@ class Regular_user extends REST_Controller {
 					 ];
 					$uploadFolder = 'regular_user'; 
 
-					$data['image'] = $this->upload_media->upload_and_save($base64_image, $quality, $radioConfig, $uploadFolder);
+					$data['image'] = $this->upload_media->upload_and_save($base64_image, $quality, $radiusConfig, $uploadFolder);
 					
 				}
 					
@@ -163,7 +184,7 @@ class Regular_user extends REST_Controller {
                 $data['last_name'] = $this->input->post('last_name',TRUE);
                 $data['date_of_birth'] = $this->input->post('date_of_birth',TRUE);
                 $data['country'] = $this->input->post('country',TRUE);
-                $data['mail'] = $this->input->post('mail',TRUE);
+                $data['email'] = $this->input->post('email',TRUE);
                 $data['state'] = $this->input->post('state',TRUE);
                 $data['cologne'] = $this->input->post('cologne',TRUE);
                 $data['street'] = $this->input->post('street',TRUE);
@@ -173,13 +194,20 @@ class Regular_user extends REST_Controller {
                 $data['zip_code'] = $this->input->post('zip_code',TRUE);
                 $data['password'] = password_hash($this->input->post('password',TRUE),PASSWORD_DEFAULT);
                 $data['confirm_password'] = $this->input->post('confirm_password',TRUE);
-                $data['cellular'] = $this->input->post('cellular',TRUE);
+                $data['mobile'] = $this->input->post('mobile',TRUE);
                 $data['guy'] = $this->input->post('guy',TRUE);
-                $data['radio'] = $this->input->post('radio',TRUE);
-                $data['languages'] = $this->input->post('languages',TRUE);
-                if (!empty($name)) {
-                    $data['name'] = $name;
-                }
+                $radius = $this->input->post('radius', TRUE);
+                $data['radius'] = (is_null($radius) || $radius === '') ? 0 : (int)$radius; // Ensure it's an integer
+
+                $languages = $this->input->post('languages');
+if (is_array($languages)) {
+    $languages = implode(",", $languages);
+} else {
+    $languages = ''; // Handle the case where no languages are selected
+}
+$data['languages'] = $languages;
+
+
 				$status = $this->input->post('status',TRUE);
                 if (!empty($status)) {
                     $data['status'] = $status;
@@ -189,7 +217,7 @@ class Regular_user extends REST_Controller {
 				if(!empty($_POST['image'])){
 					$base64_image = $_POST['image'];
 					$quality = 90;
-					$radioConfig = [
+					$radiusConfig = [
 						'resize' => [
 						'width' => 500,
 						'height' => 300
@@ -197,7 +225,7 @@ class Regular_user extends REST_Controller {
 					 ];
 					$uploadFolder = 'regular_user'; 
 
-					$data['image'] = $this->upload_media->upload_and_save($base64_image, $quality, $radioConfig, $uploadFolder);
+					$data['image'] = $this->upload_media->upload_and_save($base64_image, $quality, $radiusConfig, $uploadFolder);
 					
 					$imgData = $this->db->get_where('regular_user',array('id'=>$id));
 					if($imgData->num_rows()>0){

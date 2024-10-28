@@ -3,7 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Regular_user_model extends CI_Model {
 
-    protected $table      = 'regular_user';
+    protected $table      = 'users';
     protected $primaryKey = 'id';
 
     /**

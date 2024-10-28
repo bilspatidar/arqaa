@@ -29,26 +29,46 @@
               <div class="form-group row">
                 <div class="col-sm-12">
                   <label class="col-form-label"><?php echo $this->lang->line('date_of_birth');?></label>
-                  <input type="date" class="form-control" name="date_of_birth" />
+                  <input data-provide="datepicker"name="date_of_birth" data-date-autoclose="true" class="form-control">
+
                 </div>
               </div>
             </div>
+
+
+            
+
             <div class="col-md-4">
               <div class="form-group row">
                 <div class="col-sm-12">
                   <label class="col-form-label"><?php echo $this->lang->line('country');?></label>
-                  <input type="text" class="form-control" name="country" />
+				  <select name="country" class="form-control select2" >
+				  <option value=""><?php echo $this->lang->line('select_option');?></option>
+				  <?php $countrys = $this->Internal_model->get_country();
+				  foreach($countrys as $country) { ?>
+				  <option value="<?php echo $country->id;?>"><?php echo $country->name;?></option>
+				  <?php } ?>
+				  </select>
                 </div>
               </div>
             </div>
+
             <div class="col-md-4">
               <div class="form-group row">
                 <div class="col-sm-12">
                   <label class="col-form-label"><?php echo $this->lang->line('state');?></label>
-                  <input type="text" class="form-control" name="state" />
+				  <select name="state" class="form-control select2" >
+				  <option value=""><?php echo $this->lang->line('state');?></option>
+				  <?php $states = $this->Internal_model->get_state();
+				  foreach($states as $state) { ?>
+				  <option value="<?php echo $state->id;?>"><?php echo $state->name;?></option>
+				  <?php } ?>
+				  </select>
                 </div>
               </div>
             </div>
+
+            
             <div class="col-md-4">
               <div class="form-group row">
                 <div class="col-sm-12">
@@ -101,8 +121,8 @@
             <div class="col-md-4">
               <div class="form-group row">
                 <div class="col-sm-12">
-                  <label class="col-form-label"><?php echo $this->lang->line('mail');?></label>
-                  <input type="text" class="form-control" name="mail" />
+                  <label class="col-form-label"><?php echo $this->lang->line('email');?></label>
+                  <input type="text" class="form-control" name="email" />
                 </div>
               </div>
             </div>
@@ -128,39 +148,39 @@
             <div class="col-md-4">
               <div class="form-group row">
                 <div class="col-sm-12">
-                  <label class="col-form-label"><?php echo $this->lang->line('cellular');?></label>
-                  <input type="text" class="form-control" name="cellular" />
+                  <label class="col-form-label"><?php echo $this->lang->line('mobile');?></label>
+                  <input type="number" class="form-control" name="mobile" />
                 </div>
               </div>
             </div>  
 
             <div class="col-md-4">
-            <label class="col-form-label"><?php echo $this->lang->line('guy');?></label>
-            <select id="guy Select" name="guy" class="form-control">
-            <option value="0">Root</option>
-            <option value="1">Admin General</option>
-            <option value="2">Admin Empresa</option>
-            <option value="3">Proveedor</option>
-            <option value="4">Cliente</option>
-          </select>
-    </div>
+              <div class="form-group row">
+                <div class="col-sm-12">
+                  <label class="col-form-label"><?php echo $this->lang->line('guy');?></label>
+				  <select name="guy" class="form-control select2" >
+				  <option value=""><?php echo $this->lang->line('select_option');?></option>
+				  <?php $get_types = $this->Internal_model->get_type();
+				  foreach($get_types as $get_type) { ?>
+				  <option value="<?php echo $get_type->slug;?>"><?php echo $get_type->name;?></option>
+				  <?php } ?>
+				  </select>
+                </div>
+              </div>
+            </div>
 
-<div class="col-md-4">
+            <div class="col-md-4">
     <div class="form-group row">
         <div class="col-sm-12">
-            <label class="col-form-label"><?php echo $this->lang->line('radio');?></label>
+            <label class="col-form-label"><?php echo $this->lang->line('radius');?></label>
             <div class="form-control d-flex align-items-center justify-content-between">
                 <button type="button" onclick="decrement()" class="btn">
-                    <svg viewBox="0 0 16 16" width="1em" height="1em" fill="currentColor" class="bi bi-dash">
-                        <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z"></path>
-                    </svg>
+                    <!-- SVG for decrement -->
                 </button>
                 <output id="spinValue" role="spinbutton" aria-valuenow="2" class="mx-2">2</output>
-                <input type="hidden" name="radio" id="value_of_spin" role="spinbutton" aria-valuenow="2" class="mx-2" value="2">
+                <input type="hidden" name="radius" id="value_of_spin" role="spinbutton" aria-valuenow="2" class="mx-2" value="2">
                 <button type="button" onclick="increment()" class="btn">
-                    <svg viewBox="0 0 16 16" width="1em" height="1em" fill="currentColor" class="bi bi-plus">
-                        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"></path>
-                    </svg>
+                    <!-- SVG for increment -->
                 </button>
             </div>
         </div>
@@ -168,25 +188,25 @@
 </div>
 
 <div class="col-md-4">
-            <label class="col-form-label"><?php echo $this->lang->line('languages');?></label>
-            <select id="guy Select" name="languages" class="form-control">
-            <option value="0">Root</option>
-            <option value="1">Admin General</option>
-            <option value="2">Admin Empresa</option>
-            <option value="3">Proveedor</option>
-            <option value="4">Cliente</option>
-          </select>
-    </div>
-    <div class="col-md-4">
-              <div class="form-group row">
-                <div class="col-sm-12">
-                  <label class="col-form-label"> <?php echo $this->lang->line('image');?></label>
-                  <input type="file" class="form-control" name="image" />
-                </div>
-              </div>
+        <div class="form-group row">
+            <div class="col-sm-12">
+                <label class="col-form-label"><?php echo $this->lang->line('languages');?></label><br>
+                <select name="languages[]" class="form-control select2"  multiple>
+                    <option  value=""><?php echo $this->lang->line('select_option');?></option>
+                    <?php 
+                    $get_languages = $this->Internal_model->get_languages();
+                    foreach($get_languages as $get_language) { ?>
+                        <option value="<?php echo $get_language->value;?>"><?php echo $get_language->value;?></option>
+                    <?php } ?>
+                </select>
             </div>
-</div>
-          <div class="row mt-3">
+        </div>
+    </div>
+
+
+
+
+          <div class="row ml-1">
             <div class="col-md-12">
               <div class="form-group row">
                 <div class="col-sm-12">
@@ -195,13 +215,15 @@
               </div>
             </div>
           </div>
+
         </form>
       </div>
     </div>
   </div>
 </div>
-
-<div class="row">
+</div>
+<div class="container-fluid">
+<div class="row clearfix">
   <input type="hidden" value="<?php echo API_DOMAIN; ?>api/regular_user/regular_user_list" id="list_end_point">
   <input type="hidden" value="<?php echo API_DOMAIN; ?>api/regular_user/regular_user/" id="delete_end_point">
   <input type="hidden" value="<?php echo API_DOMAIN; ?>api/regular_user/regular_user_details" id="show_endpoint">
@@ -233,15 +255,15 @@
        </div>
 
         <div class="table-responsive">
-        <table class="table table-hover js-basic-example dataTable table-custom spacing5 " id="api_response_table">
+        <table class="table table-hover js-basic-example dataTable table-custom spacing5"id="api_response_table">
 
             <thead>
               <tr>
                 <th>#</th>
                 <th><?php echo $this->lang->line('name');?></th>
                 <th><?php echo $this->lang->line('last_name');?></th>
-                <th><?php echo $this->lang->line('mail');?></th>
-                <th><?php echo $this->lang->line('Cellular');?></th>
+                <th><?php echo $this->lang->line('email');?></th>
+                <th><?php echo $this->lang->line('mobile');?></th>
                 <th><?php echo $this->lang->line('status');?></th>
                 <th><?php echo $this->lang->line('Action');?></th>
               </tr>
@@ -254,7 +276,7 @@
     </div>
   </div>
 </div>
-
+</div>
 
 <script>
   function renderTableData(){
@@ -267,8 +289,8 @@
       },
       { "data": "name", "orderable": true },
       { "data": "last_name", "orderable": true },
-      { "data": "mail", "orderable": true },
-      { "data": "cellular", "orderable": true },
+      { "data": "email", "orderable": true },
+      { "data": "mobile", "orderable": true },
       {
         "data": "status",
         "orderable": true,
@@ -306,5 +328,23 @@
             updateOutput();
         }
     }
+    function increment() {
+    let spinValue = document.getElementById('spinValue');
+    let hiddenInput = document.getElementById('value_of_spin');
+    let currentValue = parseInt(spinValue.innerText);
+    spinValue.innerText = currentValue + 1;
+    hiddenInput.value = currentValue + 1; // Update the hidden input
+}
+
+function decrement() {
+    let spinValue = document.getElementById('spinValue');
+    let hiddenInput = document.getElementById('value_of_spin');
+    let currentValue = parseInt(spinValue.innerText);
+    if (currentValue > 1) { // Prevent decrementing below 1
+        spinValue.innerText = currentValue - 1;
+        hiddenInput.value = currentValue - 1; // Update the hidden input
+    }
+}
+
 	
 </script>
