@@ -162,7 +162,7 @@ class Sub_category extends REST_Controller {
                     $data['status'] = $status;
                 }
 				
-				///image 
+				
 				if(!empty($_POST['image'])){
 					$base64_image = $_POST['image'];
 					$quality = 90;

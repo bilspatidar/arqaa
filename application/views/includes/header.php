@@ -93,15 +93,45 @@ $token = $_SESSION['user_details']['access_token'];
   <!-- Menu link -->
 <link rel="stylesheet" href="<?php echo base_url(); ?>assets/assets/vendor/summernote/dist/summernote.css"/>
 <style>
-.select2-container--default .select2-selection--multiple {
-    color:#000 !important;
-}
+
 .select2-container .select2-selection--single {
     height: 36px !important;
 
 }
 
+  /* Select2 container background for single selection */
+.select2-container--default .select2-selection--single {
+  background-color: #22252a; /* Dark background color */
+  color: #fff; /* Text color */
+  border-color: #555; /* Border color */
   
+}
+
+/* Select2 container background for multiple selection */
+.select2-container--default .select2-selection--multiple {
+  background-color: #22252a; /* Dark background color for multiple selection */
+  color: #fff; /* Text color */
+}
+
+/* Selected options background color in multiple selection */
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+  background-color: #22252a; /* Darker background for selected options */
+  color: #fff; /* Text color for selected options */
+}
+
+/* Select2 dropdown background */
+.select2-container--default .select2-results__option {
+  background-color: #22252a; /* Dark background color for options */
+  color: #fff; /* Text color for options */
+}
+
+/* Hover effect for options */
+.select2-container--default .select2-results__option--highlighted {
+  background-color: #444; /* Darker background on hover */
+  color: #fff; /* Text color on hover */
+}
+
+
 
     .dataTables_info{
         color:#fff !important;

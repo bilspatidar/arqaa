@@ -29,7 +29,7 @@
               <div class="form-group row">
                 <div class="col-sm-12">
                   <label class="col-form-label"><?php echo $this->lang->line('date_of_birth');?></label>
-                  <input data-provide="datepicker"name="date_of_birth" data-date-autoclose="true" class="form-control">
+                  <input data-provide="datepicker" name="date_of_birth" data-date-autoclose="true" class="form-control">
 
                 </div>
               </div>
@@ -39,34 +39,30 @@
             
 
             <div class="col-md-4">
-              <div class="form-group row">
-                <div class="col-sm-12">
-                  <label class="col-form-label"><?php echo $this->lang->line('country');?></label>
-				  <select name="country" class="form-control select2" >
-				  <option value=""><?php echo $this->lang->line('select_option');?></option>
-				  <?php $countrys = $this->Internal_model->get_country();
-				  foreach($countrys as $country) { ?>
-				  <option value="<?php echo $country->id;?>"><?php echo $country->name;?></option>
-				  <?php } ?>
-				  </select>
-                </div>
-              </div>
-            </div>
+    <div class="form-group row">
+        <div class="col-sm-12">
+            <label class="col-form-label"><?php echo $this->lang->line('country'); ?></label>
+            <select name="country_id" id="country_id" class="form-control select2" onchange="getStates(this.value)">
+                <option value=""><?php echo $this->lang->line('select_option'); ?></option>
+                <?php $countrys = $this->Internal_model->get_country();
+                foreach ($countrys as $country) { ?>
+                    <option value="<?php echo $country->id; ?>"><?php echo $country->name; ?></option>
+                <?php } ?>
+            </select>
+        </div>
+    </div>
+</div>
 
-            <div class="col-md-4">
-              <div class="form-group row">
-                <div class="col-sm-12">
-                  <label class="col-form-label"><?php echo $this->lang->line('state');?></label>
-				  <select name="state" class="form-control select2" >
-				  <option value=""><?php echo $this->lang->line('state');?></option>
-				  <?php $states = $this->Internal_model->get_state();
-				  foreach($states as $state) { ?>
-				  <option value="<?php echo $state->id;?>"><?php echo $state->name;?></option>
-				  <?php } ?>
-				  </select>
-                </div>
-              </div>
-            </div>
+<div class="col-md-4">
+    <div class="form-group row">
+        <div class="col-sm-12">
+            <label class="col-form-label"><?php echo $this->lang->line('state'); ?></label>
+            <select name="state_id" id="state_id" class="form-control select2">
+                <option value=""><?php echo $this->lang->line('select_option'); ?></option>
+            </select>
+        </div>
+    </div>
+</div>
 
             
             <div class="col-md-4">
@@ -122,7 +118,7 @@
               <div class="form-group row">
                 <div class="col-sm-12">
                   <label class="col-form-label"><?php echo $this->lang->line('email');?></label>
-                  <input type="text" class="form-control" name="email" />
+                  <input type="email" class="form-control" name="email" />
                 </div>
               </div>
             </div>
@@ -172,7 +168,7 @@
             <div class="col-md-4">
     <div class="form-group row">
         <div class="col-sm-12">
-            <label class="col-form-label"><?php echo $this->lang->line('radius');?></label>
+            <label class="col-form-label"><?php echo $this->lang->line('radius');?> (In Km)</label>
             <div class="form-control d-flex align-items-center justify-content-between">
                 <button type="button" onclick="decrement()" class="btn">
                     <!-- SVG for decrement -->

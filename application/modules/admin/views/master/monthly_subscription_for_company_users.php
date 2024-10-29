@@ -12,7 +12,7 @@
     <div class="form-group row">
         <div class="col-sm-12">
             <label class="col-form-label"><?php echo $this->lang->line('concept'); ?></label>
-            <textarea class="form-control" name="concept" rows="4"></textarea>
+            <textarea class="form-control summernote" name="concept" ></textarea>
         </div>
     </div>
 </div>

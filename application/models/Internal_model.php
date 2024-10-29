@@ -48,11 +48,19 @@ class Internal_model extends CI_Model {
         $this->db->where('status','Active'); 
         return $this->db->get()->result();
     }
-    public function get_country(){
+    public function get_currency($array=''){
         $this->db->select('id,name');
-        $this->db->from('countries');
+        
+             $this->db->from('currency');
         return $this->db->get()->result();
       }
+    public function get_country($array=''){
+        $this->db->select('id,name');
+        
+             $this->db->from('countries');
+        return $this->db->get()->result();
+      }
+      
 	public function get_state($country_id=''){
         $this->db->select('id,name');
         if(!empty($country_id)){

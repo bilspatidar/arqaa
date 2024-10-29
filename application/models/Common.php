@@ -123,6 +123,7 @@ public function generateProductCode(){
            $this->db->from('countries');
       return $this->db->get()->result();
     }
+    
 	public function getState($country_id=''){
       $this->db->select('id,name');
       if(!empty($country_id)){

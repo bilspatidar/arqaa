@@ -90,10 +90,18 @@ class Regular_user extends REST_Controller {
                 // set variables from the form
                 $data['name'] = $this->input->post('name',TRUE);
                 $data['last_name'] = $this->input->post('last_name',TRUE);
-                $data['date_of_birth'] = $this->input->post('date_of_birth',TRUE);
-                $data['country'] = $this->input->post('country',TRUE);
+                $date_of_birth = $this->input->post('date_of_birth', TRUE);
+
+                // अगर डेट पिकर से ली गई तारीख सही है तो उसे फॉर्मेट करें
+                if ($date_of_birth) {
+                    $formatted_date_of_birth = date('Y-m-d', strtotime($date_of_birth));
+                    $data['date_of_birth'] = $formatted_date_of_birth;
+                } else {
+                    $data['date_of_birth'] = NULL; // अगर तारीख नहीं है तो NULL कर सकते हैं
+                }
+                                $data['country_id'] = $this->input->post('country_id',TRUE);
                 $data['email'] = $this->input->post('email',TRUE);
-                $data['state'] = $this->input->post('state',TRUE);
+                $data['state_id'] = $this->input->post('state_id',TRUE);
                 $data['cologne'] = $this->input->post('cologne',TRUE);
                 $data['street'] = $this->input->post('street',TRUE);
                 $data['crossings'] = $this->input->post('crossings',TRUE);
@@ -182,10 +190,18 @@ $data['languages'] = $languages;
 				$id = $this->input->post('id',TRUE);
                 $data['name'] = $this->input->post('name',TRUE);
                 $data['last_name'] = $this->input->post('last_name',TRUE);
-                $data['date_of_birth'] = $this->input->post('date_of_birth',TRUE);
-                $data['country'] = $this->input->post('country',TRUE);
+                $date_of_birth = $this->input->post('date_of_birth', TRUE);
+
+                // अगर डेट पिकर से ली गई तारीख सही है तो उसे फॉर्मेट करें
+                if ($date_of_birth) {
+                    $formatted_date_of_birth = date('Y-m-d', strtotime($date_of_birth));
+                    $data['date_of_birth'] = $formatted_date_of_birth;
+                } else {
+                    $data['date_of_birth'] = NULL; // अगर तारीख नहीं है तो NULL कर सकते हैं
+                }
+                $data['country_id'] = $this->input->post('country_id',TRUE);
                 $data['email'] = $this->input->post('email',TRUE);
-                $data['state'] = $this->input->post('state',TRUE);
+                $data['state_id'] = $this->input->post('state_id',TRUE);
                 $data['cologne'] = $this->input->post('cologne',TRUE);
                 $data['street'] = $this->input->post('street',TRUE);
                 $data['crossings'] = $this->input->post('crossings',TRUE);
@@ -273,4 +289,6 @@ $data['languages'] = $languages;
         }
     }
     // regular_user end
+   
+    
 }

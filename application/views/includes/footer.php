@@ -423,3 +423,28 @@ $('#main-content').on('click', function(e) {
 });
 </script>
 
+
+<script>
+function getStates(country_id) {
+    if (country_id) {
+        // Trigger AJAX request to get states based on the selected country
+        $.ajax({
+            url: "<?php echo base_url('Common_controller/get_states_by_country'); ?>", // Your PHP function URL
+            type: "POST",
+            data: { country_id: country_id },
+            success: function(response) {
+                // Populate the state dropdown with the response (HTML options)
+                $('#state_id').html(response);
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                alert('Error fetching states: ' + textStatus + ' ' + errorThrown);
+            }
+        });
+    } else {
+        // Reset state dropdown if no country is selected
+        $('#state_id').html('<option value=""><?php echo $this->lang->line('select_option'); ?></option>');
+    }
+}
+</script>
+
+

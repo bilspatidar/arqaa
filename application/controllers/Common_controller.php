@@ -41,6 +41,19 @@ class Common_controller extends CI_Controller {
             echo $response['http_status_code'].' '.$response['message'];
         }
 	}
-	
+	public function get_states_by_country() {
+        $country_id = $this->input->post('country_id'); // Get country ID from POST request
+        $states = $this->Internal_model->get_state($country_id); // Fetch states based on country ID
+    
+        // Generate the HTML for the state dropdown
+        $output = '<option value="">' . $this->lang->line('select_option') . '</option>';
+        foreach ($states as $state) {
+            $output .= '<option value="' . $state->id . '">' . $state->name . '</option>';
+        }
+    
+        echo $output; // Send the HTML back to the frontend
+    }
+    
+    
 	
 }
