@@ -41,6 +41,10 @@
                         </ul>
                     </li>
                     <li>
+                        <a href="#uiElements" class="has-arrow"><i class="icon-diamond"></i><span><?php echo $this->lang->line('administrar usuarios'); ?></span></a>
+                        <ul>
+                          
+                        <li>
                         <a href="<?php echo base_url();?>admin/master/regular_user" class=""><i class="icon-pencil"></i><span><?php echo $this->lang->line('regular_user');?></span></a>
                       
                     </li>
@@ -48,6 +52,10 @@
                     <a href="<?php echo base_url();?>admin/master/company_user" class=""><i class="icon-layers"></i><span><?php echo $this->lang->line('company_user');?></span></a>
                      
                     </li>
+                        </ul>
+                    </li>
+                   
+                    
                     <li>
     <a href="#uiElements" class="has-arrow"><i class="icon-notebook"></i><span><?php echo $this->lang->line('statistics'); ?></span></a>
     <ul>

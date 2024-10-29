@@ -87,6 +87,20 @@ class Regular_user_monthly_subscription extends REST_Controller {
                 $data['concept'] = $this->input->post('concept',TRUE);
                 $data['price'] = $this->input->post('price',TRUE);
                 $data['currency'] = $this->input->post('currency',TRUE);
+                if(!empty($_POST['image'])){
+					$base64_image = $_POST['image'];
+					$quality = 90;
+					$radioConfig = [
+						'resize' => [
+						'width' => 500,
+						'height' => 300
+						]
+					 ];
+					$uploadFolder = 'regular_user_monthly_subscription'; 
+
+					$data['image'] = $this->upload_media->upload_and_save($base64_image, $quality, $radioConfig, $uploadFolder);
+					
+				}
 				$data['status'] = 'Active';
                 $data['added'] = date('Y-m-d H:i:s');
                 $data['addedBy'] = $session_id;
@@ -134,6 +148,29 @@ class Regular_user_monthly_subscription extends REST_Controller {
                 $data['price'] = $this->input->post('price',TRUE);
                 $data['currency'] = $this->input->post('currency',TRUE);
 				$data['status'] = $this->input->post('status',TRUE);
+
+                if(!empty($_POST['image'])){
+					$base64_image = $_POST['image'];
+					$quality = 90;
+					$radioConfig = [
+						'resize' => [
+						'width' => 500,
+						'height' => 300
+						]
+					 ];
+					$uploadFolder = 'regular_user_monthly_subscription'; 
+
+					$data['image'] = $this->upload_media->upload_and_save($base64_image, $quality, $radioConfig, $uploadFolder);
+					
+					$imgData = $this->db->get_where('regular_user_monthly_subscription',array('id'=>$id));
+					if($imgData->num_rows()>0){
+						$img =  $imgData->row()->image;
+						if(file_exists($img) && !empty($img))
+						{
+							unlink($img);		
+						}
+					}
+				}
                 $res = $this->regular_user_monthly_subscription_model->update($data, $id);
         
                 if ($res) {

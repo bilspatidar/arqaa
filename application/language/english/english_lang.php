@@ -1,6 +1,8 @@
 <?php 
 $lang['welcome_message'] = 'Welcome to our website!';
 $lang['control_de_precios'] = 'Price Control';
+$lang['administrar usuarios'] = 'Manage User';
+
 $lang['usuario_regular'] = 'Regular User';
 $lang['usuario_empresa'] = 'Company User';
 $lang['statistics'] = 'Statistics';
@@ -23,7 +25,7 @@ $lang['boost_your_profile'] = 'Boost Your Profile';
 $lang['banners'] = 'Banners';
 $lang['taxes'] = 'Taxes';
 $lang['cv'] = 'CV';
-$lang['regular_user'] = 'Regular User';
+$lang['regular_user'] = 'Add User';
 $lang['company_user'] = 'Company User';
 $lang['general'] = 'General';
 $lang['registered_users'] = 'Registered Users';
@@ -101,12 +103,12 @@ $lang['crossings'] = 'Crossings';
 $lang['external_number'] = 'External Number';
 $lang['interior_number'] = 'Interior Number';
 $lang['zip_code'] = 'Zip Code';
-$lang['mail'] = 'Email';
+$lang['email'] = 'Email';
 $lang['password'] = 'Password';
 $lang['confirm_password'] = 'Confirm Password';
 $lang['cellular'] = 'Cell Phone';
 $lang['guy'] = 'Type';
-$lang['radio'] = 'Radio';
+$lang['radius'] = 'Radius';
 $lang['languages'] = 'Languages';
 
 /// Company Users ////

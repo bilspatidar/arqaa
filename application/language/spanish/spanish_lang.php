@@ -1,6 +1,8 @@
 <?php
 $lang['welcome_message'] = 'Welcome to our website!';
 $lang['control_de_precios'] = 'Control de Precios';
+$lang['manage users'] = 'Administrar Usuarios';
+
 $lang['usuario_regular'] = 'Usuario Regular';
 $lang['usuario_empresa'] = 'Usuario Empresa';
 $lang['statistics'] = 'Estadisticas';

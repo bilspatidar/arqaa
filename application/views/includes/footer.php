@@ -10,6 +10,7 @@
 <script src="<?php echo base_url(); ?>assets/assets/bundles/mainscripts.bundle.js"></script>
 <script src="<?php echo base_url(); ?>assets/assets/js/index.js"></script>
 <script src="<?php echo base_url(); ?>assets/assets/js/common.js"></script>
+<script src="<?php echo base_url(); ?>assets/assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
 
 
 <script src="<?php echo base_url(); ?>assets/assets/vendor/summernote/dist/summernote.js"></script>
@@ -18,7 +19,9 @@
 <!-- data table -->
 
 
-<script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+<script src="<?php echo base_url(); ?>assets/assets/bundles/datatablescripts.bundle.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 
 <!-- data table -->
 
@@ -29,8 +32,24 @@
 </body>
 </html>
 
+<script>
+  $(document).ready(function() {
+    $('.select2').select2({
+      placeholder: "<?php echo $this->lang->line('select_option');?>", // Placeholder for the dropdown
+      allowClear: true // Allows clearing the selection
+    });
+  });
+</script>
 
+<script>
+    $(function() {
+        // validation needs name of the element
+        $('#language').multiselect();
 
+        // initialize after multiselect
+        $('#basic-form').parsley();
+    });
+    </script>
 
 
 <script>
@@ -236,46 +255,59 @@ function initializeDataTable() {
      });
  }
 
-function renderOptionBtn(data, type, row){
-                       var buttonsHtml = '';
-                        // Add delete button
-                        buttonsHtml += '<button class="btn btn-danger btn-xs delete-btn" data-id="' + row.id + '">Delete</button>';
-                        // Add edit button
-                        buttonsHtml += '&nbsp;<button class="btn btn-primary btn-xs edit-btn" data-id="' + row.id + '">Edit</button>';
-                        return buttonsHtml;
+function renderOptionBtn(data, type, row) {
+    var buttonsHtml = '';
+
+    // Add delete button with icon
+    buttonsHtml += '<button type="button" class="btn btn-danger mb-2 delete-btn" data-id="' + row.id + '" title="Delete">' +
+                   '<span class="sr-only">Delete</span> <i class="fa fa-trash-o"></i></button>';
+
+    // Add edit button with icon
+    buttonsHtml += '&nbsp;<button type="button" class="btn btn-primary mb-2 edit-btn" data-id="' + row.id + '" title="Edit">' +
+                   '<span class="sr-only">Edit</span> <i class="fa fa-edit"></i></button>';
+
+    return buttonsHtml;
 }
 
-function renderStatusBtn(data, type, row){
+
+function renderStatusBtn(data, type, row) {
+    let buttonHtml = '';
+
+    const buttonStyle = 'padding: 0.25rem 0.5rem; font-size: 0.8rem; line-height: 1;';
+
     if (data === 'Active') {
-                            return '<button class="btn btn-xs btn-success">Active</button>';
-                        } else if (data === 'Deactive') {
-                            return '<button class="btn btn-xs btn-danger">Inactive</button>';
-                        } else if (data === 'Present') {
-                            return '<button class="btn btn-xs btn-success">Present</button>';
-                        } else if (data === 'Absent') {
-                            return '<button class="btn btn-xs btn-danger">Absent</button>';
-                        } else if (data === 'Half day') {
-                            return '<button class="btn btn-xs btn-warning">Half day</button>';
-                        } else if (data === 'Leave') {
-                            return '<button class="btn btn-xs btn-danger">Leave</button>';
-                        } else if (data === 'Pending') {
-                            return '<button class="btn btn-xs btn-warning">Pending</button>';
-                        }  else if (data === 'Approved') {
-                            return '<button class="btn btn-xs btn-success">Approved</button>';
-                        } else if (data === 'Cancelled') {
-                            return '<button class="btn btn-xs btn-danger">Cancelled</button>';
-                        } else if (data === 'On Hold') {
-                            return '<button class="btn btn-xs btn-warning">On Hold</button>';
-                        }  else if (data === 'In Progress') {
-                            return '<button class="btn btn-xs btn-warning">In Progress</button>';
-                        } else if (data === 'Not Started') {
-                            return '<button class="btn btn-xs btn-danger">Not Started</button>';
-                        } else if (data === 'Finished') {
-                            return '<button class="btn btn-xs btn-success">Finished</button>';
-                        } else {
-                            return '<button class="btn btn-xs btn-secondary">Unknown</button>';
-                        }
+        buttonHtml = `<button class="btn btn-xs btn-success" style="${buttonStyle}" title="Active">Active</button>`;
+    } else if (data === 'Deactive') {
+        buttonHtml = `<button class="btn btn-xs btn-danger" style="${buttonStyle}" title="Inactive"><i class="fa fa-times"></i> Inactive</button>`;
+    } else if (data === 'Present') {
+        buttonHtml = `<button class="btn btn-xs btn-success" style="${buttonStyle}" title="Present"><i class="fa fa-user-check"></i> Present</button>`;
+    } else if (data === 'Absent') {
+        buttonHtml = `<button class="btn btn-xs btn-danger" style="${buttonStyle}" title="Absent"><i class="fa fa-user-slash"></i> Absent</button>`;
+    } else if (data === 'Half day') {
+        buttonHtml = `<button class="btn btn-xs btn-warning" style="${buttonStyle}" title="Half day"><i class="fa fa-clock"></i> Half day</button>`;
+    } else if (data === 'Leave') {
+        buttonHtml = `<button class="btn btn-xs btn-danger" style="${buttonStyle}" title="Leave"><i class="fa fa-plane-slash"></i> Leave</button>`;
+    } else if (data === 'Pending') {
+        buttonHtml = `<button class="btn btn-xs btn-warning" style="${buttonStyle}" title="Pending"><i class="fa fa-hourglass-half"></i> Pending</button>`;
+    } else if (data === 'Approved') {
+        buttonHtml = `<button class="btn btn-xs btn-success" style="${buttonStyle}" title="Approved"><i class="fa fa-thumbs-up"></i> Approved</button>`;
+    } else if (data === 'Cancelled') {
+        buttonHtml = `<button class="btn btn-xs btn-danger" style="${buttonStyle}" title="Cancelled"><i class="fa fa-ban"></i> Cancelled</button>`;
+    } else if (data === 'On Hold') {
+        buttonHtml = `<button class="btn btn-xs btn-warning" style="${buttonStyle}" title="On Hold"><i class="fa fa-pause"></i> On Hold</button>`;
+    } else if (data === 'In Progress') {
+        buttonHtml = `<button class="btn btn-xs btn-warning" style="${buttonStyle}" title="In Progress"><i class="fa fa-spinner fa-spin"></i> In Progress</button>`;
+    } else if (data === 'Not Started') {
+        buttonHtml = `<button class="btn btn-xs btn-danger" style="${buttonStyle}" title="Not Started"><i class="fa fa-times-circle"></i> Not Started</button>`;
+    } else if (data === 'Finished') {
+        buttonHtml = `<button class="btn btn-xs btn-success" style="${buttonStyle}" title="Finished"><i class="fa fa-check-circle"></i> Finished</button>`;
+    } else {
+        buttonHtml = `<button class="btn btn-xs btn-secondary" style="${buttonStyle}" title="Unknown"><i class="fa fa-question-circle"></i> Unknown</button>`;
+    }
+
+    return buttonHtml;
 }
+
 
 $(document).ready(function(){
 // Submit filter form
@@ -324,7 +356,7 @@ $('#api_response_table').on('click', '.edit-btn', function() {
     var show_endpoint = $("#show_endpoint").val();
     var edit_page_name = $("#edit_page_name").val();
     $.ajax({
-        url: 'https://new.arqaa.nl/common_controller/edit_form',
+        url: '<?php echo base_url(); ?>/common_controller/edit_form',
         type: 'POST',
         data:{tableId:tableId,show_endpoint:show_endpoint,edit_page_name:edit_page_name},
         success: function(response) {
@@ -390,4 +422,29 @@ $('#main-content').on('click', function(e) {
     }
 });
 </script>
+
+
+<script>
+function getStates(country_id) {
+    if (country_id) {
+        // Trigger AJAX request to get states based on the selected country
+        $.ajax({
+            url: "<?php echo base_url('Common_controller/get_states_by_country'); ?>", // Your PHP function URL
+            type: "POST",
+            data: { country_id: country_id },
+            success: function(response) {
+                // Populate the state dropdown with the response (HTML options)
+                $('#state_id').html(response);
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                alert('Error fetching states: ' + textStatus + ' ' + errorThrown);
+            }
+        });
+    } else {
+        // Reset state dropdown if no country is selected
+        $('#state_id').html('<option value=""><?php echo $this->lang->line('select_option'); ?></option>');
+    }
+}
+</script>
+
 

@@ -12,7 +12,8 @@
 	</div>
 	<div class="col-md-12 form-group">
 		<label class="col-form-label"><?php echo $this->lang->line('date_of_birth');?></label>
-         <input type="date" class="form-control" name="date_of_birth" value="<?php echo $data['date_of_birth']; ?>" />
+
+         <input data-provide="datepicker"class="form-control" data-date-autoclose="true"  name="date_of_birth" value="<?php echo $data['date_of_birth']; ?>" />
 	</div>
 	<div class="col-md-12 form-group">
 		<label class="col-form-label"><?php echo $this->lang->line('country');?></label>
