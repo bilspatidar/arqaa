@@ -3,7 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 $active_group = 'default';
 $query_builder = TRUE;
-$hostname ="localhost";
+$hostname ="145.14.151.188";
 $username ="u452303676_new";
 $password ="U452303676_new";
 $database ="u452303676_new";	
