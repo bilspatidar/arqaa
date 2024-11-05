@@ -24,15 +24,20 @@
                 </div>
               </div>
             </div>
-		<div class="col-md-4">
-		<label class="col-form-label"><?php echo $this->lang->line('currency');?></label>
-		   <select id="currencySelect" class="form-control" name="currency">
-			<option value="0">Seleccione una opción</option>
-			<option value="MXN">MXN</option>
-			<option value="USA">USA</option>
-			<option value="EUR">EUR</option>
-			</select>
-</div>
+            <div class="col-md-4">
+              <div class="form-group row">
+                <div class="col-sm-12">
+                  <label class="col-form-label"><?php echo $this->lang->line('currency');?></label>
+				  <select name="currency" class="form-control select2" >
+				  <option value=""><?php echo $this->lang->line('select_option');?></option>
+				  <?php $get_currencys = $this->Internal_model->get_currency();
+				  foreach($get_currencys as $get_currency) { ?>
+				  <option value="<?php echo $get_currency->id;?>"><?php echo $get_currency->name;?></option>
+				  <?php } ?>
+				  </select>
+                </div>
+              </div>
+            </div>
 
 			
           </div>
