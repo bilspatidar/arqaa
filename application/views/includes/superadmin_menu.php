@@ -52,12 +52,12 @@
                         <ul>
                           
                         <li>
-                        <a href="<?php echo base_url();?>admin/master/regular_user" class=""><i class="icon-plus"></i><span><?php echo $this->lang->line('regular_user');?></span></a>
+                        <a href="<?php echo base_url();?>admin/master/add_user" class=""><i class="icon-plus"></i><span><?php echo $this->lang->line('regular_user');?></span></a>
                       
                        </li>
                        <?php $ur = $this->Common->getUserRole();  foreach($ur as $urres){ ?>
                     <li>
-                    <a href="<?php echo base_url();?>admin/master/company_user" class=""><i class="icon-layers"></i><span><?php echo $this->lang->line($urres->name) ?: $urres->name;?></span></a>
+                    <a href="<?php echo base_url();?>admin/master/users/<?php echo $urres->slug; ?>" class=""><i class="icon-layers"></i><span><?php echo $this->lang->line($urres->name) ?: $urres->name;?></span></a>
                      
                     </li>
                 <?php } ?>

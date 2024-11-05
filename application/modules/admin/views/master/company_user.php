@@ -202,10 +202,11 @@
 </div>
 
 <div class="row">
-  <input type="hidden" value="<?php echo API_DOMAIN; ?>api/company_user/company_user_list" id="list_end_point">
+  <input type="hidden" value="<?php echo API_DOMAIN; ?>api/company_user/company_user_list/<?php echo $role;?>" id="list_end_point">
   <input type="hidden" value="<?php echo API_DOMAIN; ?>api/company_user/company_user/" id="delete_end_point">
   <input type="hidden" value="<?php echo API_DOMAIN; ?>api/company_user/company_user_details" id="show_endpoint">
   <input type="hidden" value="admin/master/company_user_edit" id="edit_page_name">
+  <input type="hidden" value="admin/master/user_permission" id="permission_page_name">
   <div class="col-lg-12 grid-margin stretch-card">
     <div class="card">
       <div class="card-body">
@@ -243,6 +244,7 @@
                 <th><?php echo $this->lang->line('mail');?></th>
                 <th><?php echo $this->lang->line('Cellular');?></th>
                 <th><?php echo $this->lang->line('status');?></th>
+                <th><?php echo $this->lang->line('permision');?></th>
                 <th><?php echo $this->lang->line('Action');?></th>
               </tr>
             </thead>
@@ -278,9 +280,16 @@
       {
         "data": null,
         "render": function(data, type, row) {
+          return renderPermisionBtn(data, type, row);
+        }
+      },
+      {
+        "data": null,
+        "render": function(data, type, row) {
           return renderOptionBtn(data, type, row);
         }
       }
+      
     ];
   }
 </script>

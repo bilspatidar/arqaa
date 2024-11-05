@@ -271,7 +271,17 @@ function renderOptionBtn(data, type, row) {
 
     return buttonsHtml;
 }
+function renderPermisionBtn(data, type, row) {
+    var buttonsHtml = '';
 
+
+
+    // Add edit button with icon
+    buttonsHtml += '<button type="button" class="btn btn-danger mb-2 permission-btn" data-id="' + row.id + '" title="Permission">' +
+    '<span class="sr-only">Delete</span> <i class="fa fa-lock"></i></button>';
+
+    return buttonsHtml;
+}
 
 function renderStatusBtn(data, type, row) {
     let buttonHtml = '';
@@ -374,6 +384,30 @@ $('#api_response_table').on('click', '.edit-btn', function() {
         }
     });
 });
+
+
+$('#api_response_table').on('click', '.permission-btn', function() {
+    $('.page-loader-wrapper').fadeIn();
+    var tableId = $(this).data('id');
+    var show_endpoint = $("#show_endpoint").val();
+    var edit_page_name = $("#permission_page_name").val();
+    $.ajax({
+        url: '<?php echo base_url(); ?>/common_controller/edit_form',
+        type: 'POST',
+        data:{tableId:tableId,show_endpoint:show_endpoint,edit_page_name:edit_page_name},
+        success: function(response) {
+            var responseData = JSON.stringify(response);
+            
+            $('#ExtralargeEditModal .modal-body').html(response);
+            $('#ExtralargeEditModal').modal('show');
+            $('.page-loader-wrapper').fadeOut();
+        },
+        error: function(xhr, status, error) {
+            console.error('Error fetching category details:', error);
+        }
+    });
+});
+
 
 })
 

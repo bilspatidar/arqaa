@@ -74,6 +74,8 @@ $lang['minimize'] = 'Minimize';
 ///// Field Name ///////
 $lang['status'] = 'Status';
 $lang['Action'] = 'Actions';
+$lang['permision'] = 'Permision';
+
 $lang['nombre'] = 'Name';
 $lang['name'] = 'Name';
 $lang['image'] = 'Image';

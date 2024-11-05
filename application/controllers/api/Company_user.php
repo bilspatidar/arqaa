@@ -17,11 +17,12 @@ class Company_user extends REST_Controller {
     }
 
     
-    public function company_user_list_post() {
+    public function company_user_list_post($role='') {
         $input_data = file_get_contents('php://input');
         $request_data = json_decode($input_data, true);
     
         $id = $this->input->get('id') ? $this->input->get('id') : 0;
+        $role = $this->input->get('role') ? $this->input->get('role') : '';
     
         $page = isset($request_data['page']) ? $request_data['page'] : 1; // Default to page 1 if not provided
         $limit = isset($request_data['limit']) ? $request_data['limit'] : 10; // Default limit to 10 if not provided
@@ -30,8 +31,8 @@ class Company_user extends REST_Controller {
         $getTokenData = $this->is_authorized('superadmin');
         $offset = ($page - 1) * $limit;
     
-        $totalRecords =  $this->company_user_model->get('yes', $id, $limit, $offset, $filterData);
-        $data =  $this->company_user_model->get('no', $id, $limit, $offset, $filterData);
+        $totalRecords =  $this->company_user_model->get('yes', $id, $limit, $offset, $filterData,$role);
+        $data =  $this->company_user_model->get('no', $id, $limit, $offset, $filterData,$role);
     
         $totalPages = ceil($totalRecords / $limit);
     
