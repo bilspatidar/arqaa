@@ -39,19 +39,23 @@ class Company_user_model extends CI_Model {
         return $this->db->affected_rows();
     }
 
-    public function get($isCount = '',$id='',$limit='',$page = '',$filterData='') {
+    public function get($isCount = '',$id='',$limit='',$page = '',$filterData='',$role) {
 		
         $this->db->select("*");
         $this->db->from($this->table);
         if(!empty($id)) {
             $this->db->where($this->primaryKey, $id);
         }
-		if(isset($filterData['name']) && !empty($filterData['name'])){
-			$this->db->like('name',$filterData['name']);
-		}
+		// if(isset($filterData['name']) && !empty($filterData['name'])){
+		// 	$this->db->like('name',$filterData['name']);
+		// }
 		//if(isset($filterData['status'])){
 		//	$this->db->where('status',$filterData['status']);
 		//}
+        if(isset($role) && !empty($role)){
+			$this->db->where('user_type',$role);
+		}
+        
 		$this->db->order_by($this->primaryKey,'desc');
         if($isCount=='yes'){
             $all_res = $this->db->get();
