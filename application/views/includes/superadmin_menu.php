@@ -19,7 +19,7 @@
                     <ul class="dropdown-menu dropdown-menu-right account vivify flipInY">
                         <li><a href="<?php echo base_url();?>admin/master/my_profile"><i class="icon-user"></i>My Profile</a></li>
                         <!-- <li><a href="app-inbox.html"><i class="icon-envelope-open"></i>Messages</a></li> -->
-                        <li><a href="<?php echo base_url();?>admin/master/setting"><i class="icon-settings"></i><?php echo $this->lang->line('change_password');?></a></li>
+                        <li><a href="<?php echo base_url();?>admin/master/setting"><i class="icon-settings"></i><?php echo $this->lang->line('change_password') ?: 'Change Password';?></a></li>
                        
                         <li><a href="<?php echo base_url();?>admin/admin/logout"><i class="icon-power"></i>Logout</a></li>
                     </ul>
@@ -44,17 +44,19 @@
                         </ul>
                     </li>
                     <li>
-                        <a href="#uiElements" class="has-arrow"><i class="icon-diamond"></i><span><?php echo $this->lang->line('administrar usuarios'); ?></span></a>
+                        <a href="#uiElements" class="has-arrow"><i class="icon-diamond"></i><span><?php echo $this->lang->line('manage_user') ?: 'Manage User';?></span></a>
                         <ul>
                           
                         <li>
-                        <a href="<?php echo base_url();?>admin/master/regular_user" class=""><i class="icon-pencil"></i><span><?php echo $this->lang->line('regular_user');?></span></a>
+                        <a href="<?php echo base_url();?>admin/master/regular_user" class=""><i class="icon-plus"></i><span><?php echo $this->lang->line('regular_user');?></span></a>
                       
-                    </li>
+                       </li>
+                       <?php $ur = $this->Common->getUserRole();  foreach($ur as $urres){ ?>
                     <li>
-                    <a href="<?php echo base_url();?>admin/master/company_user" class=""><i class="icon-layers"></i><span><?php echo $this->lang->line('company_user');?></span></a>
+                    <a href="<?php echo base_url();?>admin/master/company_user" class=""><i class="icon-layers"></i><span><?php echo $this->lang->line($urres->name) ?: $urres->name;?></span></a>
                      
                     </li>
+                <?php } ?>
                         </ul>
                     </li>
                    
