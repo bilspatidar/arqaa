@@ -43,6 +43,19 @@
               </div>
             </div>
 
+            <div class="col-md-4">
+            <label class="col-form-label"><?php echo $this->lang->line('subscription_type');?></label>
+            <select  name="sub_type" class="form-control Select2">
+                <option value="Regular User">Regular User</option>
+                <option value="Company User">Company User</option>
+                <option value="Boost Profile">Boost Profile</option>
+                <option value="Additional Services">Additional Services</option>
+                <option value="Banners">Banners</option>
+                <option value="CV">CV</option>
+                <option value="Taxes">Taxes</option>
+                 </select>
+              </div>
+
    <div class="col-md-12">
     <div class="form-group row">
         <div class="col-sm-12">
@@ -107,6 +120,7 @@
                 <th><?php echo $this->lang->line('concept');?></th>
                 <th><?php echo $this->lang->line('price');?></th>
                 <th><?php echo $this->lang->line('currency');?></th>
+                <th><?php echo $this->lang->line('sub_type');?></th>
                 <th><?php echo $this->lang->line('status');?></th>
                 <th><?php echo $this->lang->line('Action');?></th>
               </tr>
@@ -133,6 +147,7 @@
       { "data": "concept", "orderable": true },
       { "data": "price", "orderable": true },
       { "data": "currency", "orderable": true },
+      { "data": "sub_type", "orderable": true },
       {
         "data": "status",
         "orderable": true,
