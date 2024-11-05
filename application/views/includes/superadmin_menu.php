@@ -1,3 +1,6 @@
+<?php 
+ $users_id = getUser('id');
+ $UserDetails = $this->Internal_model->getUserDetails($users_id) ;?>
 
 <div id="left-sidebar" class="sidebar">
         <div class="navbar-brand">
@@ -8,11 +11,11 @@
             <div class="user-account">
 
                 <div class="user_div">
-                    <img src="<?php echo base_url(); ?>assets/assets/images/user.png" class="user-photo" alt="User Profile Picture">
+                    <img src="<?php echo $UserDetails[0]->profile_pic;?>" class="user-photo" alt="User Profile Picture">
                 </div>
                 <div class="dropdown">
                     <span>Welcome,</span>
-                    <a href="javascript:void(0);" class="dropdown-toggle user-name" data-toggle="dropdown"><strong>Louis Pierce</strong></a>
+                    <a href="javascript:void(0);" class="dropdown-toggle user-name" data-toggle="dropdown"><strong><?php echo $UserDetails[0]->name;?></strong></a>
                     <ul class="dropdown-menu dropdown-menu-right account vivify flipInY">
                         <li><a href="<?php echo base_url();?>admin/master/my_profile"><i class="icon-user"></i>My Profile</a></li>
                         <!-- <li><a href="app-inbox.html"><i class="icon-envelope-open"></i>Messages</a></li> -->
@@ -31,12 +34,12 @@
                         <a href="#uiElements" class="has-arrow"><i class="icon-diamond"></i><span><?php echo $this->lang->line('control_de_precios'); ?></span></a>
                         <ul>
                            <li><a href="<?php echo base_url();?>admin/master/regular_user_monthly_subscription"><?php echo $this->lang->line('regular_user_monthly_subscription');?> </a></li>
-                           <li><a href="<?php echo base_url();?>admin/master/monthly_subscription_for_company_users"><?php echo $this->lang->line('monthly_subscription_for_company_users');?> </a></li>
+                           <!-- <li><a href="<?php echo base_url();?>admin/master/monthly_subscription_for_company_users"><?php echo $this->lang->line('monthly_subscription_for_company_users');?> </a></li>
                            <li><a href="<?php echo base_url();?>admin/master/boost_your_profile"><?php echo $this->lang->line('boost_your_profile');?> </a></li>
                            <li><a href="<?php echo base_url();?>admin/master/additional_services"><?php echo $this->lang->line('additional_services');?> </a></li>
                            <li><a href="<?php echo base_url();?>admin/master/banners"><?php echo $this->lang->line('banners');?> </a></li>
                            <li><a href="<?php echo base_url();?>admin/master/taxes"><?php echo $this->lang->line('taxes');?> </a></li>
-                           <li><a href="<?php echo base_url();?>admin/master/cv"><?php echo $this->lang->line('cv');?> </a></li>
+                           <li><a href="<?php echo base_url();?>admin/master/cv"><?php echo $this->lang->line('cv');?> </a></li> -->
 
                         </ul>
                     </li>

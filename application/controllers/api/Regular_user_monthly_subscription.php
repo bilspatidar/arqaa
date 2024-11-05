@@ -87,6 +87,8 @@ class Regular_user_monthly_subscription extends REST_Controller {
                 $data['concept'] = $this->input->post('concept',TRUE);
                 $data['price'] = $this->input->post('price',TRUE);
                 $data['currency'] = $this->input->post('currency',TRUE);
+                $data['sub_type'] = $this->input->post('sub_type',TRUE);
+
                 if(!empty($_POST['image'])){
 					$base64_image = $_POST['image'];
 					$quality = 90;
@@ -147,6 +149,7 @@ class Regular_user_monthly_subscription extends REST_Controller {
                 $data['concept'] = $this->input->post('concept',TRUE);
                 $data['price'] = $this->input->post('price',TRUE);
                 $data['currency'] = $this->input->post('currency',TRUE);
+                $data['sub_type'] = $this->input->post('sub_type',TRUE);
 				$data['status'] = $this->input->post('status',TRUE);
 
                 if(!empty($_POST['image'])){
