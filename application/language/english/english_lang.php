@@ -2,6 +2,8 @@
 $lang['welcome_message'] = 'Welcome to our website!';
 $lang['control_de_precios'] = 'Price Control';
 $lang['administrar usuarios'] = 'Manage User';
+$lang['subscription_type'] = 'Subscription Type';
+$lang['sub_type'] = 'Subscription Type';
 
 $lang['usuario_regular'] = 'Regular User';
 $lang['usuario_empresa'] = 'Company User';
@@ -17,7 +19,7 @@ $lang['renta_venta'] = 'Rent/Sale';
 $lang['pendientes'] = 'Pending';
 $lang['menu'] = 'MENU';
 $lang['rows'] = 'Rows';
-$lang['regular_user_monthly_subscription'] = 'Monthly Subscription for Regular Users';
+$lang['regular_user_monthly_subscription'] = ' Subscription';
 $lang['monthly_subscription_for_company_users'] = 'Monthly Subscription for Company Users';
 $lang['boost_your_profile'] = 'Boost Your Profile';
 $lang['additional_services'] = 'Additional Services';

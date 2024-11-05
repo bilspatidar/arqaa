@@ -98,14 +98,7 @@
             </div>
         </div>
 </div>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const form = document.getElementById('crudFormAddApiData');
-        form.addEventListener('submit', function () {
-            location.reload(); 
-        });
-    });
-</script>
+
 
 
 
