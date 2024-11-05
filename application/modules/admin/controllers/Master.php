@@ -83,12 +83,13 @@ public function regular_user (){
   $this->load->view('master/regular_user');
   $this->load->view('includes/footer');
 }
-public function company_user (){
+public function company_user ($role=''){
     
   is_login(array('superadmin','admin'));
   $header_data['page_title'] = $this->lang->line('users');
+  $page_data['role'] = $role;
   $this->load->view('includes/header',$header_data);
-  $this->load->view('master/company_user');
+  $this->load->view('master/company_user',$page_data);
   $this->load->view('includes/footer');
 }
 

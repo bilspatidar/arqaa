@@ -225,6 +225,14 @@ $token = $_SESSION['user_details']['access_token'];
                 <div id="navbar-menu">
                     <ul class="nav navbar-nav">
                         <li><a href="<?php echo base_url();?>admin/master/news" class="news icon-menu" title="News">News</a></li>
+
+                          <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Language <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="<?php echo base_url('Internal/switch_lang/english'); ?>">English</a></li>
+                                <li><a href="<?php echo base_url('Internal/switch_lang/spanish'); ?>">Spanish</a></li>
+                            </ul>
+                        </li>
                       
                         <li class="dropdown">
                             <a href="javascript:void(0);" class="dropdown-toggle icon-menu" data-toggle="dropdown">

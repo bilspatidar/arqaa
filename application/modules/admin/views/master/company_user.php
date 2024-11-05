@@ -2,7 +2,7 @@
   <?php $this->load->view('includes/collapseAddForm'); ?>
   
   <div class="col-12 grid-margin collapse show" id="collapseExample">
-    <div class="card">
+    <div class="card" style="display:none;">
       <div class="card-body">
         <h4 class="card-title"><?php echo $page_title; ?></h4>
         <form class="form-sample" id="crudFormAddApiData" action="<?php echo API_DOMAIN; ?>api/company_user/company_user/add" method="POST">

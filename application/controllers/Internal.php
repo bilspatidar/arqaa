@@ -9,6 +9,18 @@ class Internal extends CI_Controller {
         $this->load->model('Internal_model');
     }
 
+     public function switch_lang($language) {
+         if (in_array($language, ['english', 'spanish'])) {
+            $up = $this->config->set_item('language', $language);
+            $this->session->set_userdata('site_lang', $language);
+           
+        }
+        else{
+            echo"no";
+        }
+        // Redirect to the previous page or a desired page
+        redirect($_SERVER['HTTP_REFERER']);
+    }
 
     public function get_state($countryId='',$StateId=''){
         $states = $this->Internal_model->get_state($countryId);
