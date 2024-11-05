@@ -29,6 +29,10 @@
             <nav id="left-sidebar-nav" class="sidebar-nav">
                 <ul id="main-menu" class="metismenu">
                     <li class="header">Main</li>
+                    <li class="active">
+                        <a href="<?php echo base_url();?>admin/index" class="has-arrow"><i class="icon-speedometer"></i><span>Dashboard</span></a>
+                        
+                    </li>
                   
                     <li>
                         <a href="#uiElements" class="has-arrow"><i class="icon-diamond"></i><span><?php echo $this->lang->line('control_de_precios'); ?></span></a>

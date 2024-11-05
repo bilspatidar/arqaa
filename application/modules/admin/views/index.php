@@ -1,4 +1,5 @@
-<div class="block-header">
+
+        <div class="block-header">
             <div class="row clearfix">
                 <div class="col-md-6 col-sm-12">
                     <h1>Dashboard</h1>
@@ -12,7 +13,18 @@
         </div>
 
         <div class="container-fluid">
-
+        <div class="row clearfix">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    <div class="card">
+                        <div class="header">
+                            <h2>World Map</h2>
+                        </div>
+                        <div class="body">
+                            <div id="world-map-markers" class="jvector-map" style="height: 300px"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="row clearfix">
                 <div class="col-md-6 col-lg-3">
                     <div class="card">
@@ -317,7 +329,7 @@
                             <tbody>
                                 <tr>
                                     <td class="w60">
-                                        <img src="<?php echo base_url(); ?>assets/images/xs/avatar1.jpg" data-toggle="tooltip" data-placement="top" title="" alt="Avatar" class="w35 rounded" data-original-title="Avatar Name">
+                                        <img src="../assets/images/xs/avatar1.jpg" data-toggle="tooltip" data-placement="top" title="" alt="Avatar" class="w35 rounded" data-original-title="Avatar Name">
                                     </td>
                                     <td>
                                         <a href="javascript:void(0);" title="">Project 1</a>
@@ -332,7 +344,7 @@
                                 </tr>
                                 <tr>
                                     <td class="w60">
-                                        <img src="<?php echo base_url(); ?>assets/images/xs/avatar2.jpg" data-toggle="tooltip" data-placement="top" title="" alt="Avatar" class="w35 rounded" data-original-title="Avatar Name">
+                                        <img src="../assets/images/xs/avatar2.jpg" data-toggle="tooltip" data-placement="top" title="" alt="Avatar" class="w35 rounded" data-original-title="Avatar Name">
                                     </td>
                                     <td>
                                         <a href="javascript:void(0);" title="">Project 2</a>
@@ -362,7 +374,7 @@
                                 </tr>
                                 <tr>
                                     <td class="w60">
-                                        <img src="<?php echo base_url(); ?>assets/images/xs/avatar4.jpg" data-toggle="tooltip" data-placement="top" title="" alt="Avatar" class="w35 rounded" data-original-title="Avatar Name">
+                                        <img src="../assets/images/xs/avatar4.jpg" data-toggle="tooltip" data-placement="top" title="" alt="Avatar" class="w35 rounded" data-original-title="Avatar Name">
                                     </td>
                                     <td>
                                         <a href="javascript:void(0);" title="">Project 4</a>
@@ -411,3 +423,4 @@
                 </div>
             </div>
         </div>
+ 

@@ -18,6 +18,9 @@
 
 <!-- data table -->
 
+<script src="<?php echo base_url(); ?>assets/assets/bundles/jvectormap.bundle.js"></script><!-- JVectorMap Plugin Js -->
+
+<script src="<?php echo base_url(); ?>assets/assets/js/pages/maps/jvectormap.js"></script>
 
 <script src="<?php echo base_url(); ?>assets/assets/bundles/datatablescripts.bundle.js"></script>
 

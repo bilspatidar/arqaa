@@ -84,7 +84,7 @@ $token = $_SESSION['user_details']['access_token'];
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
 <link rel="stylesheet" href="<?php echo base_url(); ?>assets/assets/vendor/jquery-datatable/dataTables.bootstrap4.min.css">
-<
+
   <!-- Menu link -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script src="<?php echo base_url(); ?>assets/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
