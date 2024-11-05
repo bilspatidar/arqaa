@@ -58,7 +58,7 @@
   <input type="hidden" value="<?php echo API_DOMAIN; ?>api/sub_category/sub_category_list" id="list_end_point">
   <input type="hidden" value="<?php echo API_DOMAIN; ?>api/sub_category/sub_category/" id="delete_end_point">
   <input type="hidden" value="<?php echo API_DOMAIN; ?>api/sub_category/sub_category_details" id="show_endpoint">
-  <input type="hidden" value="admin/master/sub_category_edit" id="edit_page_name">
+  <input type="hidden" value="admin/master/Sub_category_edit" id="edit_page_name">
   <div class="col-lg-12 grid-margin stretch-card">
     <div class="card">
       <div class="card-body">
