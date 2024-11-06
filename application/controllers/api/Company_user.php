@@ -12,7 +12,7 @@ class Company_user extends REST_Controller {
     public function __construct() {
         $this->cors_header();
         parent::__construct();
-        $this->load->model('company_user_model');
+        $this->load->model('user_model');
         $this->load->helper('security');
     }
 
@@ -31,8 +31,8 @@ class Company_user extends REST_Controller {
         $getTokenData = $this->is_authorized('superadmin');
         $offset = ($page - 1) * $limit;
     
-        $totalRecords =  $this->company_user_model->get('yes', $id, $limit, $offset, $filterData,$role);
-        $data =  $this->company_user_model->get('no', $id, $limit, $offset, $filterData,$role);
+        $totalRecords =  $this->user_model->get('yes', $id, $limit, $offset, $filterData,$role);
+        $data =  $this->user_model->get('no', $id, $limit, $offset, $filterData,$role);
     
         $totalPages = ceil($totalRecords / $limit);
     
