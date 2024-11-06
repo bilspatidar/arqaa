@@ -55,7 +55,7 @@
                         <a href="<?php echo base_url();?>admin/master/add_user" class=""><i class="icon-plus"></i><span><?php echo $this->lang->line('regular_user');?></span></a>
                       
                        </li>
-                       <?php $ur = $this->Common->getUserRole();  foreach($ur as $urres){ ?>
+                       <?php $ur = $this->Common->getUserRole('internal');  foreach($ur as $urres){ ?>
                     <li>
                     <a href="<?php echo base_url();?>admin/master/users/<?php echo $urres->slug; ?>" class=""><i class="icon-layers"></i><span><?php echo $this->lang->line($urres->name) ?: $urres->name;?></span></a>
                      
@@ -63,7 +63,19 @@
                 <?php } ?>
                         </ul>
                     </li>
-                   
+                    <li>
+                        <a href="#uiElements" class="has-arrow"><i class="icon-diamond"></i><span><?php echo $this->lang->line('application_user') ;?></span></a>
+                        <ul>
+                          
+                       
+                       <?php $ur = $this->Common->getUserRole('application');  foreach($ur as $urres){ ?>
+                    <li>
+                    <a href="<?php echo base_url();?>admin/master/users/<?php echo $urres->slug; ?>" class=""><i class="icon-layers"></i><span><?php echo $this->lang->line($urres->name) ?: $urres->name;?></span></a>
+                     
+                    </li>
+                <?php } ?>
+                        </ul>
+                    </li> 
                     
                     <li>
     <a href="#uiElements" class="has-arrow"><i class="icon-notebook"></i><span><?php echo $this->lang->line('statistics'); ?></span></a>

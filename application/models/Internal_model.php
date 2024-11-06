@@ -49,11 +49,13 @@ class Internal_model extends CI_Model {
         return $this->db->get()->result();
     }
     public function get_currency($array=''){
-        $this->db->select('id,name');
-        
-             $this->db->from('currency');
+        $this->db->select('id, name,symbol');
+        $this->db->from('currency');
+        $this->db->group_by('name');  // 'name' ke basis par grouping
         return $this->db->get()->result();
-      }
+    }
+    
+    
     public function get_country($array=''){
         $this->db->select('id,name');
         

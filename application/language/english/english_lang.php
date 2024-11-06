@@ -4,6 +4,7 @@ $lang['control_de_precios'] = 'Price Control';
 $lang['administrar usuarios'] = 'Manage User';
 $lang['subscription_type'] = 'Subscription Type';
 $lang['sub_type'] = 'Subscription Type';
+$lang['application_user'] = 'Application User';
 
 $lang['usuario_regular'] = 'Regular User';
 $lang['usuario_empresa'] = 'Company User';
@@ -85,7 +86,7 @@ $lang['active'] = 'Active';
 $lang['inactive'] = 'Inactive';
 $lang['deactive'] = 'Deactive';
 $lang['price'] = 'Price';
-$lang['concept'] = 'Concept';
+$lang['concept'] = 'Concept (Olny For Website)';
 $lang['currency'] = 'Currency';
 $lang['description'] = 'Description';
 $lang['mobile'] = 'Mobile';

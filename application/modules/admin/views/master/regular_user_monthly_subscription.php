@@ -9,13 +9,18 @@
           <p class="card-description"><?php echo $this->lang->line('add_new');?></p>
           <div class="row">
           <div class="col-md-4">
-              <div class="form-group row">
-                <div class="col-sm-12">
-                  <label class="col-form-label"> <?php echo $this->lang->line('image');?></label>
-                  <input type="file" class="form-control" name="image" />
-                </div>
+            <label class="col-form-label"><?php echo $this->lang->line('subscription_type');?></label>
+            <select  name="sub_type" class="form-control Select2">
+                <option value="Regular User">Regular User</option>
+                <option value="Company User">Company User</option>
+                <option value="Boost Profile">Boost Profile</option>
+                <option value="Additional Services">Additional Services</option>
+                <option value="Banners">Banners</option>
+                <option value="CV">CV</option>
+                <option value="Taxes">Taxes</option>
+                 </select>
               </div>
-            </div>
+         
           
          
 
@@ -36,7 +41,7 @@
 				  <option value=""><?php echo $this->lang->line('select_option');?></option>
 				  <?php $get_currencys = $this->Internal_model->get_currency();
 				  foreach($get_currencys as $get_currency) { ?>
-				  <option value="<?php echo $get_currency->id;?>"><?php echo $get_currency->name;?></option>
+				  <option value="<?php echo $get_currency->id;?>"><?php echo $get_currency->name;?> (<?php echo $get_currency->symbol;?>)</option>
 				  <?php } ?>
 				  </select>
                 </div>
@@ -44,17 +49,13 @@
             </div>
 
             <div class="col-md-4">
-            <label class="col-form-label"><?php echo $this->lang->line('subscription_type');?></label>
-            <select  name="sub_type" class="form-control Select2">
-                <option value="Regular User">Regular User</option>
-                <option value="Company User">Company User</option>
-                <option value="Boost Profile">Boost Profile</option>
-                <option value="Additional Services">Additional Services</option>
-                <option value="Banners">Banners</option>
-                <option value="CV">CV</option>
-                <option value="Taxes">Taxes</option>
-                 </select>
+              <div class="form-group row">
+                <div class="col-sm-12">
+                  <label class="col-form-label"> <?php echo $this->lang->line('image');?></label>
+                  <input type="file" class="form-control" name="image" />
+                </div>
               </div>
+            </div>   
 
    <div class="col-md-12">
     <div class="form-group row">
