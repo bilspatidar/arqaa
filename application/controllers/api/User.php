@@ -1382,5 +1382,83 @@ class User extends REST_Controller {
     echo '</table>';
 }
 
-}	
+
+
+ // Function to add user permissions
+ public function add_permissions($params = '') {
+
+    if ($params == 'add') {
+        // Get the token data (user info)
+        $getTokenData = $this->is_authorized('superadmin');
+        $usersData = json_decode(json_encode($getTokenData), true);
+        $session_id = $usersData['data']['id'];
+
+        // Get form data from the request
+        $_POST = json_decode($this->input->raw_input_stream, true);
+
+        // Set validation rules
+        $this->form_validation->set_rules('permissions', 'Permissions', 'required');
+        
+        if ($this->form_validation->run() === false) {
+            // Validation failed, send error response
+            $array_error = array_map(function ($val) {
+                return str_replace(array("\r", "\n"), '', strip_tags($val));
+            }, array_filter(explode(".", trim(strip_tags(validation_errors())))));
+
+            $this->response([
+                'status' => FALSE,
+                'message' => 'Error in submitting form',
+                'errors' => $array_error
+            ], REST_Controller::HTTP_BAD_REQUEST, '', 'error');
+        } else {
+            // Process permissions for each module
+            $messages = [];
+            foreach ($_POST['permissions'] as $module => $permissions) {
+                // Check if permission already exists for the user and module
+                $existing_permission = $this->User_model->get_permission_by_module($module, $session_id);
+
+                // Prepare the data for insert or update
+                $data = array(
+                    'module_name' => $module,
+                    'view' => isset($permissions['view']) ? 1 : 0,
+                    'create' => isset($permissions['create']) ? 1 : 0,
+                    'update' => isset($permissions['update']) ? 1 : 0,
+                    'delete' => isset($permissions['delete']) ? 1 : 0,
+                    'user_id' => $session_id,  // Use actual user ID
+                    'status' => 'Active',  // Assuming active status
+                    'added' => date('Y-m-d H:i:s'), // Set current timestamp for added field
+                    'addedBy' => $session_id,  // The user who added the permission
+                );
+
+                if ($existing_permission) {
+                    // If permission exists, update it
+                    $update_result = $this->User_model->update_permission($existing_permission['id'], $data);
+                    if ($update_result) {
+                        $messages[] = "Permission for {$module} updated successfully.";
+                    } else {
+                        $messages[] = "Failed to update permission for {$module}.";
+                    }
+                } else {
+                    // If permission doesn't exist, insert it
+                    $insert_result = $this->User_model->create_user_permission($data);
+                    if ($insert_result) {
+                        $messages[] = "Permission for {$module} added successfully.";
+                    } else {
+                        $messages[] = "Failed to add permission for {$module}.";
+                    }
+                }
+            }
+
+            // Send success response with accumulated messages
+            $this->response([
+                'status' => true,
+                'message' => implode(' ', $messages)
+            ], REST_Controller::HTTP_OK);
+        }
+    }
+}
+
+	
+}
+
 ?>

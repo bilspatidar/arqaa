@@ -48,10 +48,33 @@ class User_model extends CI_Model {
 		return $this->db->insert_id(); 
 	}
 
-	public function create($data) {
-		$this->db->insert($this->table, $data);
-		return $this->db->insert_id(); 
+
+	
+	public function get_permission_by_module($module_name, $user_id) {ini_set('display_errors', 1);
+		// Query to check if the permission exists for the given module and user
+		// $this->db->where('module_name', $module_name);
+		$this->db->where('user_id', $user_id);
+		$query = $this->db->get('user_permission');
+		
+		if ($query->num_rows() > 0) {
+			return $query->row_array();  // Return the existing permission row
+		}
+		return null;  // No permission found
 	}
+	
+	public function create_user_permission($data) {
+		// Insert the permission data into the user_permissions table
+		$this->db->insert('user_permission', $data);
+		return $this->db->insert_id();  // Return the ID of the newly inserted record
+	}
+	public function update_permission($permission_id, $data) {
+		// Update the permission record for the given permission ID
+		$this->db->where('id', $permission_id);
+		$this->db->update('user_permission', $data);
+		return $this->db->affected_rows();  // Return number of affected rows
+	}
+	
+	
 	
 	public function show($id) {
         $this->db->select("*");

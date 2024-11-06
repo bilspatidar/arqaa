@@ -154,12 +154,22 @@ public function generateProductCode(){
       $this->db->from('cities');
       return $this->db->get()->result();
     }
-    public function getUserRole($array=''){
-        $this->db->select('id,slug,name');
+    public function getUserRole($role_type = '') {
+        $this->db->select('id, slug, name');
         $this->db->from('user_role');
-        $this->db->where('status','Active');
-      return $this->db->get()->result();
+        
+        // Adding the condition for active status and role_type
+        $this->db->where('status', 'Active');
+        
+        // Check if role_type is provided, then add it to the query condition
+        if (!empty($role_type)) {
+            $this->db->where('role_type', $role_type);
+        }
+    
+        return $this->db->get()->result();
     }
+    
+    
     public function getUser($array=''){
         $this->db->select('user_profile.*');
         $this->db->from('users');

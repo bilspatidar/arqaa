@@ -277,7 +277,7 @@ function renderPermisionBtn(data, type, row) {
 
 
     // Add edit button with icon
-    buttonsHtml += '<button type="button" class="btn btn-danger mb-2 permission-btn" data-id="' + row.id + '" title="Permission">' +
+    buttonsHtml += '<button type="button" class="btn btn-info mb-2 permission-btn" data-id="' + row.id + '" title="Permission">' +
     '<span class="sr-only">Delete</span> <i class="fa fa-lock"></i></button>';
 
     return buttonsHtml;
@@ -482,6 +482,9 @@ function getStates(country_id) {
         $('#state_id').html('<option value=""><?php echo $this->lang->line('select_option'); ?></option>');
     }
 }
+
+
 </script>
+
 
 
