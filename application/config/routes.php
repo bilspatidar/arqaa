@@ -69,12 +69,9 @@ $route['streaming'] = 'api/Media/streaming';
 $route['home'] = 'api/Media/home';
 $route['medias/(:any)'] = 'api/Media/medias/$i';
 $route['register'] = 'api/User/register';
+$route['signup'] = 'api/User/signup';
 $route['login'] = 'api/User/login';
 $route['logout'] = 'api/User/logout';
 $route['reGenToken'] = 'api/Token/reGenToken';
 
 $route['admin'] = 'admin/login';
-
-
-
-

@@ -207,4 +207,42 @@ class Regular_user_monthly_subscription extends REST_Controller {
         }
     }
     // Suscripción Mensual Usuarios Regular end
+
+    public function languages_get() {
+        // Load the Language model if you haven't already
+        $this->load->model('language_model');
+    
+        // Get pagination parameters from the query string
+        $page = $this->get('page') ? $this->get('page') : 1; // Default to page 1
+        $limit = $this->get('limit') ? $this->get('limit') : 10; // Default limit to 10
+        $offset = ($page - 1) * $limit;
+    
+        // Get all countries with their languages
+        $languagesData = $this->language_model->get_all_languages($limit, $offset);
+    
+        // Prepare response
+        $data = $languagesData['data'];
+        $totalRecords = $languagesData['totalRecords'];
+        $totalPages = ceil($totalRecords / $limit);
+    
+        if ($data) {
+            $response = [
+                'status' => true,
+                'data' => $data,
+                'pagination' => [
+                    'page' => $page,
+                    'totalPages' => $totalPages,
+                    'totalRecords' => $totalRecords
+                ],
+                'message' => 'Countries and their languages fetched successfully.'
+            ];
+            $this->response($response, REST_Controller::HTTP_OK);
+        } else {
+            $this->response([
+                'status' => false,
+                'message' => 'No languages found.'
+            ], REST_Controller::HTTP_NOT_FOUND);
+        }
+    }
+    
 }
