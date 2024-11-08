@@ -99,10 +99,10 @@
             <thead>
               <tr>
                 <th>#</th>
-                <th><?php echo $this->lang->line('name');?></th>
-            
-                <th><?php echo $this->lang->line('banner');?></th>
-                <th><?php echo $this->lang->line('services');?></th>
+                <th><?php echo $this->lang->line('title');?></th>
+                <th><?php echo $this->lang->line('news_categories_id');?></th>
+                <th><?php echo $this->lang->line('image');?></th>
+                <th><?php echo $this->lang->line('status');?></th>
                 <th><?php echo $this->lang->line('Action');?></th>
               </tr>
             </thead>
@@ -117,31 +117,44 @@
 
 
 <script>
-  function renderTableData(){
-    return [
-                { "data": null, "render": function(data, type, row, meta) {
-                    return meta.row + 1; // Adding 1 to meta.row to start from 1 instead of 0
-                }},
-                { "data": "name", "orderable": true  },
-			//	{ "data": "category_id", "orderable": true },
-                { 
-                    "data": "image",
-                    "render": function(data, type, row) {
-                        return '<img src="' + data + '" alt="Image" style="height: 60px; width: 80px;">';
-                    }
-                },
-                { 
-                    "data": "status", "orderable": true,
-                    "render": function(data, type, row) {
-                        return renderStatusBtn(data, type, row)
-                    }
-                },
-                { 
-                    "data": null, 
-                    "render": function(data, type, row) {
-                      return renderOptionBtn(data, type, row)
-                    }
-                }
-            ]
-  }
+ function renderTableData() {
+  
+  return [
+    {
+      "data": null,
+      "render": function(data, type, row, meta) {
+        return meta.row + 1; // Adding 1 to meta.row to start from 1 instead of 0
+      }
+    },
+    { 
+      "data": "title", // Check if 'name' exists in your data
+      "orderable": true 
+    },
+    { 
+      "data": "news_categories_id", // Check if 'name' exists in your data
+      "orderable": true 
+    },
+    {
+      "data": "image",
+      "render": function(data, type, row) {
+        return '<img src="' + data + '" alt="Image" style="height: 60px; width: 80px;">';
+      }
+    },
+    { 
+      "data": "status", 
+      "orderable": true,
+      "render": function(data, type, row) {
+        return renderStatusBtn(data, type, row);
+      }
+    },
+    { 
+      "data": null, 
+      "render": function(data, type, row) {
+        return renderOptionBtn(data, type, row);
+      }
+    }
+  ];
+}
+
+
 </script> 

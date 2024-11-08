@@ -55,8 +55,8 @@ $lang['reports'] = 'Reports';
 $lang['pending_services'] = 'Pending Services';
 $lang['Additional'] = 'Additional';
 $lang['change_password'] = 'Change Password';
-
 $lang['subscription'] = 'Subscription';
+$lang['news_categories_id'] = 'News Categories';
 $lang['subscriptionCompany'] = 'Company Subscription';
 $lang['ragistered_services'] = 'REGISTERED SERVICES';
 
