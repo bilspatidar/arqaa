@@ -41,7 +41,7 @@
 				  <option value=""><?php echo $this->lang->line('select_option');?></option>
 				  <?php $get_currencys = $this->Internal_model->get_currency();
 				  foreach($get_currencys as $get_currency) { ?>
-				  <option value="<?php echo $get_currency->id;?>"><?php echo $get_currency->name;?> (<?php echo $get_currency->symbol;?>)</option>
+				  <option value="<?php echo $get_currency->symbol;?>"><?php echo $get_currency->name;?> (<?php echo $get_currency->symbol;?>)</option>
 				  <?php } ?>
 				  </select>
                 </div>

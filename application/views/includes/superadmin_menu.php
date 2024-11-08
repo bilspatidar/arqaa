@@ -70,7 +70,7 @@
                        
                        <?php $ur = $this->Common->getUserRole('application');  foreach($ur as $urres){ ?>
                     <li>
-                    <a href="<?php echo base_url();?>admin/master/users/<?php echo $urres->slug; ?>" class=""><i class="icon-layers"></i><span><?php echo $this->lang->line($urres->name) ?: $urres->name;?></span></a>
+                    <a href="<?php echo base_url();?>admin/master/application_user/<?php echo $urres->slug; ?>" class=""><i class="icon-layers"></i><span><?php echo $this->lang->line($urres->name) ?: $urres->name;?></span></a>
                      
                     </li>
                 <?php } ?>

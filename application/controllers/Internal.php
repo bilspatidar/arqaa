@@ -8,19 +8,33 @@ class Internal extends CI_Controller {
         parent::__construct();
         $this->load->model('Internal_model');
     }
-
-     public function switch_lang($language) {
-         if (in_array($language, ['english', 'spanish'])) {
-            $up = $this->config->set_item('language', $language);
+    public function switch_lang($language) {
+        // Define allowed languages (correct language names)
+        $allowed_languages = ['english', 'spanish'];
+    
+        // Check if the passed language is in the allowed list
+        if (in_array($language, $allowed_languages)) {
+            // Set the language in the config
+            $this->config->set_item('language', $language);
+    
+            // Set language in session
             $this->session->set_userdata('site_lang', $language);
-           
+    
+            // Load the appropriate language file based on the session language
+            $this->lang->load('messages', $language); // 'messages' refers to messages_lang.php file
+        } else {
+            // Invalid language
+            echo "Invalid language!";
+            return; // Stop further execution if language is invalid
         }
-        else{
-            echo"no";
-        }
-        // Redirect to the previous page or a desired page
+    
+        // Redirect to the previous page or desired page
         redirect($_SERVER['HTTP_REFERER']);
     }
+    
+    
+    // Load language file
+
 
     public function get_state($countryId='',$StateId=''){
         $states = $this->Internal_model->get_state($countryId);
