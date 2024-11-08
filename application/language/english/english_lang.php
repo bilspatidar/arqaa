@@ -78,7 +78,7 @@ $lang['Action'] = 'Actions';
 $lang['permision'] = 'Permision';
 
 $lang['nombre'] = 'Name';
-$lang['name'] = 'Name';
+$lang['name'] = 'First Name';
 $lang['image'] = 'Image';
 $lang['select_status'] = 'Select Status';
 $lang['option'] = 'Option';
@@ -86,7 +86,7 @@ $lang['active'] = 'Active';
 $lang['inactive'] = 'Inactive';
 $lang['deactive'] = 'Deactive';
 $lang['price'] = 'Price';
-$lang['concept'] = 'Concept (Olny For Website)';
+$lang['concept'] = 'Concept (Only For Website)';
 $lang['currency'] = 'Currency';
 $lang['description'] = 'Description';
 $lang['mobile'] = 'Mobile';

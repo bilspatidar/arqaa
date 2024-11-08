@@ -1,9 +1,7 @@
 <div class="row">
- 
-  <?php $this->load->view('includes/collapseAddForm'); ?>
   
-  <div class="col-12 grid-margin collapse show " id="collapseExample">
-    <div class="card">
+  <div class="col-12 grid-margin collapse show" id="collapseExample">
+    <div class="card" style="display:none;">
       <div class="card-body">
         <h4 class="card-title"><?php echo $page_title; ?></h4>
         <form class="form-sample" id="crudFormAddApiData" action="<?php echo API_DOMAIN; ?>api/user/company_user/add" method="POST">
@@ -216,14 +214,14 @@
   </div>
 </div>
 </div>
-
 <div class="row">
   <input type="hidden" value="<?php echo API_DOMAIN; ?>api/user/company_user_list/<?php echo $role;?>" id="list_end_point">
   <input type="hidden" value="<?php echo API_DOMAIN; ?>api/user/company_user/" id="delete_end_point">
   <input type="hidden" value="<?php echo API_DOMAIN; ?>api/user/company_user_details" id="show_endpoint">
   <input type="hidden" value="admin/master/company_user_edit" id="edit_page_name">
+  <!-- <input type="hidden" value="admin/master/user_permission" id="permission_page_name"> -->
   <div class="col-lg-12 grid-margin stretch-card">
-    <div class="card"style="display:none;">
+    <div class="card">
       <div class="card-body">
         <h4 class="card-title"><?php echo $page_title; ?> <?php $this->load->view('includes/collapseFilterForm'); ?></h4>
         
@@ -291,7 +289,7 @@
           return renderStatusBtn(data, type, row);
         }
       },
-     
+      
       {
         "data": null,
         "render": function(data, type, row) {

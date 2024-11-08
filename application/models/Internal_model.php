@@ -477,6 +477,15 @@ public function update_status($user_id=''){
         $this->db->where("status", 'Active');
         return $this->db->get()->result();
     }
+    public function get_news_categories($id='') {
+        $this->db->select("*");
+        $this->db->from('news_categories');
+		if(!empty($id) && ($id)>0){  
+        $this->db->where("id", $id);
+		}
+        $this->db->where("status", 'Active');
+        return $this->db->get()->result();
+    }
 	
     public function get_type($id='') {
         $this->db->select("*");
