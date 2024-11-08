@@ -13,6 +13,7 @@ class Regular_user_monthly_subscription extends REST_Controller {
         $this->cors_header();
         parent::__construct();
         $this->load->model('regular_user_monthly_subscription_model');
+        $this->load->model('business_hrs_model'); 
         $this->load->helper('security');
     }
 
@@ -48,17 +49,42 @@ class Regular_user_monthly_subscription extends REST_Controller {
         $this->response($response, REST_Controller::HTTP_OK); 
     }
     
-    public function regular_user_monthly_subscription_details_get(){
+    // public function regular_user_monthly_subscription_details_get(){
+    //     $id = $this->input->get('id') ? $this->input->get('id') : 0;
+    //     $getTokenData = $this->is_authorized('superadmin');
+    //     $data =  $this->regular_user_monthly_subscription_model->show($id);
+    //     $response = [
+    //         'status' => true,
+    //         'data' => $data,
+    //         'message' => 'Suscripción Mensual Usuarios Regular fetched successfully.'
+    //     ];
+    //     $this->response($response, REST_Controller::HTTP_OK); 
+    // }
+
+    public function regular_user_monthly_subscription_details_get() {
         $id = $this->input->get('id') ? $this->input->get('id') : 0;
+        $sub_type = $this->input->get('sub_type') ? $this->input->get('sub_type') : '';
+    
+        // Authorization check
         $getTokenData = $this->is_authorized('superadmin');
-        $data =  $this->regular_user_monthly_subscription_model->show($id);
+    
+        // Fetch data based on id or sub_type
+        if (!empty($id)) {
+            $data = $this->regular_user_monthly_subscription_model->show($id);
+        } elseif (!empty($sub_type)) {
+            $data = $this->regular_user_monthly_subscription_model->get_by_sub_type($sub_type);
+        } else {
+            $data = [];
+        }
+    
         $response = [
             'status' => true,
             'data' => $data,
-            'message' => 'Suscripción Mensual Usuarios Regular fetched successfully.'
+            'message' => 'Suscripcion Mensual Usuarios Regular fetched successfully.'
         ];
-        $this->response($response, REST_Controller::HTTP_OK); 
+        $this->response($response, REST_Controller::HTTP_OK);
     }
+    
 
 
     public function regular_user_monthly_subscription_post($params='') {
@@ -207,4 +233,143 @@ class Regular_user_monthly_subscription extends REST_Controller {
         }
     }
     // Suscripción Mensual Usuarios Regular end
+
+    public function languages_get() {
+        // Load the Language model if you haven't already
+        $this->load->model('language_model');
+    
+        // Get pagination parameters from the query string
+        $page = $this->get('page') ? $this->get('page') : 1; // Default to page 1
+        $limit = $this->get('limit') ? $this->get('limit') : 10; // Default limit to 10
+        $offset = ($page - 1) * $limit;
+    
+        // Get all countries with their languages
+        $languagesData = $this->language_model->get_all_languages($limit, $offset);
+    
+        // Prepare response
+        $data = $languagesData['data'];
+        $totalRecords = $languagesData['totalRecords'];
+        $totalPages = ceil($totalRecords / $limit);
+    
+        if ($data) {
+            $response = [
+                'status' => true,
+                'data' => $data,
+                'pagination' => [
+                    'page' => $page,
+                    'totalPages' => $totalPages,
+                    'totalRecords' => $totalRecords
+                ],
+                'message' => 'Countries and their languages fetched successfully.'
+            ];
+            $this->response($response, REST_Controller::HTTP_OK);
+        } else {
+            $this->response([
+                'status' => false,
+                'message' => 'No languages found.'
+            ], REST_Controller::HTTP_NOT_FOUND);
+        }
+    }
+    
+     // Add Business Hours for Regular User
+    public function business_hours_add_post() {
+        $tokenData = $this->is_authorized();  // Get user details from token
+        $user_id = $tokenData['data']['id'];
+
+        $days = $this->input->post('days');  // Array of days
+        $from_time = $this->input->post('from_time');
+        $to_time = $this->input->post('to_time');
+        $status = $this->input->post('status') ? $this->input->post('status') : 'Active';  // Default to 'Active'
+
+        if (!is_array($days)) {
+            $this->response(['status' => FALSE, 'message' => 'Days must be an array'], REST_Controller::HTTP_BAD_REQUEST);
+        }
+
+        foreach ($days as $day) {
+            $data = [
+                'user_id' => $user_id,
+                'day' => $day,
+                'from_time' => $from_time,
+                'to_time' => $to_time,
+                'status' => $status
+            ];
+
+            // Add business hour for each day
+            $this->business_hrs_model->add($data);
+        }
+
+        $this->response(['status' => TRUE, 'message' => 'Business hours added successfully.'], REST_Controller::HTTP_OK);
+    }
+
+    // Update Business Hours for Regular User
+    public function business_hours_update_post() {
+        $tokenData = $this->is_authorized();  // Get user details from token
+        $user_id = $tokenData['data']['id'];
+
+        $id = $this->input->post('id');
+        $day = $this->input->post('day');
+        $from_time = $this->input->post('from_time');
+        $to_time = $this->input->post('to_time');
+        $status = $this->input->post('status') ? $this->input->post('status') : 'Active';
+
+        // Check if the record exists
+        $existing_data = $this->business_hrs_model->get_by_id($id);
+        if (!$existing_data || $existing_data->user_id != $user_id) {
+            $this->response(['status' => FALSE, 'message' => 'Business hour not found or unauthorized access'], REST_Controller::HTTP_BAD_REQUEST);
+        }
+
+        $data = [
+            'day' => $day,
+            'from_time' => $from_time,
+            'to_time' => $to_time,
+            'status' => $status
+        ];
+
+        // Update the business hours
+        $this->business_hrs_model->update($id, $data);
+
+        $this->response(['status' => TRUE, 'message' => 'Business hours updated successfully.'], REST_Controller::HTTP_OK);
+    }
+
+    public function business_hours_get() {
+        // Load the Business Hours model if you haven't already
+        $this->load->model('business_hrs_model');
+        
+        // Get pagination parameters from the query string
+        $page = $this->get('page') ? $this->get('page') : 1; // Default to page 1
+        $limit = $this->get('limit') ? $this->get('limit') : 10; // Default limit to 10
+        $offset = ($page - 1) * $limit;
+        
+        // Get business hours for the logged-in user (you may need to adjust this based on your use case)
+        $tokenData = $this->is_authorized(); // Get user details from token
+        $user_id = $tokenData['data']['id'];
+    
+        // Get all business hours for the user with pagination
+        $businessHoursData = $this->business_hrs_model->get_business_hours($user_id, $limit, $offset);
+        
+        // Prepare response
+        $data = $businessHoursData['data'];
+        $totalRecords = $businessHoursData['totalRecords'];
+        $totalPages = ceil($totalRecords / $limit);
+        
+        if ($data) {
+            $response = [
+                'status' => true,
+                'data' => $data,
+                'pagination' => [
+                    'page' => $page,
+                    'totalPages' => $totalPages,
+                    'totalRecords' => $totalRecords
+                ],
+                'message' => 'Business hours fetched successfully.'
+            ];
+            $this->response($response, REST_Controller::HTTP_OK);
+        } else {
+            $this->response([
+                'status' => false,
+                'message' => 'No business hours found.'
+            ], REST_Controller::HTTP_NOT_FOUND);
+        }
+    }
+       
 }

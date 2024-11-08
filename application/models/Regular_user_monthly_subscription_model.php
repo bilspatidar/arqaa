@@ -31,6 +31,17 @@ class Regular_user_monthly_subscription_model extends CI_Model {
         return $this->db->get()->result();
     }
 
+
+     // Fetch by sub_type
+    public function get_by_sub_type($sub_type) {
+        $this->db->select("*");
+        $this->db->from($this->table);
+        if (!empty($sub_type)) {
+            $this->db->where('sub_type', $sub_type);
+        }
+    return $this->db->get()->result();
+    }
+    
     public function update($data, $id) {
         $response = $this->db->update($this->table, $data, array($this->primaryKey => $id));
         return $this->db->affected_rows();

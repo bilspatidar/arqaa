@@ -1,6 +1,4 @@
-
-					
-					<?php
+<?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
     require(APPPATH.'/libraries/REST_Controller.php');
@@ -1382,83 +1380,88 @@ class User extends REST_Controller {
     echo '</table>';
 }
 
+public function signup_post() {
+    // Decode the JSON input
+	// log_message('debug', 'signup_post method called');
+    $_POST = json_decode($this->input->raw_input_stream, true);
 
+	$this->form_validation->set_rules('name', 'Username', 'trim|required|xss_clean|alpha_numeric|min_length[3]');
+	$this->form_validation->set_rules('email', 'Email', 'trim|required|xss_clean|is_unique[users.email]');
+	$this->form_validation->set_rules('mobile', 'Mobile Number', 'trim|required|xss_clean|min_length[10]');
+	$this->form_validation->set_rules('password', 'Password', 'trim|required|xss_clean|min_length[6]');
+	$this->form_validation->set_rules('confirm_password', 'Confirm Password', 'trim|required|xss_clean|min_length[6]|matches[password]');
+	$this->form_validation->set_rules('date_of_birth', 'Date of Birth', 'trim|required');
+	$this->form_validation->set_rules('user_type', 'User Type', 'trim|required');
+	$this->form_validation->set_rules('last_name', 'Last Name', 'trim|required');
+	
 
- // Function to add user permissions
- public function add_permissions($params = '') {
-
-    if ($params == 'add') {
-        // Get the token data (user info)
-        $getTokenData = $this->is_authorized('superadmin');
-        $usersData = json_decode(json_encode($getTokenData), true);
-        $session_id = $usersData['data']['id'];
-
-        // Get form data from the request
-        $_POST = json_decode($this->input->raw_input_stream, true);
-
-        // Set validation rules
-        $this->form_validation->set_rules('permissions', 'Permissions', 'required');
+    if ($this->form_validation->run() === false) {
+        // Validation not ok, send validation errors to the view
+        $array_error = array_map(function ($val) {
+            return str_replace(array("\r", "\n"), '', strip_tags($val));
+        }, array_filter(explode(".", trim(strip_tags(validation_errors())))));
         
-        if ($this->form_validation->run() === false) {
-            // Validation failed, send error response
-            $array_error = array_map(function ($val) {
-                return str_replace(array("\r", "\n"), '', strip_tags($val));
-            }, array_filter(explode(".", trim(strip_tags(validation_errors())))));
+        $this->response([
+            'status' => FALSE,
+            'errors' => $array_error,
+            'message' => 'Error in submit form'
+        ], REST_Controller::HTTP_BAD_REQUEST, '', 'error');
+    } else {
+        // Set variables from the form
+		$data = [
+			'name' => $this->input->post('name', TRUE),
+			'email' => $this->input->post('email', TRUE),
+			'mobile' => $this->input->post('mobile', TRUE),
+			'password' => password_hash($this->input->post('password', TRUE), PASSWORD_DEFAULT),
+			'date_of_birth' => $this->input->post('date_of_birth', TRUE),
+			'user_type' => $this->input->post('user_type', TRUE),
+			'last_name' => $this->input->post('last_name', TRUE),
+			'country_id' => $this->input->post('country_id', TRUE),
+			'zip_code' => $this->input->post('zip_code', TRUE),
+			'languages' => $this->input->post('languages', TRUE),
+			'address' => $this->input->post('address', TRUE), // Add address here
+			'profile_pic' => $this->input->post('profile_pic', TRUE), // Add profile_pic here
+			'added' => date('Y-m-d H:i:s'),
+			'status' => 'Active',
+		];
+		
 
+        // Create user in the database
+        if ($res = $this->user_model->create_user($data)) {
+            // User creation ok
+            $token_data = [
+                'id' => $res,
+                'username' => $data['email'],
+                'user_type' => (string) $data['user_type'],
+                'email' => (string) $data['email'],
+                'name' => (string) $data['name'],
+                'logged_in' => (bool) true,
+                'status' => (bool) $data['status'],
+            ];
+
+            // Generate token
+            $tokenData = $this->authorization_token->generateToken($token_data);
+            $final = [
+                'access_token' => $tokenData,
+                'status' => true,
+                'id' => $res,
+                'message' => 'Thank you for signup your new account!',
+                'note' => 'You have successfully signup.',
+                'user_type' => $token_data['user_type'],
+                'logged_in' => (bool) true,
+            ];
+
+            $this->response($final, REST_Controller::HTTP_OK);
+        } else {
+            // User creation failed, this should never happen
             $this->response([
                 'status' => FALSE,
-                'message' => 'Error in submitting form',
-                'errors' => $array_error
+                'message' => 'There was a problem creating your new account. Please try again',
+                'errors' => [$this->db->error()]
             ], REST_Controller::HTTP_BAD_REQUEST, '', 'error');
-        } else {
-            // Process permissions for each module
-            $messages = [];
-            foreach ($_POST['permissions'] as $module => $permissions) {
-                // Check if permission already exists for the user and module
-                $existing_permission = $this->User_model->get_permission_by_module($module, $session_id);
-
-                // Prepare the data for insert or update
-                $data = array(
-                    'module_name' => $module,
-                    'view' => isset($permissions['view']) ? 1 : 0,
-                    'create' => isset($permissions['create']) ? 1 : 0,
-                    'update' => isset($permissions['update']) ? 1 : 0,
-                    'delete' => isset($permissions['delete']) ? 1 : 0,
-                    'user_id' => $session_id,  // Use actual user ID
-                    'status' => 'Active',  // Assuming active status
-                    'added' => date('Y-m-d H:i:s'), // Set current timestamp for added field
-                    'addedBy' => $session_id,  // The user who added the permission
-                );
-
-                if ($existing_permission) {
-                    // If permission exists, update it
-                    $update_result = $this->User_model->update_permission($existing_permission['id'], $data);
-                    if ($update_result) {
-                        $messages[] = "Permission for {$module} updated successfully.";
-                    } else {
-                        $messages[] = "Failed to update permission for {$module}.";
-                    }
-                } else {
-                    // If permission doesn't exist, insert it
-                    $insert_result = $this->User_model->create_user_permission($data);
-                    if ($insert_result) {
-                        $messages[] = "Permission for {$module} added successfully.";
-                    } else {
-                        $messages[] = "Failed to add permission for {$module}.";
-                    }
-                }
-            }
-
-            // Send success response with accumulated messages
-            $this->response([
-                'status' => true,
-                'message' => implode(' ', $messages)
-            ], REST_Controller::HTTP_OK);
         }
     }
 }
 
-	
-}
-
+}	
 ?>
