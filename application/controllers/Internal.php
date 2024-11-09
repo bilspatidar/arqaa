@@ -8,6 +8,7 @@ class Internal extends CI_Controller {
         parent::__construct();
         $this->load->model('Internal_model');
     }
+
     public function switch_lang($language) {
         // Define allowed languages (correct language names)
         $allowed_languages = ['english', 'spanish'];
@@ -30,6 +31,7 @@ class Internal extends CI_Controller {
     
         // Redirect to the previous page or desired page
         redirect($_SERVER['HTTP_REFERER']);
+
     }
     
     
