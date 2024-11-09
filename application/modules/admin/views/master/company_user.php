@@ -1,11 +1,10 @@
 <div class="row">
-  <?php $this->load->view('includes/collapseAddForm'); ?>
   
   <div class="col-12 grid-margin collapse show" id="collapseExample">
-    <div class="card" style="display:none;">
+    <div class="card"style="display:none;">
       <div class="card-body">
         <h4 class="card-title"><?php echo $page_title; ?></h4>
-        <form class="form-sample" id="crudFormAddApiData" action="<?php echo API_DOMAIN; ?>api/company_user/company_user/add" method="POST">
+        <form class="form-sample" id="crudFormAddApiData" action="<?php echo API_DOMAIN; ?>api/user/company_user/add" method="POST">
           <p class="card-description"><?php echo $this->lang->line('add_new');?></p>
           <div class="row">
           <div class="col-md-4">
@@ -20,35 +19,51 @@
             <div class="col-md-4">
               <div class="form-group row">
                 <div class="col-sm-12">
-                  <label class="col-form-label"><?php echo $this->lang->line('paternal_surname');?></label>
-                  <input type="text" class="form-control" name="paternal_surname" />
+                  <label class="col-form-label"><?php echo $this->lang->line('last_name');?></label>
+                  <input type="text" class="form-control" name="last_name" />
                 </div>
               </div>
             </div>
             <div class="col-md-4">
               <div class="form-group row">
                 <div class="col-sm-12">
-                  <label class="col-form-label"><?php echo $this->lang->line('maternal_surname');?></label>
-                  <input type="text" class="form-control" name="maternal_surname" />
+                  <label class="col-form-label"><?php echo $this->lang->line('date_of_birth');?></label>
+                  <input data-provide="datepicker" name="date_of_birth" data-date-autoclose="true" class="form-control">
+
                 </div>
               </div>
             </div>
+
+
+            
+
             <div class="col-md-4">
-              <div class="form-group row">
-                <div class="col-sm-12">
-                  <label class="col-form-label"><?php echo $this->lang->line('country');?></label>
-                  <input type="text" class="form-control" name="country" />
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="form-group row">
-                <div class="col-sm-12">
-                  <label class="col-form-label"><?php echo $this->lang->line('state');?></label>
-                  <input type="text" class="form-control" name="state" />
-                </div>
-              </div>
-            </div>
+    <div class="form-group row">
+        <div class="col-sm-12">
+            <label class="col-form-label"><?php echo $this->lang->line('country'); ?></label>
+            <select name="country_id" id="country_id" class="form-control select2" onchange="getStates(this.value)">
+                <option value=""><?php echo $this->lang->line('select_option'); ?></option>
+                <?php $countrys = $this->Internal_model->get_country();
+                foreach ($countrys as $country) { ?>
+                    <option value="<?php echo $country->id; ?>"><?php echo $country->name; ?></option>
+                <?php } ?>
+            </select>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-4">
+    <div class="form-group row">
+        <div class="col-sm-12">
+            <label class="col-form-label"><?php echo $this->lang->line('state'); ?></label>
+            <select name="state_id" id="state_id" class="form-control select2">
+                <option value=""><?php echo $this->lang->line('select_option'); ?></option>
+            </select>
+        </div>
+    </div>
+</div>
+
+            
             <div class="col-md-4">
               <div class="form-group row">
                 <div class="col-sm-12">
@@ -101,8 +116,8 @@
             <div class="col-md-4">
               <div class="form-group row">
                 <div class="col-sm-12">
-                  <label class="col-form-label"><?php echo $this->lang->line('mail');?></label>
-                  <input type="text" class="form-control" name="mail" />
+                  <label class="col-form-label"><?php echo $this->lang->line('email');?></label>
+                  <input type="email" class="form-control" name="email" />
                 </div>
               </div>
             </div>
@@ -111,7 +126,7 @@
               <div class="form-group row">
                 <div class="col-sm-12">
                   <label class="col-form-label"><?php echo $this->lang->line('password');?></label>
-                  <input type="text" class="form-control" name="password" />
+                  <input type="password" class="form-control" name="password" />
                 </div>
               </div>
             </div>
@@ -120,7 +135,7 @@
               <div class="form-group row">
                 <div class="col-sm-12">
                   <label class="col-form-label"><?php echo $this->lang->line('confirm_password');?></label>
-                  <input type="text" class="form-control" name="confirm_password" />
+                  <input type="password" class="form-control" name="confirm_password" />
                 </div>
               </div>
             </div>
@@ -128,39 +143,39 @@
             <div class="col-md-4">
               <div class="form-group row">
                 <div class="col-sm-12">
-                  <label class="col-form-label"><?php echo $this->lang->line('cellular');?></label>
-                  <input type="text" class="form-control" name="cellular" />
+                  <label class="col-form-label"><?php echo $this->lang->line('mobile');?></label>
+                  <input type="number" class="form-control" name="mobile" />
                 </div>
               </div>
             </div>  
 
             <div class="col-md-4">
-            <label class="col-form-label"><?php echo $this->lang->line('guy');?></label>
-            <select id="guy Select" name="guy" class="form-control">
-            <option value="0">Root</option>
-            <option value="1">Admin General</option>
-            <option value="2">Admin Empresa</option>
-            <option value="3">Proveedor</option>
-            <option value="4">Cliente</option>
-          </select>
-    </div>
+              <div class="form-group row">
+                <div class="col-sm-12">
+                  <label class="col-form-label"><?php echo $this->lang->line('guy');?></label>
+				  <select name="guy" class="form-control select2" >
+				  <option value=""><?php echo $this->lang->line('select_option');?></option>
+				  <?php $get_types = $this->Common->getUserRole('internal');
+				  foreach($get_types as $get_type) { ?>
+				  <option value="<?php echo $get_type->slug;?>"><?php echo $get_type->name;?></option>
+				  <?php } ?>
+				  </select>
+                </div>
+              </div>
+            </div>
 
-<div class="col-md-4">
+            <div class="col-md-4">
     <div class="form-group row">
         <div class="col-sm-12">
-            <label class="col-form-label"><?php echo $this->lang->line('radio');?></label>
+            <label class="col-form-label"><?php echo $this->lang->line('radius');?> (In Km)</label>
             <div class="form-control d-flex align-items-center justify-content-between">
                 <button type="button" onclick="decrement()" class="btn">
-                    <svg viewBox="0 0 16 16" width="1em" height="1em" fill="currentColor" class="bi bi-dash">
-                        <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z"></path>
-                    </svg>
+                    <!-- SVG for decrement -->
                 </button>
                 <output id="spinValue" role="spinbutton" aria-valuenow="2" class="mx-2">2</output>
-                <input type="hidden" id="value_of_spin" name="radio" role="spinbutton" aria-valuenow="2" class="mx-2" value="2">
+                <input type="hidden" name="radius" id="value_of_spin" role="spinbutton" aria-valuenow="2" class="mx-2" value="2">
                 <button type="button" onclick="increment()" class="btn">
-                    <svg viewBox="0 0 16 16" width="1em" height="1em" fill="currentColor" class="bi bi-plus">
-                        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"></path>
-                    </svg>
+                    <!-- SVG for increment -->
                 </button>
             </div>
         </div>
@@ -168,25 +183,22 @@
 </div>
 
 <div class="col-md-4">
-            <label class="col-form-label"><?php echo $this->lang->line('languages');?></label>
-            <select id="guy Select" name="languages" class="form-control">
-            <option value="0">Root</option>
-            <option value="1">Admin General</option>
-            <option value="2">Admin Empresa</option>
-            <option value="3">Proveedor</option>
-            <option value="4">Cliente</option>
-          </select>
-    </div>
-    <div class="col-md-4">
-              <div class="form-group row">
-                <div class="col-sm-12">
-                  <label class="col-form-label"> <?php echo $this->lang->line('image');?></label>
-                  <input type="file" class="form-control" name="image" />
-                </div>
-              </div>
+        <div class="form-group row">
+            <div class="col-sm-12">
+                <label class="col-form-label"><?php echo $this->lang->line('languages');?></label><br>
+                <select name="languages[]" class="form-control select2"  multiple>
+                    <option  value=""><?php echo $this->lang->line('select_option');?></option>
+                    <?php 
+                    $get_languages = $this->Internal_model->get_languages();
+                    foreach($get_languages as $get_language) { ?>
+                        <option value="<?php echo $get_language->value;?>"><?php echo $get_language->value;?></option>
+                    <?php } ?>
+                </select>
             </div>
-</div>
-          <div class="row mt-3">
+        </div>
+    </div>
+
+          <div class="row ml-1">
             <div class="col-md-12">
               <div class="form-group row">
                 <div class="col-sm-12">
@@ -195,16 +207,18 @@
               </div>
             </div>
           </div>
+
         </form>
       </div>
     </div>
   </div>
 </div>
+</div>
 
 <div class="row">
-  <input type="hidden" value="<?php echo API_DOMAIN; ?>api/company_user/company_user_list/<?php echo $role;?>" id="list_end_point">
-  <input type="hidden" value="<?php echo API_DOMAIN; ?>api/company_user/company_user/" id="delete_end_point">
-  <input type="hidden" value="<?php echo API_DOMAIN; ?>api/company_user/company_user_details" id="show_endpoint">
+  <input type="hidden" value="<?php echo API_DOMAIN; ?>api/user/company_user_list/<?php echo $role;?>" id="list_end_point">
+  <input type="hidden" value="<?php echo API_DOMAIN; ?>api/user/company_user/" id="delete_end_point">
+  <input type="hidden" value="<?php echo API_DOMAIN; ?>api/user/company_user_details" id="show_endpoint">
   <input type="hidden" value="admin/master/company_user_edit" id="edit_page_name">
   <input type="hidden" value="admin/master/user_permission" id="permission_page_name">
   <div class="col-lg-12 grid-margin stretch-card">
@@ -241,8 +255,8 @@
                 <th>#</th>
                 <th><?php echo $this->lang->line('name');?></th>
                 <th><?php echo $this->lang->line('last_name');?></th>
-                <th><?php echo $this->lang->line('mail');?></th>
-                <th><?php echo $this->lang->line('Cellular');?></th>
+                <th><?php echo $this->lang->line('email');?></th>
+                <th><?php echo $this->lang->line('cellular');?></th>
                 <th><?php echo $this->lang->line('status');?></th>
                 <th><?php echo $this->lang->line('permision');?></th>
                 <th><?php echo $this->lang->line('Action');?></th>
@@ -267,9 +281,9 @@
         }
       },
       { "data": "name", "orderable": true },
-      { "data": "paternal_surname", "orderable": true },
-      { "data": "mail", "orderable": true },
-      { "data": "cellular", "orderable": true },
+      { "data": "last_name", "orderable": true },
+      { "data": "email", "orderable": true },
+      { "data": "mobile", "orderable": true },
       {
         "data": "status",
         "orderable": true,
@@ -289,11 +303,9 @@
           return renderOptionBtn(data, type, row);
         }
       }
-      
     ];
   }
 </script>
-
 <script>
     let currentValue = 2; // Initial value
 
@@ -315,4 +327,23 @@
             updateOutput();
         }
     }
+    function increment() {
+    let spinValue = document.getElementById('spinValue');
+    let hiddenInput = document.getElementById('value_of_spin');
+    let currentValue = parseInt(spinValue.innerText);
+    spinValue.innerText = currentValue + 1;
+    hiddenInput.value = currentValue + 1; // Update the hidden input
+}
+
+function decrement() {
+    let spinValue = document.getElementById('spinValue');
+    let hiddenInput = document.getElementById('value_of_spin');
+    let currentValue = parseInt(spinValue.innerText);
+    if (currentValue > 1) { // Prevent decrementing below 1
+        spinValue.innerText = currentValue - 1;
+        hiddenInput.value = currentValue - 1; // Update the hidden input
+    }
+}
+
+	
 </script>

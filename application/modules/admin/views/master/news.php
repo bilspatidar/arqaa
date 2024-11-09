@@ -5,24 +5,10 @@
     <div class="card">
       <div class="card-body">
         <h4 class="card-title"><?php echo $page_title; ?></h4>
-        <form class="form-sample" id="crudFormAddApiData" action="<?php echo API_DOMAIN; ?>api/sub_category/sub_category/add" method="POST">
+        <form class="form-sample" id="crudFormAddApiData" action="<?php echo API_DOMAIN; ?>api/news/news/add" method="POST">
           <p class="card-description"><?php echo $this->lang->line('add_new');?></p>
           <div class="row">
-		  <div class="col-md-4">
-              <div class="form-group row">
-                <div class="col-sm-12">
-                  <label class="col-form-label"><?php echo $this->lang->line('news_categories');?></label>
-				  <select name="news_categories_id" class="form-control" >
-				  <option value=""><?php echo $this->lang->line('select_option');?></option>
-				  <?php $get_news_categories = $this->Internal_model->get_categories();
-				  foreach($get_news_categories as $news_categories) { ?>
-				  <option value="<?php echo $news_categories->id;?>"><?php echo $news_categories->name;?></option>
-				  <?php } ?>
-				  </select>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4">
+          <div class="col-md-12">
               <div class="form-group row">
                 <div class="col-sm-12">
                   <label class="col-form-label"><?php echo $this->lang->line('title');?></label>
@@ -30,7 +16,22 @@
                 </div>
               </div>
             </div>
-            <div class="col-md-4">
+		  <div class="col-md-6">
+              <div class="form-group row">
+                <div class="col-sm-12">
+                  <label class="col-form-label"><?php echo $this->lang->line('news_categories');?></label>
+				  <select name="news_categories_id" class="form-control select2">
+				  <option value=""><?php echo $this->lang->line('select_option');?></option>
+				  <?php $get_news_categories = $this->Internal_model->get_news_categories();
+				  foreach($get_news_categories as $news_categories) { ?>
+				  <option value="<?php echo $news_categories->id;?>"><?php echo $news_categories->name;?></option>
+				  <?php } ?>
+				  </select>
+                </div>
+              </div>
+            </div>
+            
+            <div class="col-md-6">
               <div class="form-group row">
                 <div class="col-sm-12">
                   <label class="col-form-label"> <?php echo $this->lang->line('image');?></label>
@@ -42,7 +43,7 @@
     <div class="form-group row">
         <div class="col-sm-12">
             <label class="col-form-label"><?php echo $this->lang->line('description'); ?></label>
-            <textarea class="form-control summernote " name="concept" rows="4"></textarea>
+            <textarea class="form-control summernote " name="description" rows="4"></textarea>
         </div>
     </div>
 </div>
@@ -63,10 +64,10 @@
 </div>
 
 <div class="row">
-  <input type="hidden" value="<?php echo API_DOMAIN; ?>api/sub_category/sub_category_list" id="list_end_point">
-  <input type="hidden" value="<?php echo API_DOMAIN; ?>api/sub_category/sub_category/" id="delete_end_point">
-  <input type="hidden" value="<?php echo API_DOMAIN; ?>api/sub_category/sub_category_details" id="show_endpoint">
-  <input type="hidden" value="admin/master/Sub_category_edit" id="edit_page_name">
+  <input type="hidden" value="<?php echo API_DOMAIN; ?>api/news/news_list" id="list_end_point">
+  <input type="hidden" value="<?php echo API_DOMAIN; ?>api/news/news/" id="delete_end_point">
+  <input type="hidden" value="<?php echo API_DOMAIN; ?>api/news/news_details" id="show_endpoint">
+  <input type="hidden" value="admin/master/news_edit" id="edit_page_name">
   <div class="col-lg-12 grid-margin stretch-card">
     <div class="card">
       <div class="card-body">
@@ -98,10 +99,10 @@
             <thead>
               <tr>
                 <th>#</th>
-                <th><?php echo $this->lang->line('name');?></th>
-            
-                <th><?php echo $this->lang->line('banner');?></th>
-                <th><?php echo $this->lang->line('services');?></th>
+                <th><?php echo $this->lang->line('title');?></th>
+                <th><?php echo $this->lang->line('news_categories_id');?></th>
+                <th><?php echo $this->lang->line('image');?></th>
+                <th><?php echo $this->lang->line('status');?></th>
                 <th><?php echo $this->lang->line('Action');?></th>
               </tr>
             </thead>
@@ -116,31 +117,44 @@
 
 
 <script>
-  function renderTableData(){
-    return [
-                { "data": null, "render": function(data, type, row, meta) {
-                    return meta.row + 1; // Adding 1 to meta.row to start from 1 instead of 0
-                }},
-                { "data": "name", "orderable": true  },
-			//	{ "data": "category_id", "orderable": true },
-                { 
-                    "data": "image",
-                    "render": function(data, type, row) {
-                        return '<img src="' + data + '" alt="Image" style="height: 60px; width: 80px;">';
-                    }
-                },
-                { 
-                    "data": "status", "orderable": true,
-                    "render": function(data, type, row) {
-                        return renderStatusBtn(data, type, row)
-                    }
-                },
-                { 
-                    "data": null, 
-                    "render": function(data, type, row) {
-                      return renderOptionBtn(data, type, row)
-                    }
-                }
-            ]
-  }
+ function renderTableData() {
+  
+  return [
+    {
+      "data": null,
+      "render": function(data, type, row, meta) {
+        return meta.row + 1; // Adding 1 to meta.row to start from 1 instead of 0
+      }
+    },
+    { 
+      "data": "title", // Check if 'name' exists in your data
+      "orderable": true 
+    },
+    { 
+      "data": "news_categories_id", // Check if 'name' exists in your data
+      "orderable": true 
+    },
+    {
+      "data": "image",
+      "render": function(data, type, row) {
+        return '<img src="' + data + '" alt="Image" style="height: 60px; width: 80px;">';
+      }
+    },
+    { 
+      "data": "status", 
+      "orderable": true,
+      "render": function(data, type, row) {
+        return renderStatusBtn(data, type, row);
+      }
+    },
+    { 
+      "data": null, 
+      "render": function(data, type, row) {
+        return renderOptionBtn(data, type, row);
+      }
+    }
+  ];
+}
+
+
 </script> 

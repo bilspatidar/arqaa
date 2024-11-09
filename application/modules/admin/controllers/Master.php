@@ -98,6 +98,16 @@ public function users ($role=''){
   $this->load->view('includes/footer');
 }
 
+public function application_user ($role=''){
+    
+  is_login(array('superadmin','admin'));
+  $header_data['page_title'] = $this->lang->line('application_user');
+  $page_data['role'] = $role;
+  $this->load->view('includes/header',$header_data);
+  $this->load->view('master/application_user',$page_data);
+  $this->load->view('includes/footer');
+}
+
 
 public function registered_users (){
     
@@ -314,6 +324,16 @@ public function cities(){
 		$page_data['token'] = $_POST['token'];
 		$this->load->view($page,$page_data);
 	}
+
+  public function map(){
+    
+    is_login(array('superadmin','admin'));
+    $header_data['page_title'] = $this->lang->line('map');
+    $this->load->view('includes/header',$header_data);
+    $this->load->view('master/map');
+    $this->load->view('includes/footer');
+  }
+  
 } 
 ?>
 

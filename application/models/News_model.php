@@ -1,9 +1,9 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Regular_user_model extends CI_Model {
+class News_model extends CI_Model {
 
-    protected $table      = 'users';
+    protected $table      = 'news';
     protected $primaryKey = 'id';
 
     /**
@@ -17,11 +17,6 @@ class Regular_user_model extends CI_Model {
         $this->load->database();        
     }
 
-    public function create($data) {
-        $this->db->insert($this->table, $data);
-        return $this->db->insert_id(); 
-    }
-
     public function show($id) {
         $this->db->select("*");
         $this->db->from($this->table);
@@ -31,25 +26,37 @@ class Regular_user_model extends CI_Model {
         return $this->db->get()->result();
     }
 
+    public function create($data) {
+        $this->db->insert($this->table, $data);
+        return $this->db->insert_id(); 
+    }
+
     public function update($data, $id) {
-        $response = $this->db->update($this->table, $data, array($this->primaryKey => $id));
+        $this->db->where($this->primaryKey, $id);
+        $this->db->update($this->table, $data);
         return $this->db->affected_rows();
     }
 
     public function delete($id) {
-        $this->db->delete($this->table, array($this->primaryKey => $id));
+        $this->db->where($this->primaryKey, $id);
+        $this->db->delete($this->table);
         return $this->db->affected_rows();
     }
 
     public function get($isCount = '', $id = '', $limit = '', $page = '', $filterData = '') {
         $this->db->select("*");
         $this->db->from($this->table);
+
         if(!empty($id)) {
             $this->db->where($this->primaryKey, $id);
         }
         
-        if(isset($filterData['concept']) && !empty($filterData['concept'])) {
-            $this->db->like('concept', $filterData['concept']);
+        if(isset($filterData['title']) && !empty($filterData['title'])) {
+            $this->db->like('title', $filterData['title']);
+        }
+        
+        if(isset($filterData['status']) && !empty($filterData['status'])) {
+            $this->db->where('status', $filterData['status']);
         }
 
         $this->db->order_by($this->primaryKey, 'desc');
