@@ -4,6 +4,11 @@ class Master extends CI_Controller {
 
     function __construct() {
         parent::__construct(); 
+
+         $language = $this->session->userdata('language') ?: 'english';  // Default to 'english'
+        
+        // Dynamically load the language file based on session
+        $this->lang->load($language . '_lang', $language);
     }
 
 
