@@ -489,6 +489,7 @@ public function update_status($user_id=''){
 	
     public function get_type($id='') {
         $this->db->select("*");
+        
         $this->db->from('user_role');
 		if(!empty($id) && ($id)>0){  
         $this->db->where("slug", $id);
