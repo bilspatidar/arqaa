@@ -59,6 +59,7 @@ $lang['subscription'] = 'Subscription';
 $lang['news_categories_id'] = 'News Categories';
 $lang['subscriptionCompany'] = 'Company Subscription';
 $lang['ragistered_services'] = 'REGISTERED SERVICES';
+$lang['map'] = 'Map';
 
 $lang['subcategory'] = 'Subcategories';
 

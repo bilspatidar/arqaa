@@ -319,6 +319,16 @@ public function cities(){
 		$page_data['token'] = $_POST['token'];
 		$this->load->view($page,$page_data);
 	}
+
+  public function map(){
+    
+    is_login(array('superadmin','admin'));
+    $header_data['page_title'] = $this->lang->line('map');
+    $this->load->view('includes/header',$header_data);
+    $this->load->view('master/map');
+    $this->load->view('includes/footer');
+  }
+  
 } 
 ?>
 
