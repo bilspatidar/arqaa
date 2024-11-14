@@ -4,6 +4,7 @@ class Admin extends CI_Controller {
 
     function __construct() {
         parent::__construct(); 
+       $this->lang->load('information','english');
     }
 
     public function login(){
