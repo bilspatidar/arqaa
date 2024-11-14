@@ -9,66 +9,52 @@ class Upload_media {
     }
 
     public function upload_and_save($base64_image, $quality = 90, $radioConfig = [], $upload_folder = '') {
-		
-		
+        // Split base64 data into parts
         $image_parts = explode(";base64,", $base64_image);
+        
+        if (count($image_parts) != 2) {
+            log_message('error', 'Invalid base64 image format.');
+            return "errr"; 
+        }
+    
+        // Extract the image type and the base64 data
         $image_type_aux = explode("image/", $image_parts[0]);
-        $image_type = $image_type_aux[1];
+        if (count($image_type_aux) != 2) {
+            log_message('error', 'Invalid image type in base64 data.');
+            return "errr";
+        }
+    
+        $image_type = $image_type_aux[1]; // Get image extension (e.g., jpg, png, gif)
         $image_base64 = base64_decode($image_parts[1]);
-
-        // Validate image type and base64 data
+    
+        // Validate base64 data
         if (!$image_type || !$image_base64) {
-            // Log error for invalid image data
             log_message('error', 'Invalid image type or base64 data.');
-            return "errr";//$base64_image;
+            return "errr";
         }
-
-        // Create image resource
-        $image = imagecreatefromstring($image_base64);
-
-        if (!$image) {
-            // Log error for image creation failure
-            log_message('error', 'Failed to create image from base64 data.');
-            return false;
-        }
-
-        // Apply configuration (if any)
-        // Your existing configuration logic here...
-
-        // Encrypt file name
+    
+        // Encrypt file name (you should already have a method for this)
         $file_name = $this->encryptFileName($image_type);
-
-        $upload_path = 'uploads/'.$upload_folder.'/'; // Use the provided upload folder name
-        if(!file_exists($upload_path)) {
-            mkdir($upload_path, 0777, true);  // Create directory if not exist
-            // Set appropriate permissions for the directory
-            chmod($upload_path, 0777);
+    
+        // Define the upload path
+        $upload_path = 'uploads/'.$upload_folder.'/';
+    
+        // Create directory if not exists
+        if (!file_exists($upload_path)) {
+            mkdir($upload_path, 0777, true);  
+            chmod($upload_path, 0777);  // Set appropriate permissions
         }
-
-        // Save the image with specified quality (if applicable)
-        switch ($image_type) {
-            case 'jpeg':
-            case 'jpg':
-                imagejpeg($image, $upload_path . $file_name, $quality);
-                break;
-            case 'png':
-                imagepng($image, $upload_path . $file_name, floor($quality / 10));
-                break;
-            case 'gif':
-                imagegif($image, $upload_path . $file_name);
-                break;
-            default:
-                // Handle unsupported image type
-                break;
-        }
-
-        // Free up memory
-        imagedestroy($image);
-
+    
+        // Save base64 image data directly into a file
+        file_put_contents($upload_path . $file_name, $image_base64);
+    
+        // Get the link to the uploaded image
         $image_link = base_url($upload_path . $file_name);
-
+    
+        // Return the image link
         return $image_link;
     }
+    
 
     private function encryptFileName($image_type) {
         $encryptionKey = "o4zyByNy92lzmxw8NJDbH1C6h8WyKlPu"; // Replace with your encryption key
