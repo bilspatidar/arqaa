@@ -60,109 +60,116 @@ class Reported_users extends REST_Controller {
         $this->response($response, REST_Controller::HTTP_OK); 
     }
 
-
-    public function reported_users_post($params='') {
-        if($params=='add') {
+    public function reported_users_post($params = '') {
+        if ($params == 'add') {
+            // Check if the user is authorized
             $getTokenData = $this->is_authorized('superadmin');
             $usersData = json_decode(json_encode($getTokenData), true);
             $session_id = $usersData['data']['id'];
-
+    
+            // Parse the input data
             $_POST = json_decode($this->input->raw_input_stream, true);
-
-            // set validation rules
-            $this->form_validation->set_rules('name', 'Name', 'trim|required|xss_clean|alpha_numeric_spaces');
+    
+            // Set validation rules
+            $this->form_validation->set_rules('user_id', 'User ID', 'trim|required|integer|xss_clean');
+            $this->form_validation->set_rules('remark', 'Remark', 'trim|required|xss_clean');
+    
             if ($this->form_validation->run() === false) {
+                // Validation failed
                 $array_error = array_map(function ($val) {
                     return str_replace(array("\r", "\n"), '', strip_tags($val));
                 }, array_filter(explode(".", trim(strip_tags(validation_errors())))));
-
+    
                 $this->response([
-                    'status' => FALSE,
-                    'message' =>'Error in submit form',
-                    'errors' =>$array_error
-                ], REST_Controller::HTTP_BAD_REQUEST,'','error');
-            } else {
-                // set variables from the form
-                $name = $this->input->post('name',TRUE);
-                if (!empty($name)) {
-                    $data['name'] = $name;
-                }
-					
-				$data['status'] = 'Active';
-                $data['added'] = date('Y-m-d H:i:s');
-                $data['addedBy'] = $session_id;
-
-                if ($res = $this->reported_users_model->create($data)) {
-                    // reported users creation ok
-                    $final = array();
-                    $final['status'] = true;
-                    $final['data'] = $this->reported_users_model->get($res);
-                    $final['message'] = 'reported users created successfully.';
-                    $this->response($final, REST_Controller::HTTP_OK); 
-                } else {
-                    // reported users creation failed, this should never happen
-                    $this->response([ 'status' => FALSE,
-                        'message' =>'Error in submit form',
-                        'errors' =>[$this->db->error()]], REST_Controller::HTTP_BAD_REQUEST,'','error');
-                }
-            }
-        }
-
-        if ($params == 'update') {
-            $getTokenData = $this->is_authorized('superadmin');
-            $usersData = json_decode(json_encode($getTokenData), true);
-            $session_id = $usersData['data']['id'];
-        
-            $_POST = json_decode($this->input->raw_input_stream, true);
-        
-            // set validation rules
-            $this->form_validation->set_rules('name', 'Name', 'trim|required|xss_clean|alpha_numeric_spaces');
-        
-            if ($this->form_validation->run() === false) {
-                $array_error = array_map(function ($val) {
-                    return str_replace(array("\r", "\n"), '', strip_tags($val));
-                }, array_filter(explode(".", trim(strip_tags(validation_errors())))));
-        
-                $this->response([
-                    'status' => FALSE,
-                    'message' => 'Error in submit form',
+                    'status' => false,
+                    'message' => 'Error in form submission',
                     'errors' => $array_error
                 ], REST_Controller::HTTP_BAD_REQUEST, '', 'error');
             } else {
-                // set variables from the form
-				$id = $this->input->post('id',TRUE);
-                $name = $this->input->post('name',TRUE);
-                if (!empty($name)) {
-                    $data['name'] = $name;
-                }
-				$status = $this->input->post('status',TRUE);
-                if (!empty($status)) {
-                    $data['status'] = $status;
-                } 
-                $data['updatedBy'] = $session_id;
-                $data['updated'] = date('Y-m-d H:i:s');
-                
-                $res = $this->reported_users_model->update($data, $id);
-        
-                if ($res) {
-                    // reported users update ok
-                    $final = array();
-                    $final['status'] = true;
-                    $final['data'] = $this->reported_users_model->get($id);
-                    $final['message'] = 'reported users updated successfully.';
+                // Prepare the data for insertion
+                $data = [
+                    'user_id' => $this->input->post('user_id', true),
+                    'remark' => $this->input->post('remark', true),
+                    'status' => 'Active',
+                    'added' => date('Y-m-d H:i:s'),
+                    'addedBy' => $session_id
+                ];
+    
+                // Insert the reported user data
+                if ($res = $this->reported_users_model->create($data)) {
+                    // Success: Return the inserted data
+                    $final = [
+                        'status' => true,
+                        'data' => $this->reported_users_model->get($res),
+                        'message' => 'Reported user created successfully.'
+                    ];
                     $this->response($final, REST_Controller::HTTP_OK);
                 } else {
-                    // reported users update failed, this should never happen
+                    // Failure: Return database error
                     $this->response([
-                        'status' => FALSE,
-                        'message' => 'There was a problem updating reported_users. Please try again',
+                        'status' => false,
+                        'message' => 'Error in form submission',
                         'errors' => [$this->db->error()]
                     ], REST_Controller::HTTP_BAD_REQUEST, '', 'error');
                 }
             }
         }
-        
+    
+    
+    
+    
+        // Check if the action is 'update'
+        if ($params == 'update') {
+            $getTokenData = $this->is_authorized('superadmin');
+            $usersData = json_decode(json_encode($getTokenData), true);
+            $session_id = $usersData['data']['id'];
+    
+            $_POST = json_decode($this->input->raw_input_stream, true);
+    
+            // Set validation rules
+            $this->form_validation->set_rules('id', 'ID', 'trim|required|integer|xss_clean');
+            $this->form_validation->set_rules('remark', 'Remark', 'trim|required|xss_clean');
+            $this->form_validation->set_rules('status', 'Status', 'trim|required|xss_clean');
+    
+            if ($this->form_validation->run() === false) {
+                $array_error = array_map(function ($val) {
+                    return str_replace(array("\r", "\n"), '', strip_tags($val));
+                }, array_filter(explode(".", trim(strip_tags(validation_errors())))));
+    
+                $this->response([
+                    'status' => false,
+                    'message' => 'Error in form submission',
+                    'errors' => $array_error
+                ], REST_Controller::HTTP_BAD_REQUEST, '', 'error');
+            } else {
+                // Set the data for updating
+                $id = $this->input->post('id', true);
+                $data = [
+                    'remark' => $this->input->post('remark', true),
+                    'status' => $this->input->post('status', true),
+                    'updatedBy' => $session_id,
+                    'updated' => date('Y-m-d H:i:s')
+                ];
+    
+                // Update the reported user data
+                if ($this->reported_users_model->update($data, $id)) {
+                    $final = [
+                        'status' => true,
+                        'data' => $this->reported_users_model->get($id),
+                        'message' => 'Reported user updated successfully.'
+                    ];
+                    $this->response($final, REST_Controller::HTTP_OK);
+                } else {
+                    $this->response([
+                        'status' => false,
+                        'message' => 'There was a problem updating the reported user. Please try again.',
+                        'errors' => [$this->db->error()]
+                    ], REST_Controller::HTTP_BAD_REQUEST, '', 'error');
+                }
+            }
+        }
     }
+    
 
     public function reported_users_delete($id) {
         $this->is_authorized('superadmin');

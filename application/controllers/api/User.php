@@ -1335,6 +1335,27 @@ class User extends REST_Controller {
 		$this->response($final, REST_Controller::HTTP_OK); 
 	}
 	
+	public function profile_details_get() {
+		// Get the user ID from the query parameter (default to 0 if not provided)
+		$id = $this->input->get('id') ? $this->input->get('id') : 0;
+	
+		// Authorize the request (using 'superadmin' role for example)
+		$getTokenData = $this->is_authorized('superadmin');
+	
+		// Fetch user profile data from the model
+		$data = $this->user_model->get_user_data($id);
+	
+		// Prepare the response
+		$response = [
+			'status' => true,
+			'data' => $data,
+			'message' => 'Profile data fetched successfully.'
+		];
+	
+		// Return the response
+		$this->response($response, REST_Controller::HTTP_OK);
+	}
+	
 	public function table_name_get(){
         $tables = $this->db->list_tables();
 		$sr = 1;

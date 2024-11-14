@@ -71,6 +71,8 @@ class Services extends REST_Controller {
 
             // set validation rules
             $this->form_validation->set_rules('title', 'Services Title','trim|required|xss_clean|alpha_numeric_spaces|is_unique[services.title]');
+            $this->form_validation->set_rules('category_id', 'Category', 'trim|required|integer');
+            $this->form_validation->set_rules('subcategory_id', 'SubCategory', 'trim|required|integer');
 
             if ($this->form_validation->run() === false) {
                 $array_error = array_map(function ($val) {
@@ -86,6 +88,9 @@ class Services extends REST_Controller {
                 
                 $data['description'] = $this->input->post('description',TRUE);
                 $data['title'] = $this->input->post('title',TRUE);
+                $data['category_id'] = $this->input->post('category_id', TRUE);
+                $data['subcategory_id'] = $this->input->post('subcategory_id', TRUE);
+
                 if(!empty($_POST['image'])){
 					$base64_image = $_POST['image'];
 					$quality = 90;
@@ -132,6 +137,8 @@ class Services extends REST_Controller {
             // set validation rules
             $this->form_validation->set_rules('title', 'Services Title','trim|required|xss_clean|alpha_numeric_spaces|edit_unique[services.title.id.'.$id.']');
             $this->form_validation->set_rules('status', 'Status', 'trim');
+            $this->form_validation->set_rules('category_id', 'Category', 'trim|required|integer');
+            $this->form_validation->set_rules('subcategory_id', 'SubCategory', 'trim|required|integer');
         
             if ($this->form_validation->run() === false) {
                 $array_error = array_map(function ($val) {
@@ -148,6 +155,10 @@ class Services extends REST_Controller {
                 $data['description'] = $this->input->post('description',TRUE);
                 $data['title'] = $this->input->post('title',TRUE);
                 $data['status'] = $this->input->post('status',TRUE);
+                $data['category_id'] = $this->input->post('category_id', TRUE);
+                $data['subcategory_id'] = $this->input->post('subcategory_id', TRUE);
+                $data['updated'] = date('Y-m-d H:i:s');
+                $data['updatedBy'] = $session_id;
                 if(!empty($_POST['image'])){
 					$base64_image = $_POST['image'];
 					$quality = 90;
