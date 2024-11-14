@@ -5,6 +5,7 @@ $lang['administrar usuarios'] = 'Manage User';
 $lang['subscription_type'] = 'Subscription Type';
 $lang['sub_type'] = 'Subscription Type';
 $lang['application_user'] = 'Application User';
+$lang['profile_details'] = 'Profile Details';
 
 $lang['usuario_regular'] = 'Regular User';
 $lang['usuario_empresa'] = 'Company User';

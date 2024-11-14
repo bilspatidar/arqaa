@@ -259,6 +259,7 @@
                 <th><?php echo $this->lang->line('cellular');?></th>
                 <th><?php echo $this->lang->line('status');?></th>
                 <th><?php echo $this->lang->line('permision');?></th>
+                <th><?php echo $this->lang->line('profile_details');?></th>
                 <th><?php echo $this->lang->line('Action');?></th>
               </tr>
             </thead>
@@ -295,6 +296,12 @@
         "data": null,
         "render": function(data, type, row) {
           return renderPermisionBtn(data, type, row);
+        }
+      },
+      {
+        "data": null,
+        "render": function(data, type, row) {
+          return renderviewBtn(data, type, row);
         }
       },
       {
