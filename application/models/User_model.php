@@ -223,6 +223,28 @@ class User_model extends CI_Model {
 		
 	}
 	
+	public function get_user_data($id = 0) {
+		$this->db->select("*");
+		$this->db->from('users'); // Replace 'users' with your actual table name
+		
+		// If an ID is provided, filter by the user ID
+		if ($id > 0) {
+			$this->db->where('id', $id);
+		}
+	
+		// Execute the query
+		$query = $this->db->get();
+	
+		// Return a single user record if ID is provided, otherwise return all records
+		if ($id > 0) {
+			return $query->row_array(); // Fetch a single user record
+		} else {
+			return $query->result_array(); // Fetch all user records
+		}
+	}
+	
+	
+
 	public function delete_merchant($id)
     {
         $res = $this->db->delete($this->table, array($this->primaryKey=>$id));
