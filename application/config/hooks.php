@@ -12,12 +12,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |
 */
 
-
-$hook['pre_controller'][] = array(
-    'class'    => 'LanguageLoader',      // Class name
-    'function' => 'load_language',       // Method name
-    'filename' => 'LanguageLoader.php',  // Filename of the hook class
-    'filepath' => 'hooks',               // Path to the hooks directory
-    'params'   => array()                // No parameters for now
-);
-
+    $hook['post_controller_constructor'] = array(
+       'class'    => 'LanguageLoader',
+       'function' => 'initialize',
+       'filename' => 'LanguageLoader.php',
+       'filepath' => 'hooks'
+    );
