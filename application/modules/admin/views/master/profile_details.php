@@ -1,3 +1,8 @@
+<?php 
+ $users_id = getUser('id');
+ $UserDetails = $this->Internal_model->getUserDetails($users_id) ;?>
+
+
 <style>
     .nav.nav-tabs {
     border-color: #000;
@@ -79,8 +84,8 @@
           <div class="card">
             <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
 
-              <img src="https://bootstrapmade.com/content/demo/NiceAdmin/assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
-              <h2 class="mt-2 " >Kevin Anderson</h2>
+              <img src="<?php echo $UserDetails[0]->profile_pic;?>" alt="Profile" class="rounded-circle">
+              <h2 class="mt-2 "><?php echo $UserDetails[0]->name;?></h2>
             
               <h3 class="mt-3">Web Designer</h3>
               <div class="social-links mt-2">
@@ -128,37 +133,37 @@
 
                   <div class="row">
                     <div class="col-lg-3 col-md-4 label input-group-prepend">Full Name</div>
-                    <div class="col-lg-9 col-md-8">Kevin Anderson</div>
+                    <div class="col-lg-9 col-md-8"><?php echo $UserDetails[0]->name;?></div>
                   </div>
 
                   <div class="row">
-                    <div class="col-lg-3 col-md-4 label">Company</div>
-                    <div class="col-lg-9 col-md-8">Lueilwitz, Wisoky and Leuschke</div>
+                    <div class="col-lg-3 col-md-4 label">Last Name</div>
+                    <div class="col-lg-9 col-md-8"><?php echo $UserDetails[0]->last_name;?></div>
                   </div>
 
                   <div class="row">
-                    <div class="col-lg-3 col-md-4 label">Job</div>
-                    <div class="col-lg-9 col-md-8">Web Designer</div>
+                    <div class="col-lg-3 col-md-4 label">State</div>
+                    <div class="col-lg-9 col-md-8"><?php echo $UserDetails[0]->state_id;?></div>
                   </div>
 
                   <div class="row">
                     <div class="col-lg-3 col-md-4 label">Country</div>
-                    <div class="col-lg-9 col-md-8">USA</div>
+                    <div class="col-lg-9 col-md-8"><?php echo $UserDetails[0]->country_id;?></div>
                   </div>
 
                   <div class="row">
                     <div class="col-lg-3 col-md-4 label">Address</div>
-                    <div class="col-lg-9 col-md-8">A108 Adam Street, New York, NY 535022</div>
+                    <div class="col-lg-9 col-md-8"><?php echo $UserDetails[0]->address;?></div>
                   </div>
 
                   <div class="row">
                     <div class="col-lg-3 col-md-4 label">Phone</div>
-                    <div class="col-lg-9 col-md-8">(436) 486-3538 x29071</div>
+                    <div class="col-lg-9 col-md-8"><?php echo $UserDetails[0]->mobile;?></div>
                   </div>
 
                   <div class="row">
                     <div class="col-lg-3 col-md-4 label">Email</div>
-                    <div class="col-lg-9 col-md-8">k.anderson@example.com</div>
+                    <div class="col-lg-9 col-md-8"><?php echo $UserDetails[0]->email;?></div>
                   </div>
 
                 </div>

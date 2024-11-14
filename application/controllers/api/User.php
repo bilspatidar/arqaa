@@ -958,6 +958,11 @@ class User extends REST_Controller {
 				$final['logged_in'] = (bool)true;
 				$final['user_type'] = $token_data['user_type'];
 				$final['id'] = $token_data['id'];
+				if ($user->user_type == 'superadmin') {
+					$final['redirect_url'] = base_url('admin/master/map');
+				} else {
+					$final['redirect_url'] = base_url('admin/index');
+				}
 				// CI session start
 				$this->session->set_userdata('user_details', $final);
 				// CI session end

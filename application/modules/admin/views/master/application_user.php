@@ -219,7 +219,6 @@
   <input type="hidden" value="<?php echo API_DOMAIN; ?>api/user/company_user/" id="delete_end_point">
   <input type="hidden" value="<?php echo API_DOMAIN; ?>api/user/company_user_details" id="show_endpoint">
   <input type="hidden" value="admin/master/company_user_edit" id="edit_page_name">
-  <!-- <input type="hidden" value="admin/master/user_permission" id="permission_page_name"> -->
   <div class="col-lg-12 grid-margin stretch-card">
     <div class="card">
       <div class="card-body">
@@ -257,6 +256,7 @@
                 <th><?php echo $this->lang->line('email');?></th>
                 <th><?php echo $this->lang->line('cellular');?></th>
                 <th><?php echo $this->lang->line('status');?></th>
+                <th><?php echo $this->lang->line('profile_details');?></th>
                 <th><?php echo $this->lang->line('Action');?></th>
               </tr>
             </thead>
@@ -289,7 +289,12 @@
           return renderStatusBtn(data, type, row);
         }
       },
-      
+      {
+        "data": null,
+        "render": function(data, type, row) {
+          return renderviewBtn(data, type, row);
+        }
+      },
       {
         "data": null,
         "render": function(data, type, row) {

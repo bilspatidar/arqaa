@@ -18,9 +18,6 @@
 
 <!-- data table -->
 
-<script src="<?php echo base_url(); ?>assets/assets/bundles/jvectormap.bundle.js"></script><!-- JVectorMap Plugin Js -->
-
-<script src="<?php echo base_url(); ?>assets/assets/js/pages/maps/jvectormap.js"></script>
 
 <script src="<?php echo base_url(); ?>assets/assets/bundles/datatablescripts.bundle.js"></script>
 
@@ -284,6 +281,7 @@ function renderPermisionBtn(data, type, row) {
 }
 function renderviewBtn(data, type, row) {
     var buttonsHtml = '';
+    const buttonStyle = 'padding: 0.25rem 0.5rem; font-size: 0.8rem; line-height: 1;';
 
 
 
@@ -291,11 +289,13 @@ function renderviewBtn(data, type, row) {
   // Dynamically generate "View" button for each row in the table
 buttonsHtml += `
     <button 
+    style="${buttonStyle}"
+    
         type="button" 
-        class="btn btn-info mb-2 view-btn" 
+        class="btn btn-info mb-2 view-btn text-align-center" 
         data-id="${row.id}" 
-        title="View Details" 
-        aria-label="View Details">
+        title="View" 
+        aria-label="View">
         View
     </button>
 `;
@@ -531,7 +531,7 @@ function getStates(country_id) {
 </script>
 
 <!--Start of Tawk.to Script-->
-<script type="text/javascript">
+<!-- <script type="text/javascript">
 var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
 (function(){
 var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
@@ -541,7 +541,7 @@ s1.charset='UTF-8';
 s1.setAttribute('crossorigin','*');
 s0.parentNode.insertBefore(s1,s0);
 })();
-</script>
+</script> -->
 <!--End of Tawk.to Script-->
 
 

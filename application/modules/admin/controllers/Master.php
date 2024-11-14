@@ -329,9 +329,9 @@ public function cities(){
     
     is_login(array('superadmin','admin'));
     $header_data['page_title'] = $this->lang->line('map');
-    $this->load->view('includes/header',$header_data);
+    // $this->load->view('includes/header',$header_data);
     $this->load->view('master/map');
-    $this->load->view('includes/footer');
+    // $this->load->view('includes/footer');
   }
   public function profile_details(){
     

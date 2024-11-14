@@ -74,7 +74,6 @@ $token = $_SESSION['user_details']['access_token'];
 <link rel="stylesheet" href="<?php echo base_url(); ?>assets/assets/vendor/chartist/css/chartist.css">
 <link rel="stylesheet" href="<?php echo base_url(); ?>assets/assets/vendor/chartist-plugin-tooltip/chartist-plugin-tooltip.css">
 <link rel="stylesheet" href="<?php echo base_url(); ?>assets/assets/vendor/toastr/toastr.min.css">
-<link rel="stylesheet" href="<?php echo base_url(); ?>assets/assets/vendor/jvectormap/jquery-jvectormap-2.0.3.css"/>
 
 <!-- MAIN CSS -->
 <link rel="stylesheet" href="<?php echo base_url(); ?>assets/assets/css/site.min.css">
@@ -177,6 +176,39 @@ $token = $_SESSION['user_details']['access_token'];
 .note-editor.note-frame .note-editing-area .note-editable[contenteditable="false"] {
     background-color: #282b2f !important;
 }
+/* Customize the dropdown button */
+
+
+
+/* Customize the dropdown menu */
+/* Dropdown menu background and border styling */
+.dropdown-menu {
+    background-color: #333; /* Black background */
+    border-radius: 4px;
+    min-width: 130px; /* Set a minimum width for consistency */
+}
+
+/* Styling for each link in the dropdown */
+.dropdown-menu li a {
+    color: #fff; /* White text for contrast */
+    padding: 6px 10px; /* Adequate padding for readability */
+    font-size: 14px;
+    display: block; /* Ensure the links span the entire width of the dropdown */
+    text-decoration: none; /* Remove underline */
+}
+
+/* Hover effect to make the link visually interactive */
+.dropdown-menu li a:hover {
+    background-color: #000; /* Darker shade on hover for better visual feedback */
+    color: #fff; /* Keep text white on hover */
+}
+
+/* Optional: Focus state for keyboard navigation */
+.dropdown-menu li a:focus {
+    background-color: #444; /* Slightly lighter for focus state */
+    outline: none; /* Remove default focus outline */
+}
+
 
 
 </style>

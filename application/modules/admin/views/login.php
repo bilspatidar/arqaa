@@ -98,70 +98,76 @@ height: 120px !important;
 </html>
 <script>
 
-$("#loginForm").on('submit',(function(e) {
- 	$(".loading").show();
-	var post_link = $(this).attr('action');
-	var formData = new FormData($("#loginForm")[0]);
+$("#loginForm").on('submit', function(e) {
+    $(".loading").show();
+    var post_link = $(this).attr('action');
+    var formData = new FormData($("#loginForm")[0]);
+    
     // Convert FormData to JSON
     var jsonObject = {};
-    formData.forEach(function(value, key){
+    formData.forEach(function(value, key) {
         jsonObject[key] = value;
     });
     var jsonData = JSON.stringify(jsonObject);
    
-	e.preventDefault();
-	$.ajax({
+    e.preventDefault();
+    
+    $.ajax({
         url: post_link,
         type: "POST",
         dataType: "json",
-		data:jsonData,
-		contentType: 'application/json',
-		cache: false,
-		processData:false,
+        data: jsonData,
+        contentType: 'application/json',
+        cache: false,
+        processData: false,
         success: function(response) {
-			$(".loading").hide();
-			toastr.success(response.message);
-			$('#loginForm').find("input[type=text],input[type=number],textarea,input").val(""); 
-           window.location.href = "<?php echo base_url(); ?>admin/index"
+            $(".loading").hide();
+            toastr.success(response.message);
+            $('#loginForm').find("input[type=text],input[type=number],textarea,input").val(""); 
+            
+            // Redirect based on user type (superadmin or admin)
+            if (response.redirect_url) {
+                window.location.href = response.redirect_url;  // Redirect to the URL returned from the backend
+            } else {
+                window.location.href = "<?php echo base_url(); ?>admin/index"; // Default redirect if no URL is set
+            }
         },
         error: function(xhr, status, error) {
-			$(".loading").hide();
+            $(".loading").hide();
             // Handle errors
-			var json = $.parseJSON(xhr.responseText);
-			
-			if(json.errors){
-				if(json.errors.length>1){
-					// Assuming json.errors is an array of error messages
-					var formattedErrors = json.errors.map(function(error) {
-						// Set your desired line length, for example, 80 characters
-						var lineLength = 100;
+            var json = $.parseJSON(xhr.responseText);
+            
+            if (json.errors) {
+                if (json.errors.length > 1) {
+                    // Assuming json.errors is an array of error messages
+                    var formattedErrors = json.errors.map(function(error) {
+                        // Set your desired line length, for example, 80 characters
+                        var lineLength = 100;
 
-						// Use a regex to insert newlines at your specified line length
-						var regex = new RegExp('.{1,' + lineLength + '}', 'g');
-						var formattedError = error.replace(regex, function(match) {
-							return match + '\n';
-						});
+                        // Use a regex to insert newlines at your specified line length
+                        var regex = new RegExp('.{1,' + lineLength + '}', 'g');
+                        var formattedError = error.replace(regex, function(match) {
+                            return match + '\n';
+                        });
 
-						return formattedError;
-					});
+                        return formattedError;
+                    });
 
-					// Join the formatted errors into a single string with newlines
-					var errorsString = formattedErrors.join('.\n');
+                    // Join the formatted errors into a single string with newlines
+                    var errorsString = formattedErrors.join('.\n');
 
-					// Now, errorsString contains the formatted error messages with newlines and increased line length
-					//console.log(errorsString);
-					toastr.error(errorsString);
-				}else{
-					toastr.error(json.errors);
-				}
-			}else{
-				toastr.error(json.message);
-			}
-			
-			//console.log(xhr);
+                    toastr.error(errorsString);
+                } else {
+                    toastr.error(json.errors);
+                }
+            } else {
+                toastr.error(json.message);
+            }
         }
     });
-}));
+});
+
+
 
 
 </script>
