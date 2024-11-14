@@ -365,6 +365,28 @@ function deleteCategory(categoryId) {
 
 
 
+$('#api_response_table').on('click', '.edit-btn', function() {
+    $('.page-loader-wrapper').fadeIn();
+    var tableId = $(this).data('id');
+    var show_endpoint = $("#show_endpoint").val();
+    var edit_page_name = $("#edit_page_name").val();
+
+    $.ajax({
+        url: '<?php echo base_url(); ?>/common_controller/edit_form',
+        type: 'POST',
+        data:{tableId:tableId,show_endpoint:show_endpoint,edit_page_name:edit_page_name},
+        success: function(response) {
+            var responseData = JSON.stringify(response);
+            
+            $('#ExtralargeEditModal .modal-body').html(response);
+            $('#ExtralargeEditModal').modal('show');
+            $('.page-loader-wrapper').fadeOut();
+        },
+        error: function(xhr, status, error) {
+            console.error('Error fetching category details:', error);
+        }
+    });
+});
 
 $('#api_response_table').on('click', '.permission-btn', function() {
     $('.page-loader-wrapper').fadeIn();

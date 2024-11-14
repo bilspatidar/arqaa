@@ -232,8 +232,8 @@ $token = $_SESSION['user_details']['access_token'];
         Language <span class="caret"></span>
     </a>
     <ul class="dropdown-menu">
-        <li><a href="<?php echo base_url('Internal/switch_lang/english_lang'); ?>"> English</a></li>
-        <li><a href="<?php echo base_url('Internal/switch_lang/spanish_lang'); ?>"> Spanish</a></li>
+        <li><a href="<?php echo base_url('Internal/switch_lang/english'); ?>"> English</a></li>
+        <li><a href="<?php echo base_url('Internal/switch_lang/spanish'); ?>"> Spanish</a></li>
     </ul>
 </li>
 
