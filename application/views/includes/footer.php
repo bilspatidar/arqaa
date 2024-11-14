@@ -282,7 +282,27 @@ function renderPermisionBtn(data, type, row) {
 
     return buttonsHtml;
 }
+function renderviewBtn(data, type, row) {
+    var buttonsHtml = '';
 
+
+
+    // Add edit button with icon
+  // Dynamically generate "View" button for each row in the table
+buttonsHtml += `
+    <button 
+        type="button" 
+        class="btn btn-info mb-2 view-btn" 
+        data-id="${row.id}" 
+        title="View Details" 
+        aria-label="View Details">
+        View
+    </button>
+`;
+
+
+    return buttonsHtml;
+}
 function renderStatusBtn(data, type, row) {
     let buttonHtml = '';
 
@@ -408,6 +428,28 @@ $('#api_response_table').on('click', '.permission-btn', function() {
             console.error('Error fetching category details:', error);
         }
     });
+});
+$('#api_response_table').on('click', '.view-btn', function() {
+    // Show the loader
+    $('.page-loader-wrapper').fadeIn();
+
+    var tableId = $(this).data('id');  // Get the ID of the clicked row
+    var show_endpoint = $("#show_endpoint").val();
+    var edit_page_name = $("#view_page_name").val();  // Get the edit page name value
+
+    // Check if edit_page_name is undefined or empty, and set a default if necessary
+    if (!edit_page_name) {
+        edit_page_name = 'default_page_name'; // Set a default value or handle the case accordingly
+    }
+
+    // Construct the URL for the profile details page with the tableId and other parameters
+    var url = '<?php echo base_url(); ?>admin/master/profile_details/<?php echo $role;?>/?tableId=' + tableId + '&show_endpoint=' + show_endpoint + '&edit_page_name=' + edit_page_name;
+
+    // Redirect to the profile details page
+    window.location.href = url;
+
+    // Hide the loader after the redirection
+    $('.page-loader-wrapper').fadeOut();
 });
 
 

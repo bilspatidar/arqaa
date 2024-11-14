@@ -177,6 +177,8 @@ $token = $_SESSION['user_details']['access_token'];
 .note-editor.note-frame .note-editing-area .note-editable[contenteditable="false"] {
     background-color: #282b2f !important;
 }
+
+
 </style>
 
 </head>
