@@ -142,7 +142,7 @@
                         <a href="<?php echo base_url();?>admin/master/map" class=""><i class=" icon-badge"></i><span><?php echo $this->lang->line('map');?></span></a>
                     </li>
 
-                    <li>
+                   
 
                 </ul>
             </nav>     
