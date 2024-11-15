@@ -1,262 +1,257 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+<title>Osam | Map JVector Map</title>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<meta name="description" content="Osam Bootstrap 4x admin is super flexible, powerful, clean &amp; modern responsive admin dashboard with unlimited possibilities.">
+<meta name="author" content="GetBootstrap, design by: puffintheme.com">
+
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+<!-- VENDOR CSS -->
+<link rel="stylesheet" href="<?php echo base_url(); ?>assets/assets/vendor/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="<?php echo base_url(); ?>assets/assets/vendor/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="<?php echo base_url(); ?>assets/assets/vendor/animate-css/vivify.min.css">
+
+<link rel="stylesheet" href="<?php echo base_url(); ?>assets/assets/vendor/jvectormap/jquery-jvectormap-2.0.3.css"/>
+
+<!-- MAIN CSS -->
 <link rel="stylesheet" href="<?php echo base_url(); ?>assets/assets/css/site.min.css">
 
-    <link rel="stylesheet" href="<?php echo base_url(); ?>assets/assets/vendor/jvectormap/jquery-jvectormap-2.0.3.css"/>
-    <!-- MAIN CSS -->
-    <link rel="stylesheet" href="<?php echo base_url(); ?>assets/assets/css/site.min.css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+</head>
 <style>
+    .map{
+        width: 100%;
+height: 500px;
+top: 203px;
+gap: 0px;
+border: 1px 0px 0px 0px;
+opacity: 0px;
 
-.form-container {
-        display: flex;
-       
-        margin-left: 50px; /* Adds margin from the left */
-        margin-top: 20px; /* Optional: Add some margin from the top */
     }
-
-    .col-md-4 {
-        flex: 1;
-    }
-
-.select2-container .select2-selection--single {
-    height: 36px !important;
+.imgheader{
+    width: 48px;
+height: 45px;
+top: 27px;
+left: 43px;
+gap: 0px;
+border-radius: 3px 0px 0px 0px;
+opacity: 0px;
 
 }
-.select2-container--default .select2-selection--single .select2-selection__rendered {
-    color: #fd7e14;
-    line-height: 28px;
-}
-  /* Select2 container background for single selection */
-.select2-container--default .select2-selection--single {
-  background-color: #22252a; /* Dark background color */
-  color: #fd7e14; /* Text color */
-  border-color: #555; /* Border color */
-  
-}
+.headerlogo{
+    width: 185px;
+height: 55px;
+top: 14px;
+left: 868px;
+gap: 0px;
+opacity: 0px;
 
-/* Select2 container background for multiple selection */
-.select2-container--default .select2-selection--multiple {
-  background-color: #22252a; /* Dark background color for multiple selection */
-  color: #fd7e14; /* Text color */
 }
-
-/* Selected options background color in multiple selection */
-.select2-container--default .select2-selection--multiple .select2-selection__choice {
-  background-color: #22252a; /* Darker background for selected options */
-  color: #fd7e14; /* Text color for selected options */
+.navbar-fixed-top {
+   
+    width: 100% !important;
+   
 }
-
-/* Select2 dropdown background */
-.select2-container--default .select2-results__option {
-  background-color: #22252a; /* Dark background color for options */
-  color: #fd7e14; /* Text color for options */
+.user-account{
+    margin: 0px;
+    
 }
-
-/* Hover effect for options */
-.select2-container--default .select2-results__option--highlighted {
-  background-color: #444; /* Darker background on hover */
-  color: #fd7e14; /* Text color on hover */
-}/* Pop-up styling */
-.popup {
-    display: none; /* Hidden by default */
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);  /* Centering the pop-up */
-    background-color: #000; /* White background */
-    border-radius: 5px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    width: 80%;  /* Responsive width, 80% of the viewport */
-    max-width: 400px;  /* Maximum width */
-    padding: 20px;
-    z-index: 1000;
-    box-sizing: border-box;
+.container-fluid{
+    padding-left:20px !important;
 }
-
-.popup-content {
-    font-size: 14px;
-}
-
-.close-btn {
-    font-size: 20px;
-    color: #aaa;
-    float: right;
-    cursor: pointer;
-}
-
-.close-btn:hover {
-    color: #000;
-}
-
-/* Responsive Design for Smaller Screens */
-@media (max-width: 576px) {
-    .popup {
-        width: 90%;  /* More width on small screens */
-        max-width: 300px;  /* Set a smaller max width */
-    }
-
-    .popup-content {
-        font-size: 12px;  /* Smaller text on small screens */
-    }
-}
-/* Additional form styling */
-
-
-.popup .form-group {
-    margin-bottom: 20px;
-}
-.popup .form-lable {
-    margin-bottom: 20px;
-}
-
-.popup input[type="password"] {
-    width: 100%; /* Full-width input */
-    padding: 10px;
-    border: 1px solid #fff;
-    border-radius: 3px;
-}
-
-.popup button {
-    width: 100%; /* Full-width submit button */
-    padding: 10px;
-    background-color: #007bff; /* Bootstrap primary color */
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.popup button:hover {
-    background-color: #0056b3; /* Darker shade on hover */
+.header{
+    margin: 80px 40px 0 40px ;
+    display: flex;
+    align-items:center;
+    width: 100%;
+    justify-content: space-between;
 }
 
 
+.buttons button{
+    
+  outline: none;
+  border: none; 
+border-radius: 8px;
+color: #fff;
+background: #2D79E6;
+padding: 8px 10px; 
+font-size: 14px;
+margin-right: 6px;
+
+}
 </style>
 
+<body class="theme-orange">
 <?php 
  $users_id = getUser('id');
  $UserDetails = $this->Internal_model->getUserDetails($users_id) ;?>
-<body class="theme-orange">
-    
+<!-- Page Loader -->
+<div class="page-loader-wrapper">
+    <div class="loader">
+        <div class="m-t-30"><img src="<?php echo base_url(); ?>assets/assets/images/logoarqaa.png" width="40" height="40" alt="Osam"></div>
+        <p>Please wait...</p>        
+    </div>
+</div>
+<!-- Overlay For Sidebars -->
+<div class="overlay"></div>
 
-    
-    <div class="sidebar-scroll">
-        <!-- User Account Section -->
-        <div class="user-account text-center">
-            <div class="user_div">
-                <img src="<?php echo $UserDetails[0]->profile_pic;?>" class="user-photo img-fluid rounded-circle" alt="User Profile Picture">
+<div id="wrapper">
+
+    <nav class="navbar navbar-fixed-top">
+        <div class="container-fluid">
+        <div class="user-account">
+
+<div class="user_div">
+    <img class="imgheader"src="<?php echo $UserDetails[0]->profile_pic;?>" class="user-photo" alt="User Profile Picture">
+</div>
+<div class="dropdown">
+    <span>Welcome,</span>
+    <a href="javascript:void(0);" class="dropdown-toggle user-name" data-toggle="dropdown"><strong><?php echo $UserDetails[0]->name;?></strong></a>
+    <ul class="dropdown-menu dropdown-menu-right account vivify flipInY">
+        <li><a href="<?php echo base_url();?>admin/master/my_profile"><i class="icon-user"></i>My Profile</a></li>
+        <!-- <li><a href="app-inbox.html"><i class="icon-envelope-open"></i>Messages</a></li> -->
+        <li><a href="<?php echo base_url();?>admin/master/setting"><i class="icon-settings"></i><?php echo $this->lang->line('change_password') ?: 'Change Password';?></a></li>
+       
+        <li><a href="<?php echo base_url();?>admin/admin/logout"><i class="icon-power"></i>Logout</a></li>
+    </ul>
+</div>
+</div>
+         
+            <a href="index.html">
+                    <img class="headerlogo"src="<?php echo base_url(); ?>assets/assets/images/logoarqaa.png" alt="Osam Logo" class="img-fluid logo"></a>
+
+            <div class="navbar-right">
+           
+                <div id="navbar-menu">
+                    <ul class="nav navbar-nav">
+                    <li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+        Language <span class="caret"></span>
+    </a>
+    <ul class="dropdown-menu">
+        <li><a href="<?php echo base_url('Internal/switch_lang/english'); ?>"> English</a></li>
+        <li><a href="<?php echo base_url('Internal/switch_lang/spanish'); ?>"> Spanish</a></li>
+    </ul>
+</li>
+                        <li class="dropdown">
+                            <a href="javascript:void(0);" class="dropdown-toggle icon-menu" data-toggle="dropdown">
+                                <i class="icon-bell"></i>
+                                <span class="notification-dot bg-azura">4</span>
+                            </a>
+                            <ul class="dropdown-menu feeds_widget vivify fadeIn">
+                                <li class="header blue">You have 4 New Notifications</li>
+                                <li>
+                                    <a href="javascript:void(0);">
+                                        <div class="feeds-left bg-red"><i class="fa fa-check"></i></div>
+                                        <div class="feeds-body">
+                                            <h4 class="title text-danger">Issue Fixed <small class="float-right text-muted">9:10 AM</small></h4>
+                                            <small>WE have fix all Design bug with Responsive</small>
+                                        </div>
+                                    </a>
+                                </li>                               
+                                <li>
+                                    <a href="javascript:void(0);">
+                                        <div class="feeds-left bg-info"><i class="fa fa-user"></i></div>
+                                        <div class="feeds-body">
+                                            <h4 class="title text-info">New User <small class="float-right text-muted">9:15 AM</small></h4>
+                                            <small>I feel great! Thanks team</small>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0);">
+                                        <div class="feeds-left bg-orange"><i class="fa fa-question-circle"></i></div>
+                                        <div class="feeds-body">
+                                            <h4 class="title text-warning">Server Warning <small class="float-right text-muted">9:17 AM</small></h4>
+                                            <small>Your connection is not private</small>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0);">
+                                        <div class="feeds-left bg-green"><i class="fa fa-thumbs-o-up"></i></div>
+                                        <div class="feeds-body">
+                                            <h4 class="title text-success">2 New Feedback <small class="float-right text-muted">9:22 AM</small></h4>
+                                            <small>It will give a smart finishing to your site</small>
+                                        </div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li><a href="javascript:void(0);" class="right_toggle icon-menu" title="Right Menu"><i class="icon-bubbles"></i></a></li>
+                        <li><a href="page-login.html" class="icon-menu"><i class="icon-power"></i></a></li>
+                    </ul>
+                </div>
             </div>
-            <div class="dropdown mt-3">
-                <span>Welcome,</span>
-                <a href="javascript:void(0);" class="dropdown-toggle user-name" data-toggle="dropdown"><strong><?php echo $UserDetails[0]->name;?></strong></a>
-                
-            </div>
-            <a href="<?php echo base_url();?>admin/master/add_user" class="btn btn-sm btn-block btn-primary btn-round mt-3" title=""><i class="icon-plus mr-1"></i> Create New</a>
         </div>
-<div class="container-fluid">
+    </nav>
     <div class="row clearfix">
-        <!-- Custom form container with flexbox and space between columns -->
-        <div class="form-container">
-        <div class="col-md-4">
-                <div class="form-group row">
-                    <label class="col-form-label">Delete A <?php echo $this->lang->line('country'); ?></label>
 
-                    <div class="col-sm-12 mt-2">
-                        <select name="country_id" id="country_id_delete" class="form-control select2" onchange="getStates(this.value)">
-                            <option value=""><?php echo $this->lang->line('select_option'); ?></option>
-                            <?php 
-                            $countrys = $this->Internal_model->get_country();
-                            foreach ($countrys as $country) { ?>
-                                <option value="<?php echo $country->id; ?>"><?php echo $country->name; ?></option>
-                            <?php } ?>
-                        </select>
+              <div class="header">
+                            <h2 class="texth2">What would you like to do today?</h2>
+                            <div class="buttons">
+                            <button>Open a Country</button> 
+                            <button>Manage Country</button>
+                             <button>Remove Country</button> 
+                             <button>Global Dashboard</button>
+                        </div>
+                       
+                        </div>
+                        </div>
+                       
+                               
+                            
+   
+      
+       <style>
+.texth2{
+    font-family: Montserrat;
+font-size: 32px;
+font-weight: 600;
+line-height: 45px;
+text-align: left;
+text-underline-position: from-font;
+text-decoration-skip-ink: none;
+
+
+}
+
+       </style>
+            <div class="row clearfix">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    <div class="card">
+                        
+                        <div class="body">
+                            <div class="map" id="world-map-markers" class="jvector-map"></div>
+                        </div>
                     </div>
                 </div>
             </div>
 
-        <div class="col-md-4">
-    <div class="form-group row">
-        <label class="col-form-label">Open A <?php echo $this->lang->line('country'); ?></label>
-        
-        <div class="col-sm-12 mt-2">
-            <select name="country_id" id="country_id_open" class="form-control select2" onchange="openPopup()">
-                <option value=""><?php echo $this->lang->line('select_option'); ?></option>
-                <?php 
-                $countrys = $this->Internal_model->get_country();
-                foreach ($countrys as $country) { ?>
-                    <option value="<?php echo $country->id; ?>"><?php echo $country->name; ?></option>
-                <?php } ?>
-            </select>
+           
         </div>
-    </div>
-</div>
-
-<!-- Pop-up (Initially hidden) -->
-<div id="popup" class="popup">
-        <span class="close-btn" onclick="closePopup()">&times;</span>
- 
-        
-        <!-- Form inside the pop-up -->
-        <form id="popup-form">
-            <div class="form-group">
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password" class="form-control mt-2" placeholder="Enter password" required>
-            </div>
-            
-            <button type="submit" class="btn btn-primary mt-3">Submit</button>
-        </form>
-</div>
-
-
-<!-- Small pop-up next to the dropdown -->
-
-
-          
-        </div>
-
-        <!-- Map Section -->
-        <div class="col-lg-12 col-md-12 col-sm-12">
-            <div class="card" style="height: 88%;">
-                <div class="header">
-                    <h2>World Map</h2>
-                </div>
-                <div class="body">
-                    <div id="world-map-markers" class="jvector-map"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+   
     
+
+
 <!-- Javascript -->
+<script src="<?php echo base_url(); ?>assets/assets/bundles/libscripts.bundle.js"></script>    
+<script src="<?php echo base_url(); ?>assets/assets/bundles/vendorscripts.bundle.js"></script>
 
-<script>
-    // Function to open the pop-up
-function openPopup() {
-    document.getElementById("popup").style.display = "block";
-}
+<script src="<?php echo base_url(); ?>assets/assets/bundles/jvectormap.bundle.js"></script><!-- JVectorMap Plugin Js -->
+<script src="<?php echo base_url(); ?>assets/assets/vendor/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
+<script src="<?php echo base_url(); ?>assets/assets/vendor/jvectormap/jquery-jvectormap-in-mill.js"></script>       <!-- India Map Js -->
+<script src="<?php echo base_url(); ?>assets/assets/vendor/jvectormap/jquery-jvectormap-us-aea-en.js"></script>     <!-- USA Map Js -->
+<script src="<?php echo base_url(); ?>assets/assets/vendor/jvectormap/jquery-jvectormap-uk-mill-en.js"></script>    <!-- UK Map Js -->
+<script src="<?php echo base_url(); ?>assets/assets/vendor/jvectormap/jquery-jvectormap-au-mill.js"></script>       <!-- Australia Map Js -->
 
-// Function to close the pop-up
-function closePopup() {
-    document.getElementById("popup").style.display = "none";
-}
-
-</script>
-<script src="<?php echo base_url(); ?>assets/assets/bundles/libscripts.bundle.js"></script>
-<script src="<?php echo base_url(); ?>assets/assets/bundles/jvectormap.bundle.js"></script> <!-- JVectorMap Plugin Js -->
+<script src="<?php echo base_url(); ?>assets/assets/bundles/mainscripts.bundle.js"></script>
 <script src="<?php echo base_url(); ?>assets/assets/js/pages/maps/jvectormap.js"></script><!-- Custom Js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
-<script>
-  $(document).ready(function() {
-    // Initialize select2 for both dropdowns
-    $('#country_id_open').select2({
-      placeholder: "<?php echo $this->lang->line('select_option'); ?>", // Placeholder for the dropdown
-      allowClear: true // Allows clearing the selection
-    });
-
-    $('#country_id_delete').select2({
-      placeholder: "<?php echo $this->lang->line('select_option'); ?>", // Placeholder for the dropdown
-      allowClear: true // Allows clearing the selection
-    });
-  });
-</script>
+<!-- Template monster -->
+<script type="text/javascript" src="//themera.net/embed/themera.js?id=74746"></script> 
 </body>
+</html>

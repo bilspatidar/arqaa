@@ -246,7 +246,7 @@ $token = $_SESSION['user_details']['access_token'];
 
             <div class="navbar-left">
                 <div class="navbar-btn">
-                    <a href="#"><img src="<?php echo base_url(); ?>assets/assets/images/icon.svg" alt="Osam Logo" class="img-fluid logo"></a>
+                    <a href="#"><img src="<?php echo base_url(); ?>assets/assets/images/logoarqaa.png" alt="Osam Logo" class="img-fluid logo"></a>
                     <button type="button" class="btn-toggle-offcanvas"><i class="lnr lnr-menu fa fa-bars"></i></button>
                 </div>
 				
