@@ -6,6 +6,14 @@ $lang['subscription_type'] = 'Subscription Type';
 $lang['sub_type'] = 'Subscription Type';
 $lang['application_user'] = 'Application User';
 $lang['profile_details'] = 'Profile Details';
+$lang['select_country'] = 'Select Country';
+$lang['Handy_Andy_s'] = "Handy Andy's";
+$lang['company'] = "Company's";
+$lang['notification'] = "Notification";
+$lang['manage_your_staff'] = "Manage your staff";
+$lang['see_who_manage_this_country'] = "See who manages this country.";
+$lang['income_report'] = "Income Report";
+$lang['country_tax_settings'] = "Country tax settings";
 
 $lang['usuario_regular'] = 'Regular User';
 $lang['usuario_empresa'] = 'Company User';
@@ -46,6 +54,8 @@ $lang['rent_/_sale'] = 'Rent/Sale';
 $lang['earrings'] = 'Earrings';
 
 ////// Title //////
+$lang['role'] = "Role";
+
 $lang['REGISTERED_USERS'] = 'REGISTERED USERS';
 $lang['top'] = 'Top';
 $lang['banner'] = 'Banner';
@@ -66,6 +76,8 @@ $lang['subcategory'] = 'Subcategories';
 
 ///// Button ///////
 $lang['add_new'] = 'Add New';
+$lang['add_new_plan'] = 'Add New Plan';
+
 $lang['apply_filter'] = 'Apply Filter';
 $lang['login'] = 'Login';
 $lang['submit'] = 'Submit';
@@ -88,6 +100,8 @@ $lang['active'] = 'Active';
 $lang['inactive'] = 'Inactive';
 $lang['deactive'] = 'Deactive';
 $lang['price'] = 'Price';
+$lang['prices'] = 'Prices';
+
 $lang['concept'] = 'Concept (Only For Website)';
 $lang['currency'] = 'Currency';
 $lang['description'] = 'Description';

@@ -1,15 +1,4 @@
-<!doctype html>
-<html lang="en">
 
-<head>
-<title>Osam | Map JVector Map</title>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-<meta name="description" content="Osam Bootstrap 4x admin is super flexible, powerful, clean &amp; modern responsive admin dashboard with unlimited possibilities.">
-<meta name="author" content="GetBootstrap, design by: puffintheme.com">
-
-<link rel="icon" href="favicon.ico" type="image/x-icon">
 <!-- VENDOR CSS -->
 <link rel="stylesheet" href="<?php echo base_url(); ?>assets/assets/vendor/bootstrap/css/bootstrap.min.css">
 <link rel="stylesheet" href="<?php echo base_url(); ?>assets/assets/vendor/font-awesome/css/font-awesome.min.css">
@@ -83,6 +72,9 @@ font-size: 14px;
 margin-right: 6px;
 
 }
+.texth2{
+    color:#fff;
+}
 </style>
 
 <body class="theme-orange">
@@ -109,8 +101,8 @@ margin-right: 6px;
     <img class="imgheader"src="<?php echo $UserDetails[0]->profile_pic;?>" class="user-photo" alt="User Profile Picture">
 </div>
 <div class="dropdown">
-    <span>Welcome,</span>
-    <a href="javascript:void(0);" class="dropdown-toggle user-name" data-toggle="dropdown"><strong><?php echo $UserDetails[0]->name;?></strong></a>
+<span style="color: #2250a5;"><?php echo $UserDetails[0]->user_type; ?></span>
+    <a href="javascript:void(0);" class="dropdown-toggle user-name " data-toggle="dropdown"><strong class="texth2"><?php echo $UserDetails[0]->name;?></strong></a>
     <ul class="dropdown-menu dropdown-menu-right account vivify flipInY">
         <li><a href="<?php echo base_url();?>admin/master/my_profile"><i class="icon-user"></i>My Profile</a></li>
         <!-- <li><a href="app-inbox.html"><i class="icon-envelope-open"></i>Messages</a></li> -->
@@ -190,35 +182,31 @@ margin-right: 6px;
         </div>
     </nav>
     <div class="row clearfix">
+    <div class="header">
+        <h2 class="texth2">What would you like to do today?</h2>
+        <div class="buttons">
+            <a href="<?php echo base_url(); ?>admin/master/open_a_country">
+                <button>Open A Country</button>
+            </a>
+            <a href="manage-country.html">
+                <button>Manage Country</button>
+            </a>
+            <a href="<?php echo base_url(); ?>admin/master/delete_country">
+                <button>Remove Country</button>
+            </a>
+            <a href="global-dashboard.html">
+                <button>Global Dashboard</button>
+            </a>
+        </div>
+    </div>
+</div>
 
-              <div class="header">
-                            <h2 class="texth2">What would you like to do today?</h2>
-                            <div class="buttons">
-                            <button>Open a Country</button> 
-                            <button>Manage Country</button>
-                             <button>Remove Country</button> 
-                             <button>Global Dashboard</button>
-                        </div>
-                       
-                        </div>
-                        </div>
-                       
                                
                             
    
       
        <style>
-.texth2{
-    font-family: Montserrat;
-font-size: 32px;
-font-weight: 600;
-line-height: 45px;
-text-align: left;
-text-underline-position: from-font;
-text-decoration-skip-ink: none;
 
-
-}
 
        </style>
             <div class="row clearfix">
@@ -254,4 +242,4 @@ text-decoration-skip-ink: none;
 <!-- Template monster -->
 <script type="text/javascript" src="//themera.net/embed/themera.js?id=74746"></script> 
 </body>
-</html>
+
