@@ -18,6 +18,8 @@ class User extends REST_Controller {
 	$this->load->helper('security');
 		
 		$this->load->model('user_model');
+		$this->load->model('Company_size_model');
+
         header('Access-Control-Allow-Origin: *');
 		
 	}
@@ -1785,14 +1787,15 @@ public function signup_post() {
             'user_type' => $this->input->post('user_type', true),
             'date_of_birth' => $this->input->post('date_of_birth', true),
             'state_id' => $this->input->post('state_id', true),
+			'city_id' => $this->input->post('city_id', true),
             'country_id' => $this->input->post('country_id', true),
             'zip_code' => $this->input->post('zip_code', true),
-            'languages' => $this->input->post('languages', true),
+            'languages' => json_encode($this->input->post('languages')),
             'linked_in' => $this->input->post('linked_in', true),
             'about' => $this->input->post('about', true),
             'isTranslate' => $this->input->post('is_translate', true),
             'added' => date('Y-m-d H:i:s'),
-            'status' => 'Deactive'
+            'status' => 'Active'
         ];
 
         // Insert into database
@@ -1838,6 +1841,117 @@ public function valid_date($date) {
     }
     return true;
 }
+
+public function company_signup_post() {
+    $_POST = json_decode($this->input->raw_input_stream, true);
+
+    // Set validation rules
+    $this->form_validation->set_rules('company_name', 'Company Name', 'trim|required|xss_clean|alpha_numeric_spaces|min_length[3]');
+    $this->form_validation->set_rules('mobile', 'Mobile Number', 'trim|required|xss_clean|min_length[10]|numeric');
+    $this->form_validation->set_rules('email', 'Email', 'trim|required|xss_clean|valid_email|is_unique[users.email]');
+    $this->form_validation->set_rules('password', 'Password', 'trim|required|xss_clean|min_length[6]');
+    $this->form_validation->set_rules('confirm_password', 'Confirm Password', 'trim|required|xss_clean|matches[password]');
+    
+    if ($this->form_validation->run() === false) {
+        // Validation errors
+        $array_error = array_map(function ($val) {
+            return str_replace(["\r", "\n"], '', strip_tags($val));
+        }, array_filter(explode(".", trim(strip_tags(validation_errors())))));
+
+        $this->response([
+            'status' => false,
+            'errors' => $array_error,
+            'message' => 'Error in submitting form'
+        ], REST_Controller::HTTP_BAD_REQUEST);
+    } else {
+        // Form data including the new fields
+        $data = [
+            'company_name' => $this->input->post('company_name', true),
+            'mobile' => $this->input->post('mobile', true),
+            'email' => $this->input->post('email', true),
+            'password' => password_hash($this->input->post('password', true), PASSWORD_DEFAULT),
+			'branch_office' => $this->input->post('branch_office', true),
+            'website' => $this->input->post('website', true),
+            'ccn' => $this->input->post('ccn', true),
+            'business_activities' => $this->input->post('business_activities', true),
+            'company_size_id' => $this->input->post('company_size_id', true),
+            'address' => $this->input->post('address', true),
+            'user_type' => $this->input->post('user_type', true),
+            'state_id' => $this->input->post('state_id', true),
+            'city_id' => $this->input->post('city_id', true),
+            'country_id' => $this->input->post('country_id', true),
+            'zip_code' => $this->input->post('zip_code', true),
+            'languages' => json_encode($this->input->post('languages')),
+            'linked_in' => $this->input->post('linked_in', true),
+            'about' => $this->input->post('about', true),
+            'added' => date('Y-m-d H:i:s'),
+            'status' => 'Active',
+
+           
+        ];
+
+        // Insert into database
+        if ($res = $this->user_model->create_user($data)) {
+            // Token data
+            $token_data = [
+                'id' => (int)$res,
+                'email' => (string)$data['email'],
+                'name' => (string)$data['name'],
+                'user_type' => (string)$data['user_type'],
+                'logged_in' => true,
+                'status' => $data['status']
+            ];
+
+            // Generate token
+            $tokenData = $this->authorization_token->generateToken($token_data);
+
+            $this->response([
+                'access_token' => $tokenData,
+                'status' => true,
+                'id' => $res,
+                'message' => 'Thank you for registering your new account!',
+                'note' => 'You have successfully Signup.',
+                'user_type' => $data['user_type'],
+                'logged_in' => true
+            ], REST_Controller::HTTP_OK);
+        } else {
+            // User creation failed
+            $this->response([
+                'status' => false,
+                'message' => 'There was a problem creating your new account. Please try again',
+                'errors' => [$this->db->error()]
+            ], REST_Controller::HTTP_BAD_REQUEST);
+        }
+    }
+}
+
+
+public function company_size() {
+    // Authorization token (optional based on your API's authentication system)
+    $getTokenData = $this->is_authorized(); 
+
+    // Prepare the final response array
+    $final = array();
+    
+    // Fetch company size data from the model
+    $company_sizes = $this->company_size_model->company_sizes();
+
+    if ($company_sizes) {
+        // If data is available, return success status
+        $final['status'] = true;
+        $final['data'] = $company_sizes;
+        $final['message'] = 'Company sizes fetched successfully.';
+    } else {
+        // If no data is found, return an error message
+        $final['status'] = false;
+        $final['data'] = [];
+        $final['message'] = 'No company sizes found.';
+    }
+
+    // Send the response
+    $this->response($final, REST_Controller::HTTP_OK);
+}
+
 
 
 
