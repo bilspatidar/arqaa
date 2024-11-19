@@ -35,6 +35,30 @@ height: 120px !important;
   height: 80px !important;
 }
 }
+
+.logo{
+width: 313px;
+height: 116px;
+top: 236px;
+left: 805px;
+gap: 0px;
+opacity: 0px;
+}
+.lead{
+    width: 284px;
+height: 34px;
+top: 410px;
+left: 818px;
+gap: 0px;
+opacity: 0px;
+
+}
+.form-control{
+    
+}
+.m-b-30,.auth-main .auth_brand,.chat-widget li,.pricing .price {
+    margin-bottom: 0px;
+}
 </style>
 
 </head>
@@ -50,13 +74,13 @@ height: 120px !important;
     <div class="auth-main particles_js">        
         <div class="auth_div vivify popIn">
             <div class="auth_brand">
-                <a class="navbar-brand" href="javascript:void(0);"><img src="<?php echo base_url(); ?>assets/assets/images/icon.svg" width="30" height="30" class="d-inline-block align-top mr-2" alt="">Osam</a>                                                
+                <a class="navbar-brand" href="javascript:void(0);"><img class="logo" src="<?php echo base_url(); ?>assets/assets/images/logoarqaa.png" width="30" height="30" class="d-inline-block align-top mr-2" alt=""></a>                                                
             </div>
             <div class="card">
                 <div class="body">
                     <p class="lead">Login to your account</p>
                     <!-- <form id="loginForm" action="<?php echo base_url(); ?>api/v.1/login/post" class="form-auth-small m-t-20"> -->
-                    <form id="loginForm" action="<?php echo base_url(); ?>login" class="form-auth-small m-t-20" method="POST">
+                    <form id="loginForm" action="<?php echo base_url(); ?>login" class="form-auth-small " method="POST">
                     
                         <div class="form-group">
                             <label for="signin-email" class="control-label sr-only">Email</label>
@@ -67,16 +91,21 @@ height: 120px !important;
                             <label for="signin-password" class="control-label sr-only">Password</label>
                             <input type="password" class="form-control round" id="signin-password" name="password" placeholder="Password">
                         </div>
-                        <div class="form-group clearfix">
-                            <label class="fancy-checkbox element-left">
-                                <input type="checkbox">
-                                <span>Remember me</span>
-                            </label>								
-                        </div>
+                      
+                        <div class="form-group clearfix"> 
+    <a href="page-forgot-password.html" style="float: left; margin-right: 10px;"><i class="fa fa-lock"></i> Forgot password?</a>
+   
+    <label class="fancy-checkbox element-left" style="float: right;">
+    <input type="checkbox" style="transform: scale(0.8); width: 16px; height: 16px;">
+    <span>Remember me</span>
+</label>
+
+</div>
+
                         <button type="submit" class="btn btn-primary btn-round btn-block">LOGIN</button>
                        
                         <div class="bottom">
-                            <span class="helper-text m-b-10"><i class="fa fa-lock"></i> <a href="page-forgot-password.html">Forgot password?</a></span>
+                            
                             <span>Don't have an account? <a href="page-register.html">Register</a></span>
                         </div>
                     </form>

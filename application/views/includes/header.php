@@ -93,7 +93,18 @@ $token = $_SESSION['user_details']['access_token'];
   <!-- Menu link -->
 <link rel="stylesheet" href="<?php echo base_url(); ?>assets/assets/vendor/summernote/dist/summernote.css"/>
 <style>
-
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+  margin-bottom: $headings-margin-bottom;
+  font-family: $headings-font-family;
+  font-weight: $headings-font-weight;
+  line-height: $headings-line-height;
+  color: #fff;
+}
+.table.table-custom thead th {
+  
+    color: #fff;
+}
 .select2-container .select2-selection--single {
     height: 36px !important;
 
@@ -209,7 +220,9 @@ $token = $_SESSION['user_details']['access_token'];
     outline: none; /* Remove default focus outline */
 }
 
-
+.texth2{
+    color:#fff;
+}
 
 </style>
 
@@ -246,7 +259,7 @@ $token = $_SESSION['user_details']['access_token'];
 
             <div class="navbar-left">
                 <div class="navbar-btn">
-                    <a href="#"><img src="<?php echo base_url(); ?>assets/assets/images/icon.svg" alt="Osam Logo" class="img-fluid logo"></a>
+                    <a href="#"><img src="<?php echo base_url(); ?>assets/assets/images/logoarqaa.png" alt="Osam Logo" class="img-fluid logo"></a>
                     <button type="button" class="btn-toggle-offcanvas"><i class="lnr lnr-menu fa fa-bars"></i></button>
                 </div>
 				

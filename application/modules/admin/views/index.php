@@ -13,18 +13,7 @@
         </div>
 
         <div class="container-fluid">
-        <div class="row clearfix">
-                <div class="col-lg-12 col-md-12 col-sm-12">
-                    <div class="card">
-                        <div class="header">
-                            <h2>World Map</h2>
-                        </div>
-                        <div class="body">
-                            <div id="world-map-markers" class="jvector-map" style="height: 300px"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        
             <div class="row clearfix">
                 <div class="col-md-6 col-lg-3">
                     <div class="card">

@@ -1,7 +1,31 @@
 <?php 
  $users_id = getUser('id');
  $UserDetails = $this->Internal_model->getUserDetails($users_id) ;?>
+<style>
+   .header1{
+    font-family: Montserrat;
+    color:#2a64b7;
+font-size: 28px;
+font-weight: 700;
+line-height: 34.13px;
+letter-spacing: 0.03em;
+text-align: left;
+text-underline-position: from-font;
+text-decoration-skip-ink: none;
 
+   } 
+   .header2{
+    font-family: Montserrat;
+    color:#2a64b7;
+font-size: 28px;
+font-weight: 700;
+text-align: left;
+text-underline-position: from-font;
+text-decoration-skip-ink: none;
+
+   } 
+   
+</style>
 <div id="left-sidebar" class="sidebar">
         <div class="navbar-brand">
             <a href="#"><img src="<?php echo base_url(); ?>assets/assets/images/icon.svg" alt="Osam Logo" class="img-fluid logo"><span>Osam</span></a>
@@ -14,7 +38,7 @@
                     <img src="<?php echo $UserDetails[0]->profile_pic;?>" class="user-photo" alt="User Profile Picture">
                 </div>
                 <div class="dropdown">
-                    <span>Welcome,</span>
+                    <span><?php echo $UserDetails[0]->user_type;?></span>
                     <a href="javascript:void(0);" class="dropdown-toggle user-name" data-toggle="dropdown"><strong><?php echo $UserDetails[0]->name;?></strong></a>
                     <ul class="dropdown-menu dropdown-menu-right account vivify flipInY">
                         <li><a href="<?php echo base_url();?>admin/master/my_profile"><i class="icon-user"></i>My Profile</a></li>
@@ -28,16 +52,20 @@
             </div>  
             <nav id="left-sidebar-nav" class="sidebar-nav">
                 <ul id="main-menu" class="metismenu">
-                    <li class="header">Main</li>
-                    <li class="active">
-                        <a href="<?php echo base_url();?>admin/index" class="has-arrow"><i class="icon-speedometer"></i><span>Dashboard</span></a>
+
+                    <li class="header1">China</li>
+                    <li class="">
+                        <a href="<?php echo base_url();?>admin/master/see_who_manage_this_country" ><i class="icon-user-follow"></i><span><?php echo $this->lang->line('see_who_manage_this_country'); ?></span></a>
                         
                     </li>
                   
                     <li>
-                        <a href="#uiElements" class="has-arrow"><i class="icon-diamond"></i><span><?php echo $this->lang->line('control_de_precios'); ?></span></a>
+                        <a href="#uiElements" class="has-arrow"><i class="icon-screen-desktop"></i><span><?php echo $this->lang->line('control_de_precios'); ?></span></a>
                         <ul>
+                           <li><a href="<?php echo base_url();?>admin/master/income_report"><?php echo $this->lang->line('income_report');?> </a></li>
                            <li><a href="<?php echo base_url();?>admin/master/regular_user_monthly_subscription"><?php echo $this->lang->line('regular_user_monthly_subscription');?> </a></li>
+                           <li><a href="<?php echo base_url();?>admin/master/country_tax_settings"><?php echo $this->lang->line('country_tax_settings');?> </a></li>
+
                            <!-- <li><a href="<?php echo base_url();?>admin/master/monthly_subscription_for_company_users"><?php echo $this->lang->line('monthly_subscription_for_company_users');?> </a></li>
                            <li><a href="<?php echo base_url();?>admin/master/boost_your_profile"><?php echo $this->lang->line('boost_your_profile');?> </a></li>
                            <li><a href="<?php echo base_url();?>admin/master/additional_services"><?php echo $this->lang->line('additional_services');?> </a></li>
@@ -47,7 +75,7 @@
 
                         </ul>
                     </li>
-                    <li>
+                    <!-- <li>
                         <a href="#uiElements" class="has-arrow"><i class="icon-diamond"></i><span><?php echo $this->lang->line('manage_user') ?: 'Manage User';?></span></a>
                         <ul>
                           
@@ -75,10 +103,10 @@
                     </li>
                 <?php } ?>
                         </ul>
-                    </li> 
+                    </li>  -->
                     
                     <li>
-    <a href="#uiElements" class="has-arrow"><i class="icon-notebook"></i><span><?php echo $this->lang->line('statistics'); ?></span></a>
+    <a href="#uiElements" class="has-arrow"><i class="icon-list"></i><span><?php echo $this->lang->line('statistics'); ?></span></a>
     <ul>
         <li>
             <a href="#uiElements" class="has-arrow"><i class="icon-arrow-down"></i><?php echo $this->lang->line('general');?></a>
@@ -104,44 +132,59 @@
     </ul>
 </li>
 
-
                     <li>
-                        <a href="<?php echo base_url();?>admin/master/reported_users" class=""><i class=" icon-cloud-upload"></i><span><?php echo $this->lang->line('reported_users');?></span></a>
+                        <a href="<?php echo base_url();?>admin/master/reported_users" class=""><i class=" icon-user-unfollow"></i><span><?php echo $this->lang->line('reported_users');?></span></a>
                     </li>
                     <li>
+                        <a href="<?php echo base_url();?>admin/master/reported_users" class=""><i class=" icon-user-unfollow"></i><span><?php echo $this->lang->line('Handy_Andy_s');?></span></a>
+                    </li>
+                    <li>
+                        <a href="<?php echo base_url();?>admin/master/reported_users" class=""><i class="icon-users"></i><span><?php echo $this->lang->line('company');?></span></a>
+                    </li>
+                    <li>
+                        <a href="<?php echo base_url();?>admin/master/reported_users" class=""><i class="icon-emoticon-smile"></i><span><?php echo $this->lang->line('notification');?></span></a>
+                    </li>
+
+                    <li class="header2">Global Option</li>
+
+                    <!-- <li>
                          <a href="#" class=""><i class=" icon-symbol-female"></i><span><?php echo $this->lang->line('elite_users');?></span></a>
+                    </li> -->
+                    <li>
+                        <a href="<?php echo base_url();?>admin/master/categories" class=""><i class=" icon-grid"></i><span><?php echo $this->lang->line('categorias');?></span></a>
                     </li>
                     <li>
-                        <a href="<?php echo base_url();?>admin/master/categories" class=""><i class="icon-docs"></i><span><?php echo $this->lang->line('categorias');?></span></a>
+                        <a href="<?php echo base_url();?>admin/master/sub_category" class=""><i class="icon-social-dropbox"></i><span><?php echo $this->lang->line('subcategorias');?></span></a>
                     </li>
-                    <li>
-                        <a href="<?php echo base_url();?>admin/master/sub_category" class=""><i class="icon-directions"></i><span><?php echo $this->lang->line('subcategorias');?></span></a>
-                    </li>
-                    <li>
+                    <!-- <li>
                         <a href="#" class=""><i class=" icon-users"></i><span><?php echo $this->lang->line('activate_free_users');?></span></a>
-                    </li>
-                    <li>
+                    </li> -->
+                    <!-- <li>
                         <a href="#" class=""><i class=" icon-user"></i><span><?php echo $this->lang->line('contact_users');?></span></a>
-                    </li>
-                    <li>
+                    </li> -->
+                    <!-- <li>
                         <a href="#" class=""><i class=" icon-graduation"></i><span><?php echo $this->lang->line('rent_/_sale');?></span></a>
-                    </li>
-                    <li>
+                    </li> -->
+                    <!-- <li>
                         <a href="<?php echo base_url();?>admin/master/earrings" class=""><i class=" icon-badge"></i><span><?php echo $this->lang->line('earrings');?></span></a>
-                    </li>
-
-                    <li>
+                    </li> -->
+                         <li>
+                        <a href="<?php echo base_url();?>admin/master/news" class=""><i class="icon-speech"></i><span><?php echo $this->lang->line('news');?> </span></a>
+                    </li> 
+                    <!-- <li>
                         <a href="#uiElements" class="has-arrow"><i class="icon-arrow-right"></i><span><?php echo $this->lang->line('manage_news'); ?></span></a>
                         <ul>
                            <li><a href="<?php echo base_url();?>admin/master/news_categories"><?php echo $this->lang->line('news_categories');?> </a></li>
                            <li><a href="<?php echo base_url();?>admin/master/news"><?php echo $this->lang->line('news');?> </a></li>
 
                         </ul>
-                    </li>
-                    <li>
+                    </li> -->
+                    <!-- <li>
                         <a href="<?php echo base_url();?>admin/master/map" class=""><i class=" icon-badge"></i><span><?php echo $this->lang->line('map');?></span></a>
+                    </li> -->
+                    <li>
+                        <a href="<?php echo base_url();?>admin/master/map" class=""><i class=" icon-settings"></i><span><?php echo $this->lang->line('manage_your_staff');?></span></a>
                     </li>
-
                    
 
                 </ul>

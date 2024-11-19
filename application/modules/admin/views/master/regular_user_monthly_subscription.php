@@ -4,10 +4,20 @@
   <div class="col-12 grid-margin collapse show" id="collapseExample">
     <div class="card">
       <div class="card-body">
-        <h4 class="card-title"><?php echo $page_title; ?></h4>
-        <form class="form-sample" id="crudFormAddApiData" action="<?php echo API_DOMAIN; ?>api/regular_user_monthly_subscription/regular_user_monthly_subscription/add" method="POST">
-          <p class="card-description"><?php echo $this->lang->line('add_new');?></p>
+        <h3 class="card-title texth2"><?php echo $page_title; ?></h3>
+        <form class="form-sample " id="crudFormAddApiData" action="<?php echo API_DOMAIN; ?>api/regular_user_monthly_subscription/regular_user_monthly_subscription/add" method="POST">
+          <p class="texth2">Here you can add new subscription and also see all subscription as well as you can edit or delete it</p>
+        <h4 class="card-description texth2"><?php echo $this->lang->line('add_new_plan');?></h4>
+          <br>
           <div class="row">
+          <!-- <div class="col-md-4">
+              <div class="form-group row">
+                <div class="col-sm-12">
+                  <label class="col-form-label"> <?php echo $this->lang->line('image');?></label>
+                  <input type="file" class="form-control" name="image" />
+                </div>
+              </div>
+            </div>  -->
           <div class="col-md-4">
             <label class="col-form-label"><?php echo $this->lang->line('subscription_type');?></label>
             <select  name="sub_type" class="form-control Select2">
@@ -48,19 +58,20 @@
               </div>
             </div>
 
+           
             <div class="col-md-4">
               <div class="form-group row">
                 <div class="col-sm-12">
-                  <label class="col-form-label"> <?php echo $this->lang->line('image');?></label>
-                  <input type="file" class="form-control" name="image" />
+                  <label class="col-form-label"><?php echo $this->lang->line('tax');?></label>
+                  <input type="text" class="form-control" name="tax" />
                 </div>
               </div>
-            </div>   
-
+            </div>
+           
    <div class="col-md-12">
     <div class="form-group row">
         <div class="col-sm-12">
-            <label class="col-form-label"><?php echo $this->lang->line('concept'); ?></label>
+            <label class="col-form-label"><?php echo $this->lang->line('description'); ?></label>
             <textarea class="form-control summernote" name="concept" rows="4"></textarea>
         </div>
     </div>
@@ -89,7 +100,7 @@
   <div class="col-lg-12 grid-margin stretch-card">
     <div class="card">
       <div class="card-body">
-        <h4 class="card-title"><?php echo $page_title; ?> <?php $this->load->view('includes/collapseFilterForm'); ?></h4>
+        <h3 class="card-title"><?php echo $page_title; ?> Plan <?php $this->load->view('includes/collapseFilterForm'); ?></h3>
         
 
          <div class="collapse show" id="collapseExampleFilter">
@@ -119,9 +130,9 @@
               <tr>
                 <th>#</th>
                 <th><?php echo $this->lang->line('concept');?></th>
-                <th><?php echo $this->lang->line('price');?></th>
+                <th><?php echo $this->lang->line('prices');?></th>
                 <th><?php echo $this->lang->line('currency');?></th>
-                <th><?php echo $this->lang->line('sub_type');?></th>
+                <!-- <th><?php echo $this->lang->line('sub_type');?></th> -->
                 <th><?php echo $this->lang->line('status');?></th>
                 <th><?php echo $this->lang->line('Action');?></th>
               </tr>
@@ -148,7 +159,7 @@
       { "data": "concept", "orderable": true },
       { "data": "price", "orderable": true },
       { "data": "currency", "orderable": true },
-      { "data": "sub_type", "orderable": true },
+      // { "data": "sub_type", "orderable": true },
       {
         "data": "status",
         "orderable": true,

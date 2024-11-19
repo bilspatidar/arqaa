@@ -333,6 +333,18 @@ public function cities(){
     $this->load->view('master/map');
     // $this->load->view('includes/footer');
   }
+  public function open_a_country() {
+    is_login(array('superadmin', 'admin'));
+    $header_data['page_title'] = $this->lang->line('map');
+    $this->load->view('master/open_a_country');
+
+}
+public function delete_country() {
+  is_login(array('superadmin', 'admin'));
+  $header_data['page_title'] = $this->lang->line('map');
+  $this->load->view('master/delete_country');
+
+}
   public function profile_details(){
     
     is_login(array('superadmin','admin'));
@@ -341,6 +353,23 @@ public function cities(){
     $this->load->view('master/profile_details');
     $this->load->view('includes/footer');
   }
+
+public function see_who_manage_this_country(){
+    
+  is_login(array('superadmin','admin'));
+  $header_data['page_title'] = $this->lang->line('see_who_manage_this_country');
+  $this->load->view('includes/header',$header_data);
+  $this->load->view('master/see_who_manage_this_country');
+  $this->load->view('includes/footer');
+}
+public function income_report(){
+    
+  is_login(array('superadmin','admin'));
+  $header_data['page_title'] = $this->lang->line('income_report');
+  $this->load->view('includes/header',$header_data);
+  $this->load->view('master/Income_report');
+  $this->load->view('includes/footer');
+}
 } 
 ?>
 
