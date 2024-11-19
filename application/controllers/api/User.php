@@ -1750,6 +1750,96 @@ public function company_user_delete($id) {
 	}
 }
 	
+public function signup_post() {
+    $_POST = json_decode($this->input->raw_input_stream, true);
+
+    // Set validation rules
+    $this->form_validation->set_rules('name', 'First Name', 'trim|required|xss_clean|alpha|min_length[3]');
+    $this->form_validation->set_rules('last_name', 'Last Name', 'trim|required|xss_clean|alpha|min_length[3]');
+    $this->form_validation->set_rules('mobile', 'Mobile Number', 'trim|required|xss_clean|min_length[10]|numeric');
+    $this->form_validation->set_rules('email', 'Email', 'trim|required|xss_clean|valid_email|is_unique[users.email]');
+    $this->form_validation->set_rules('password', 'Password', 'trim|required|xss_clean|min_length[6]');
+    $this->form_validation->set_rules('confirm_password', 'Confirm Password', 'trim|required|xss_clean|matches[password]');
+
+    if ($this->form_validation->run() === false) {
+        // Validation errors
+        $array_error = array_map(function ($val) {
+            return str_replace(["\r", "\n"], '', strip_tags($val));
+        }, array_filter(explode(".", trim(strip_tags(validation_errors())))));
+
+        $this->response([
+            'status' => false,
+            'errors' => $array_error,
+            'message' => 'Error in submitting form'
+        ], REST_Controller::HTTP_BAD_REQUEST);
+    } else {
+        // Form data
+        $data = [
+            'name' => $this->input->post('name', true),
+            'last_name' => $this->input->post('last_name', true),
+            'mobile' => $this->input->post('mobile', true),
+            'email' => $this->input->post('email', true),
+            'password' => password_hash($this->input->post('password', true), PASSWORD_DEFAULT),
+            'address' => $this->input->post('address', true),
+            'profile_pic' => $this->input->post('profile_pic', true),
+            'user_type' => $this->input->post('user_type', true),
+            'date_of_birth' => $this->input->post('date_of_birth', true),
+            'state_id' => $this->input->post('state_id', true),
+            'country_id' => $this->input->post('country_id', true),
+            'zip_code' => $this->input->post('zip_code', true),
+            'languages' => $this->input->post('languages', true),
+            'linked_in' => $this->input->post('linked_in', true),
+            'about' => $this->input->post('about', true),
+            'isTranslate' => $this->input->post('is_translate', true),
+            'added' => date('Y-m-d H:i:s'),
+            'status' => 'Deactive'
+        ];
+
+        // Insert into database
+        if ($res = $this->user_model->create_user($data)) {
+            // Token data
+            $token_data = [
+                'id' => (int)$res,
+                'email' => (string)$data['email'],
+                'name' => (string)$data['name'],
+                'user_type' => (string)$data['user_type'],
+                'logged_in' => true,
+                'status' => $data['status']
+            ];
+
+            // Generate token
+            $tokenData = $this->authorization_token->generateToken($token_data);
+
+            $this->response([
+                'access_token' => $tokenData,
+                'status' => true,
+                'id' => $res,
+                'message' => 'Thank you for registering your new account!',
+                'note' => 'You have successfully Signup.',
+                'user_type' => $data['user_type'],
+                'logged_in' => true
+            ], REST_Controller::HTTP_OK);
+        } else {
+            // User creation failed
+            $this->response([
+                'status' => false,
+                'message' => 'There was a problem creating your new account. Please try again',
+                'errors' => [$this->db->error()]
+            ], REST_Controller::HTTP_BAD_REQUEST);
+        }
+    }
+}
+
+// Callback function for validating date
+public function valid_date($date) {
+    if (DateTime::createFromFormat('Y-m-d', $date) === false) {
+        $this->form_validation->set_message('valid_date', 'The {field} is not valid (format: Y-m-d)');
+        return false;
+    }
+    return true;
+}
+
+
 
 
 }
