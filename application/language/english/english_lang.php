@@ -8,17 +8,27 @@ $lang['application_user'] = 'Application User';
 $lang['profile_details'] = 'Profile Details';
 $lang['select_country'] = 'Select Country';
 $lang['Handy_Andy_s'] = "Handy Andy's";
+$lang['special_services'] = "Special services";
+$lang['amount'] = "Amount";
+
 $lang['company'] = "Company's";
 $lang['notification'] = "Notification";
 $lang['manage_your_staff'] = "Manage your staff";
-$lang['see_who_manage_this_country'] = "See who manages this country.";
+$lang['manage_country'] = "See who manages this country";
 $lang['income_report'] = "Income Report";
 $lang['country_tax_settings'] = "Country tax settings";
+$lang['reason'] = "Reason";
+
+$lang['company_name'] = "Company Name";
+$lang['business_email'] = "Business Email";
+$lang['company_size'] = "Company Size";
+
+
 
 $lang['usuario_regular'] = 'Regular User';
 $lang['usuario_empresa'] = 'Company User';
 $lang['statistics'] = 'Statistics';
-$lang['usuarios_reportados'] = 'Reported Users';
+$lang['reported_user'] = 'Reported User';
 $lang['usuarios_elite'] = 'Elite Users';
 $lang['categorias'] = 'Categories';
 $lang['select_option'] = 'Select an Option';
@@ -46,6 +56,15 @@ $lang['cart'] = 'Cart';
 $lang['popular'] = 'Popular';
 $lang['postal_codes'] = 'Postal Codes';
 $lang['days_and_times'] = 'Days and Times';
+
+$lang['new_subscriptions'] ='New subscriptions';
+$lang['cancle_subscriptions'] ='Cancel subscriptions';
+$lang['post_code'] ='Post code subscribers';
+$lang['completed_service'] ='Completed services';
+$lang['create_serviced'] ='Created serviced';
+$lang['most_ragistrate_services'] ='Most Registrate Service';
+
+
 $lang['reported_users'] = 'Reported Users';
 $lang['elite_users'] = 'Elite Users';
 $lang['activate_free_users'] = 'Activate Free Users';
@@ -72,7 +91,7 @@ $lang['subscriptionCompany'] = 'Company Subscription';
 $lang['ragistered_services'] = 'REGISTERED SERVICES';
 $lang['map'] = 'Map';
 
-$lang['subcategory'] = 'Subcategories';
+$lang['subcategorys'] = 'Sub Categories';
 
 ///// Button ///////
 $lang['add_new'] = 'Add New';
@@ -92,6 +111,11 @@ $lang['Action'] = 'Actions';
 $lang['permision'] = 'Permision';
 
 $lang['nombre'] = 'Name';
+$lang['category_name'] = 'Category Name';
+$lang['subcategory_name'] = 'Sub Category Name';
+
+$lang['servicer_provider'] = 'Servicer Provider';
+
 $lang['name'] = 'First Name';
 $lang['image'] = 'Image';
 $lang['select_status'] = 'Select Status';
@@ -108,10 +132,11 @@ $lang['description'] = 'Description';
 $lang['mobile'] = 'Mobile';
 $lang['address'] = 'Address';
 $lang['email'] = 'Email';
-$lang['manage_news'] = 'Manage News';
+$lang['news'] = 'News';
 $lang['news_categories'] = 'News Categories';
 $lang['news'] = 'News';
 $lang['title'] = 'Title';
+$lang['news_category_name'] = 'News Category Name';
 
 ///// Users ///////
 $lang['last_name'] = 'Last Name';
@@ -144,7 +169,6 @@ $lang['end_date'] = 'End Date';
 $lang['descripcion'] = 'Description';
 $lang['user'] = 'User';
 $lang['category'] = 'Category';
-$lang['subcategory'] = 'Subcategory';
 $lang['date'] = 'Date';
 $lang['information'] = 'Information';
 

@@ -7,7 +7,7 @@
   <div class="col-lg-12 grid-margin stretch-card">
     <div class="card">
       <div class="card-body">
-        <h4 class="card-title"><?php echo $page_title; ?> <?php $this->load->view('includes/collapseFilterForm'); ?></h4>
+        <h3 class="card-title"><?php echo $page_title; ?> <?php $this->load->view('includes/collapseFilterForm'); ?></h3>
         
 
          <div class="collapse show" id="collapseExampleFilter">
@@ -38,7 +38,9 @@
                 <th>#</th>
                 <th><?php echo $this->lang->line('name');?></th>
                 <th><?php echo $this->lang->line('last_name');?></th>
-                <th><?php echo $this->lang->line('role');?></th>
+                <th><?php echo $this->lang->line('email');?></th>
+                <th><?php echo $this->lang->line('special_services');?></th>
+                <th><?php echo $this->lang->line('amount');?></th>
                 <th><?php echo $this->lang->line('status');?></th>
                 <th><?php echo $this->lang->line('Action');?></th>
               </tr>
@@ -64,6 +66,8 @@
       { "data": "name", "orderable": true },
       { "data": "last_name", "orderable": true },
       { "data": "email", "orderable": true },
+      { "data": "special_services", "orderable": true },
+      { "data": "amount", "orderable": true },
       {
         "data": "status",
         "orderable": true,

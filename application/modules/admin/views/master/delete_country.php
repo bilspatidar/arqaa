@@ -127,9 +127,87 @@ margin-right: 6px;
     padding-left:30px ;
     padding-right:30px ;
 }
-
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    color: #fd7e14;
+   
+}
 </style>
+<style>
+.texth2{
+    font-family: Montserrat;
+font-size: 32px;
+font-weight: 600;
+line-height: 45px;
+text-align: left;
+text-underline-position: from-font;
+text-decoration-skip-ink: none;
 
+
+}
+/* Pop-up styling */
+.popup {
+    display: none; /* Hidden by default */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #22252a;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 80%;
+    max-width: 400px;
+    padding: 20px;
+    z-index: 1000;
+    box-sizing: border-box;
+}
+
+.popup-content {
+    font-size: 14px;
+}
+
+.close-btn {
+    font-size: 20px;
+    color: #aaa;
+    float: right;
+    cursor: pointer;
+}
+
+.close-btn:hover {
+    color: #000;
+}
+
+/* Additional form styling */
+.popup form {
+    margin-top: 10px;
+}
+
+.popup .form-group {
+    margin-bottom: 15px;
+}
+
+.popup input[type="password"] {
+    width: 100%; /* Full-width input */
+    padding: 8px;
+    /* border: 1px solid #ccc; */
+    border-radius: 4px;
+}
+
+.popup button {
+    width: 100%; /* Full-width submit button */
+    padding: 10px;
+    background-color: #007bff; /* Bootstrap primary color */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.popup button:hover {
+    background-color: #0056b3; /* Darker shade on hover */
+}
+
+       </style>
 <body class="theme-orange">
 <?php 
  $users_id = getUser('id');
@@ -166,11 +244,11 @@ margin-right: 6px;
                 <?php } ?>
             </select>
         </div>
-        <div class="form-group ">
-            <div class="col-sm-6 "style="margin-top: 32px;">
-                <button type="submit" class="btn btn-danger btn-continue"> Remove </button>
-            </div>
-        </div>
+        <div class="form-group">
+    <div class="col-sm-6" style="margin-top: 32px;">
+        <button type="button" class="btn btn-danger btn-continue" onclick="openPopup()">Remove</button>
+    </div>
+</div>
         </div>
     </div>
     </form>  
@@ -180,20 +258,7 @@ margin-right: 6px;
                       
    
       
-       <style>
-.texth2{
-    font-family: Montserrat;
-font-size: 32px;
-font-weight: 600;
-line-height: 45px;
-text-align: left;
-text-underline-position: from-font;
-text-decoration-skip-ink: none;
-
-
-}
-
-       </style>
+      
             <div class="row clearfix">
                 <div class="col-lg-12 col-md-12 col-sm-12">
                     <div class="card">
@@ -209,6 +274,22 @@ text-decoration-skip-ink: none;
         </div>
    
     
+        <div id="popup" class="popup">
+    <div class="popup-content">
+        <span class="close-btn" onclick="closePopup()">&times;</span>
+        <h5>Confirm Removal</h5>
+        
+        <!-- Form with provided styling -->
+        <form id="popup-form">
+            <div class="form-group">
+                <label for="password">Enter Password to Confirm:</label>
+                <input type="password" id="password" name="password" class="form-control" placeholder="Enter password" required>
+            </div>
+            
+            <button type="submit" class="btn btn-primary mt-3">Confirm</button>
+        </form>
+    </div>
+</div>
 
 
 <!-- Javascript -->
@@ -235,4 +316,26 @@ text-decoration-skip-ink: none;
       allowClear: true // Allows clearing the selection
     });
   });
+  // Function to open the pop-up
+function openPopup() {
+    document.getElementById("popup").style.display = "block";
+}
+
+// Function to close the pop-up
+function closePopup() {
+    document.getElementById("popup").style.display = "none";
+}
+
+// Handle form submission
+document.getElementById('popup-form').addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevent page reload
+    const password = document.getElementById('password').value;
+
+    // Perform validation or AJAX request to handle the removal
+    console.log('Password entered:', password);
+
+    // Close the pop-up after successful confirmation
+    closePopup();
+});
+
 </script>

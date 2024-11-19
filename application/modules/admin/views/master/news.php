@@ -4,9 +4,10 @@
   <div class="col-12 grid-margin collapse show" id="collapseExample">
     <div class="card">
       <div class="card-body">
-        <h4 class="card-title"><?php echo $page_title; ?></h4>
+        <h3 class="card-title"><?php echo $page_title; ?></h3>
+        <p class="texth2">Here you can add new news and also see all news as well as you can edit or delete it</p>
         <form class="form-sample" id="crudFormAddApiData" action="<?php echo API_DOMAIN; ?>api/news/news/add" method="POST">
-          <p class="card-description"><?php echo $this->lang->line('add_new');?></p>
+          <h4 class="card-description"><?php echo $this->lang->line('add_new');?> News</h4>
           <div class="row">
           <div class="col-md-12">
               <div class="form-group row">
@@ -71,7 +72,7 @@
   <div class="col-lg-12 grid-margin stretch-card">
     <div class="card">
       <div class="card-body">
-        <h4 class="card-title"><?php echo $page_title; ?> <?php $this->load->view('includes/collapseFilterForm'); ?></h4>
+        <h3 class="card-title">All <?php echo $page_title; ?>  <?php $this->load->view('includes/collapseFilterForm'); ?></h3>
         
 
          <div class="collapse show" id="collapseExampleFilter">
