@@ -127,7 +127,10 @@ margin-right: 6px;
     padding-left:30px ;
     padding-right:30px ;
 }
-
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    color: #fd7e14;
+   
+}
 </style>
 
 <body class="theme-orange">
@@ -166,11 +169,11 @@ margin-right: 6px;
                 <?php } ?>
             </select>
         </div>
-        <div class="form-group ">
-            <div class="col-sm-6 "style="margin-top: 32px;">
-                <button type="submit" class="btn btn-primary btn-continue"> Continue </button>
+       <div class="form-group row">
+                <div class="col-sm-6 text-right" style="margin-top: 32px;">
+                    <a href="<?php echo base_url();?>admin/index" class="btn btn-primary btn-continue">Continue</a>
+                </div>
             </div>
-        </div>
         </div>
     </div>
     </form>  

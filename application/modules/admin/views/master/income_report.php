@@ -123,10 +123,12 @@ border-radius: 10px !important;
     <div class="card">
       <div class="card-body">
         <h3 class="card-title texth2"><?php echo $page_title; ?></h3>
+      
+            
+        
         <form class="form-sample " id="crudFormAddApiData" action="<?php echo API_DOMAIN; ?>api/regular_user_monthly_subscription/regular_user_monthly_subscription/add" method="POST">
           <p class="texth2">Here we find all the data including incomes, revenue, expense adn taxes...</p>
-          <br>
-          
+
         <div class="card1">
             <h6>Yearly</h6>
 
@@ -203,28 +205,92 @@ border-radius: 10px !important;
             </div>
             </div>
 
+            <style>
 
+.dropdownMenu1 {
+        display: none;
+        position: absolute;
+        top: calc(100% + 5px);
+        left: 0;
+        background-color: #444;
+        color: white;
+        width: 100%;
+        border-radius: 5px;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+        z-index: 1000;
+        max-height: 200px;
+        overflow-y: auto;
+    }
+
+    .dropdownMenu1 p {
+        padding: 10px;
+        margin: 0;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+        text-align: center;
+        font-size: 10px;
+        border-bottom: 1px solid #555;
+    }
+
+    .dropdownMenu1 p:last-child {
+        border-bottom: none;
+    }
+
+    .dropdownMenu1 p:hover {
+        background-color: #555;
+    }
+
+    /* Scrollbar styling */
+    .dropdownMenu1::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .dropdownMenu1::-webkit-scrollbar-thumb {
+        background: #555;
+        border-radius: 5px;
+    }
+
+    .dropdownMenu1::-webkit-scrollbar-thumb:hover {
+        background: #666;
+    }
+
+    .monthDropdown {
+        position: relative;
+        margin-top: 20px;
+    }
+
+    #currentMonth {
+        font-size: 14px;
+        font-weight: 700;
+        color: white;
+        margin: 0;
+        display: inline-block;
+        cursor: pointer;
+    }
+</style>
            
             <div class="card1 mt-4">
             <h6>Montly</h6>
 
             <div class="yearDropdown">
-            <p id="currentYear">January</p>
-            <svg onclick="toggleDropdown()" width="21" height="8" viewBox="0 0 21 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <p id="currentMonth">January</p>
+            <svg onclick="toggleDropdown1()" width="21" height="8" viewBox="0 0 21 13" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M17.9305 2.88886C17.9305 2.88886 12.2023 10.6666 10.1528 10.6666C8.10307 10.6666 2.375 2.88879 2.375 2.88879" stroke="white" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
-            <div class="dropdownMenu" id="dropdownMenu">
-                <p onclick="selectYear(2024)">2024</p>
-                <p onclick="selectYear(2023)">2023</p>
-                <p onclick="selectYear(2022)">2022</p>
-                <p onclick="selectYear(2021)">2021</p>
-                <p onclick="selectYear(2020)">2020</p>
-                <p onclick="selectYear(2019)">2019</p>
-                <p onclick="selectYear(2018)">2018</p>
-                <p onclick="selectYear(2017)">2017</p>
-                <p onclick="selectYear(2016)">2016</p>
-                <p onclick="selectYear(2015)">2015</p>
-            </div>
+            <div class="dropdownMenu1" id="dropdownMenu1">
+            <p onclick="selectMonth('January')">January</p>
+            <p onclick="selectMonth('February')">February</p>
+            <p onclick="selectMonth('March')">March</p>
+            <p onclick="selectMonth('April')">April</p>
+            <p onclick="selectMonth('May')">May</p>
+            <p onclick="selectMonth('June')">June</p>
+            <p onclick="selectMonth('July')">July</p>
+            <p onclick="selectMonth('August')">August</p>
+            <p onclick="selectMonth('September')">September</p>
+            <p onclick="selectMonth('October')">October</p>
+            <p onclick="selectMonth('November')">November</p>
+            <p onclick="selectMonth('December')">December</p>
+        </div>
             </div>
 
           
@@ -287,7 +353,18 @@ border-radius: 10px !important;
 </div>
 
 
+
 <script>
+    function toggleDropdown1() {
+    const dropdown = document.getElementById('dropdownMenu1');
+    dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+}
+
+function selectMonth(month) {
+    document.getElementById('currentMonth').innerText = month;
+    toggleDropdown1(); // Close the dropdown after selecting
+}
+
     function toggleDropdown() {
         const dropdownMenu = document.getElementById("dropdownMenu");
         const svgIcon = document.querySelector(".yearDropdown svg");
@@ -313,3 +390,46 @@ border-radius: 10px !important;
         }
 
 </script>
+
+<script>
+    let currentValue = 2; // Initial value
+
+    function updateOutput() {
+        document.getElementById('spinValue').textContent = currentValue;
+		$("#value_of_spin").val(currentValue);
+    }
+
+    function increment() {
+        if (currentValue < 1000) {
+            currentValue++;
+            updateOutput();
+        }
+    }
+
+    function decrement() {
+        if (currentValue > 1) {
+            currentValue--;
+            updateOutput();
+        }
+    }
+    function increment() {
+    let spinValue = document.getElementById('spinValue');
+    let hiddenInput = document.getElementById('value_of_spin');
+    let currentValue = parseInt(spinValue.innerText);
+    spinValue.innerText = currentValue + 1;
+    hiddenInput.value = currentValue + 1; // Update the hidden input
+}
+
+function decrement() {
+    let spinValue = document.getElementById('spinValue');
+    let hiddenInput = document.getElementById('value_of_spin');
+    let currentValue = parseInt(spinValue.innerText);
+    if (currentValue > 1) { // Prevent decrementing below 1
+        spinValue.innerText = currentValue - 1;
+        hiddenInput.value = currentValue - 1; // Update the hidden input
+    }
+}
+
+	
+</script>
+

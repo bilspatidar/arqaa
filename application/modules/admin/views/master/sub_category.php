@@ -4,9 +4,10 @@
   <div class="col-12 grid-margin collapse show" id="collapseExample">
     <div class="card">
       <div class="card-body">
-        <h4 class="card-title"><?php echo $page_title; ?></h4>
+        <h3 class="card-title"><?php echo $page_title; ?></h3>
+        <P class="texth2">Here you can add new subcategories and also see all subcategories as well as you can edit or delete it</P>
         <form class="form-sample" id="crudFormAddApiData" action="<?php echo API_DOMAIN; ?>api/sub_category/sub_category/add" method="POST">
-          <p class="card-description"><?php echo $this->lang->line('add_new');?></p>
+          <h4 class="card-description"><?php echo $this->lang->line('add_new');?> Subcategory</h4>
           <div class="row">
 		  <div class="col-md-4">
               <div class="form-group row">
@@ -25,7 +26,7 @@
             <div class="col-md-4">
               <div class="form-group row">
                 <div class="col-sm-12">
-                  <label class="col-form-label"><?php echo $this->lang->line('name');?></label>
+                  <label class="col-form-label"><?php echo $this->lang->line('subcategory_name');?></label>
                   <input type="text" class="form-control" name="name" />
                 </div>
               </div>
@@ -90,10 +91,10 @@
             <thead>
               <tr>
                 <th>#</th>
-                <th><?php echo $this->lang->line('name');?></th>
-            
-                <th><?php echo $this->lang->line('banner');?></th>
-                <th><?php echo $this->lang->line('services');?></th>
+                <th><?php echo $this->lang->line('subcategory_name');?></th>
+                <th><?php echo $this->lang->line('image');?></th>
+                <th><?php echo $this->lang->line('servicer_provider');?></th>
+                <th><?php echo $this->lang->line('category');?></th>
                 <th><?php echo $this->lang->line('Action');?></th>
               </tr>
             </thead>
@@ -113,14 +114,16 @@
                 { "data": null, "render": function(data, type, row, meta) {
                     return meta.row + 1; // Adding 1 to meta.row to start from 1 instead of 0
                 }},
-                { "data": "name", "orderable": true  },
-			//	{ "data": "category_id", "orderable": true },
+                { "data": "subcategory_name", "orderable": true  },
                 { 
                     "data": "image",
                     "render": function(data, type, row) {
                         return '<img src="' + data + '" alt="Image" style="height: 60px; width: 80px;">';
                     }
                 },
+                { "data": "servicer_provider", "orderable": true  },
+                { "data": "category", "orderable": true  },
+
                 { 
                     "data": "status", "orderable": true,
                     "render": function(data, type, row) {

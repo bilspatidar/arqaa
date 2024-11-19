@@ -24,12 +24,20 @@ text-underline-position: from-font;
 text-decoration-skip-ink: none;
 
    } 
-   
+   .headerlogo{
+    width: 185px;
+height: 50px;
+top: 14px;
+left: 868px;
+gap: 0px;
+opacity: 0px;
+
+}
 </style>
 <div id="left-sidebar" class="sidebar">
         <div class="navbar-brand">
-            <a href="#"><img src="<?php echo base_url(); ?>assets/assets/images/icon.svg" alt="Osam Logo" class="img-fluid logo"><span>Osam</span></a>
-            <button type="button" class="btn-toggle-offcanvas btn btn-sm float-right"><i class="lnr lnr-menu fa fa-chevron-circle-left"></i></button>
+  <a href="<?php echo base_url();?>admin/index">
+                    <img class="headerlogo"src="<?php echo base_url(); ?>assets/assets/images/logoarqaa.png" alt="Osam Logo" class="img-fluid logo"></a>            <button type="button" class="btn-toggle-offcanvas btn btn-sm float-right"><i class="lnr lnr-menu fa fa-chevron-circle-left"></i></button>
         </div>
         <div class="sidebar-scroll">
             <div class="user-account">
@@ -55,7 +63,7 @@ text-decoration-skip-ink: none;
 
                     <li class="header1">China</li>
                     <li class="">
-                        <a href="<?php echo base_url();?>admin/master/see_who_manage_this_country" ><i class="icon-user-follow"></i><span><?php echo $this->lang->line('see_who_manage_this_country'); ?></span></a>
+                        <a href="<?php echo base_url();?>admin/master/manage_country" ><i class="icon-user-follow"></i><span><?php echo $this->lang->line('manage_country'); ?></span></a>
                         
                     </li>
                   
@@ -108,9 +116,8 @@ text-decoration-skip-ink: none;
                     <li>
     <a href="#uiElements" class="has-arrow"><i class="icon-list"></i><span><?php echo $this->lang->line('statistics'); ?></span></a>
     <ul>
-        <li>
+        <!-- <li>
             <a href="#uiElements" class="has-arrow"><i class="icon-arrow-down"></i><?php echo $this->lang->line('general');?></a>
-            <!-- Add more nested items under "General" -->
             <ul>
                 <li><a href="<?php echo base_url();?>admin/master/registered_users"><?php echo $this->lang->line('registered_users'); ?></a></li>
                 <li><a href="<?php echo base_url();?>admin/master/services"><?php echo $this->lang->line('services'); ?></a></li>
@@ -118,15 +125,34 @@ text-decoration-skip-ink: none;
 
             </ul>
 
-        </li>
-        <li>
+        </li> -->
+        <!-- <li>
         <a href="#" ><i class="icon-key"></i><?php echo $this->lang->line('postal_codes');?></a>
-        </li>
-        <li>
+        </li> -->
+        <!-- <li>
         <a href="<?php echo base_url();?>admin/master/papular" ><i class="icon-paper-plane"></i><?php echo $this->lang->line('popular');?></a>
+        </li> -->
+        <!-- <li>
+        <a href="#" ><i class="icon-heart"></i><?php echo $this->lang->line('days_and_times');?></a>
+        </li> -->
+
+        <li>
+        <a href="#" ><?php echo $this->lang->line('new_subscriptions');?></a>
         </li>
         <li>
-        <a href="#" ><i class="icon-heart"></i><?php echo $this->lang->line('days_and_times');?></a>
+        <a href="#" ><?php echo $this->lang->line('cancle_subscriptions');?></a>
+        </li>
+        <li>
+        <a href="#" ><?php echo $this->lang->line('post_code');?></a>
+        </li>
+        <li>
+        <a href="#" ><?php echo $this->lang->line('completed_service');?></a>
+        </li>
+        <li>
+        <a href="#" ><?php echo $this->lang->line('create_serviced');?></a>
+        </li>
+        <li>
+        <a href="#" ><?php echo $this->lang->line('most_ragistrate_services');?></a>
         </li>
         
     </ul>
@@ -136,10 +162,10 @@ text-decoration-skip-ink: none;
                         <a href="<?php echo base_url();?>admin/master/reported_users" class=""><i class=" icon-user-unfollow"></i><span><?php echo $this->lang->line('reported_users');?></span></a>
                     </li>
                     <li>
-                        <a href="<?php echo base_url();?>admin/master/reported_users" class=""><i class=" icon-user-unfollow"></i><span><?php echo $this->lang->line('Handy_Andy_s');?></span></a>
+                        <a href="<?php echo base_url();?>admin/master/handy_andy" class=""><i class=" icon-user-unfollow"></i><span><?php echo $this->lang->line('Handy_Andy_s');?></span></a>
                     </li>
                     <li>
-                        <a href="<?php echo base_url();?>admin/master/reported_users" class=""><i class="icon-users"></i><span><?php echo $this->lang->line('company');?></span></a>
+                        <a href="<?php echo base_url();?>admin/master/company" class=""><i class="icon-users"></i><span><?php echo $this->lang->line('company');?></span></a>
                     </li>
                     <li>
                         <a href="<?php echo base_url();?>admin/master/reported_users" class=""><i class="icon-emoticon-smile"></i><span><?php echo $this->lang->line('notification');?></span></a>
@@ -168,17 +194,17 @@ text-decoration-skip-ink: none;
                     <!-- <li>
                         <a href="<?php echo base_url();?>admin/master/earrings" class=""><i class=" icon-badge"></i><span><?php echo $this->lang->line('earrings');?></span></a>
                     </li> -->
-                         <li>
+                         <!-- <li>
                         <a href="<?php echo base_url();?>admin/master/news" class=""><i class="icon-speech"></i><span><?php echo $this->lang->line('news');?> </span></a>
-                    </li> 
-                    <!-- <li>
-                        <a href="#uiElements" class="has-arrow"><i class="icon-arrow-right"></i><span><?php echo $this->lang->line('manage_news'); ?></span></a>
+                    </li>  -->
+                    <li>
+                        <a href="#uiElements" class="has-arrow"><i class="icon-speech"></i><span><?php echo $this->lang->line('news'); ?></span></a>
                         <ul>
                            <li><a href="<?php echo base_url();?>admin/master/news_categories"><?php echo $this->lang->line('news_categories');?> </a></li>
                            <li><a href="<?php echo base_url();?>admin/master/news"><?php echo $this->lang->line('news');?> </a></li>
 
                         </ul>
-                    </li> -->
+                    </li>
                     <!-- <li>
                         <a href="<?php echo base_url();?>admin/master/map" class=""><i class=" icon-badge"></i><span><?php echo $this->lang->line('map');?></span></a>
                     </li> -->

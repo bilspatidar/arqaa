@@ -93,6 +93,11 @@ $token = $_SESSION['user_details']['access_token'];
   <!-- Menu link -->
 <link rel="stylesheet" href="<?php echo base_url(); ?>assets/assets/vendor/summernote/dist/summernote.css"/>
 <style>
+    .metismenu ul a {
+   
+    padding: 6px 0px 6px 35px;
+
+}
 h1, h2, h3, h4, h5, h6,
 .h1, .h2, .h3, .h4, .h5, .h6 {
   margin-bottom: $headings-margin-bottom;
@@ -105,6 +110,7 @@ h1, h2, h3, h4, h5, h6,
   
     color: #fff;
 }
+
 .select2-container .select2-selection--single {
     height: 36px !important;
 
@@ -193,14 +199,14 @@ h1, h2, h3, h4, h5, h6,
 
 /* Customize the dropdown menu */
 /* Dropdown menu background and border styling */
-.dropdown-menu {
+.dropdown-menu1 {
     background-color: #333; /* Black background */
     border-radius: 4px;
     min-width: 130px; /* Set a minimum width for consistency */
 }
 
 /* Styling for each link in the dropdown */
-.dropdown-menu li a {
+.dropdown-menu1 li a {
     color: #fff; /* White text for contrast */
     padding: 6px 10px; /* Adequate padding for readability */
     font-size: 14px;
@@ -209,13 +215,13 @@ h1, h2, h3, h4, h5, h6,
 }
 
 /* Hover effect to make the link visually interactive */
-.dropdown-menu li a:hover {
+.dropdown-menu1 li a:hover {
     background-color: #000; /* Darker shade on hover for better visual feedback */
     color: #fff; /* Keep text white on hover */
 }
 
 /* Optional: Focus state for keyboard navigation */
-.dropdown-menu li a:focus {
+.dropdown-menu1 li a:focus {
     background-color: #444; /* Slightly lighter for focus state */
     outline: none; /* Remove default focus outline */
 }
@@ -233,7 +239,9 @@ h1, h2, h3, h4, h5, h6,
 <!-- Page Loader -->
 <div class="page-loader-wrapper">
     <div class="loader">
-        <div class="m-t-30"><img src="<?php echo base_url(); ?>assets/assets/images/icon.svg" width="40" height="40" alt="Osam"></div>
+        <div class="m-t-30">
+            <img src="<?php echo base_url(); ?>assets/assets/images/logoarqaa.png" width="40" height="40" alt="Osam">
+        </div>
         <p>Please wait...</p>        
     </div>
 </div>
@@ -278,7 +286,7 @@ h1, h2, h3, h4, h5, h6,
     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
         Language <span class="caret"></span>
     </a>
-    <ul class="dropdown-menu">
+    <ul class="dropdown-menu dropdown-menu1">
         <li><a href="<?php echo base_url('Internal/switch_lang/english'); ?>"> English</a></li>
         <li><a href="<?php echo base_url('Internal/switch_lang/spanish'); ?>"> Spanish</a></li>
     </ul>

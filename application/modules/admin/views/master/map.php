@@ -75,6 +75,35 @@ margin-right: 6px;
 .texth2{
     color:#fff;
 }
+
+/* Customize the dropdown menu */
+/* Dropdown menu background and border styling */
+.dropdown-menu1 {
+    background-color: #333; /* Black background */
+    border-radius: 4px;
+    min-width: 130px; /* Set a minimum width for consistency */
+}
+
+/* Styling for each link in the dropdown */
+.dropdown-menu1 li a {
+    color: #fff; /* White text for contrast */
+    padding: 6px 10px; /* Adequate padding for readability */
+    font-size: 14px;
+    display: block; /* Ensure the links span the entire width of the dropdown */
+    text-decoration: none; /* Remove underline */
+}
+
+/* Hover effect to make the link visually interactive */
+.dropdown-menu1 li a:hover {
+    background-color: #000; /* Darker shade on hover for better visual feedback */
+    color: #fff; /* Keep text white on hover */
+}
+
+/* Optional: Focus state for keyboard navigation */
+.dropdown-menu1 li a:focus {
+    background-color: #444; /* Slightly lighter for focus state */
+    outline: none; /* Remove default focus outline */
+}
 </style>
 
 <body class="theme-orange">
@@ -124,7 +153,7 @@ margin-right: 6px;
     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
         Language <span class="caret"></span>
     </a>
-    <ul class="dropdown-menu">
+    <ul class="dropdown-menu dropdown-menu1">
         <li><a href="<?php echo base_url('Internal/switch_lang/english'); ?>"> English</a></li>
         <li><a href="<?php echo base_url('Internal/switch_lang/spanish'); ?>"> Spanish</a></li>
     </ul>
@@ -188,13 +217,13 @@ margin-right: 6px;
             <a href="<?php echo base_url(); ?>admin/master/open_a_country">
                 <button>Open A Country</button>
             </a>
-            <a href="manage-country.html">
+            <a href="<?php echo base_url(); ?>admin/master/manage_country">
                 <button>Manage Country</button>
             </a>
             <a href="<?php echo base_url(); ?>admin/master/delete_country">
                 <button>Remove Country</button>
             </a>
-            <a href="global-dashboard.html">
+            <a href="<?php echo base_url();?>admin/index">
                 <button>Global Dashboard</button>
             </a>
         </div>

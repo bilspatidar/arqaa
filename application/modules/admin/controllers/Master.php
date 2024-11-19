@@ -153,7 +153,7 @@ public function days_and_times(){
 public function reported_users(){
     
   is_login(array('superadmin','admin'));
-  $header_data['page_title'] = $this->lang->line('reports');
+  $header_data['page_title'] = $this->lang->line('reported_user');
   $this->load->view('includes/header',$header_data);
   $this->load->view('master/reported_users');
   $this->load->view('includes/footer');
@@ -229,7 +229,7 @@ public function document_subcategory(){
 public function sub_category(){
     
   is_login(array('superadmin','admin'));
-  $header_data['page_title'] = $this->lang->line('subcategory');
+  $header_data['page_title'] = $this->lang->line('subcategorys');
   $this->load->view('includes/header');
   $this->load->view('master/sub_category',$header_data);
   $this->load->view('includes/footer');
@@ -354,12 +354,12 @@ public function delete_country() {
     $this->load->view('includes/footer');
   }
 
-public function see_who_manage_this_country(){
+public function manage_country(){
     
   is_login(array('superadmin','admin'));
-  $header_data['page_title'] = $this->lang->line('see_who_manage_this_country');
+  $header_data['page_title'] = $this->lang->line('manage_country');
   $this->load->view('includes/header',$header_data);
-  $this->load->view('master/see_who_manage_this_country');
+  $this->load->view('master/manage_country');
   $this->load->view('includes/footer');
 }
 public function income_report(){
@@ -368,6 +368,23 @@ public function income_report(){
   $header_data['page_title'] = $this->lang->line('income_report');
   $this->load->view('includes/header',$header_data);
   $this->load->view('master/Income_report');
+  $this->load->view('includes/footer');
+}
+
+public function handy_andy(){
+    
+  is_login(array('superadmin','admin'));
+  $header_data['page_title'] = $this->lang->line('Handy_Andy_s');
+  $this->load->view('includes/header',$header_data);
+  $this->load->view('master/handy_andy');
+  $this->load->view('includes/footer');
+}
+public function company(){
+    
+  is_login(array('superadmin','admin'));
+  $header_data['page_title'] = $this->lang->line('company');
+  $this->load->view('includes/header',$header_data);
+  $this->load->view('master/company');
   $this->load->view('includes/footer');
 }
 } 
