@@ -33,7 +33,7 @@ padding: 10px;
 .yearDropdown p {
   margin: 0;
   display: inline-block;
-  font-size: 25px;
+  font-size: 20px;
   color: #fff;
   font-weight:700;
 }
@@ -118,26 +118,56 @@ border-radius: 10px !important;
 border-radius: 10px !important;
 
 }
+.h1{
+  font-size: 30px;
+}
+.tax{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+}
+.taxbtn {
+    margin-left: 0;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 5px 10px;
+    margin-bottom:10px;
+}
+.texth2 {
+    margin-right: 30px;
+   
+}
   </style>
   <div class="col-12 grid-margin collapse show" id="collapseExample">
     <div class="card">
       <div class="card-body">
-        <h3 class="card-title texth2"><?php echo $page_title; ?></h3>
+      <div class="d-flex "style="justify-content: space-between !important;">
+      <h3 class="card-title texth2"><?php echo $page_title; ?></h3>
+
+                <div class="col-sm-6 text-right" >
+                    <a href="<?php echo base_url();?>admin/index" class="btn btn-primary btn-continue">Detail Info</a>
+                </div>
+            </div>
       
-            
-        
+            <p class="texth2">Here we find all the data including incomes, revenue, expense adn taxes...</p>
+
+      
+         
         <form class="form-sample " id="crudFormAddApiData" action="<?php echo API_DOMAIN; ?>api/regular_user_monthly_subscription/regular_user_monthly_subscription/add" method="POST">
-          <p class="texth2">Here we find all the data including incomes, revenue, expense adn taxes...</p>
 
         <div class="card1">
-            <h6>Yearly</h6>
-
-            <div class="yearDropdown">
+        <div class="tax d-flex justify-content-between align-items-center">
+    <!-- Left Section: Yearly Dropdown -->
+    <div>
+        <h6>Yearly</h6>
+        <div class="yearDropdown position-relative">
             <p id="currentYear">2024</p>
             <svg onclick="toggleDropdown()" width="21" height="8" viewBox="0 0 21 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M17.9305 2.88886C17.9305 2.88886 12.2023 10.6666 10.1528 10.6666C8.10307 10.6666 2.375 2.88879 2.375 2.88879" stroke="white" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M17.9305 2.88886C17.9305 2.88886 12.2023 10.6666 10.1528 10.6666C8.10307 10.6666 2.375 2.88879 2.375 2.88879" 
+                      stroke="white" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
-            <div class="dropdownMenu" id="dropdownMenu">
+            <div class="dropdownMenu position-absolute" id="dropdownMenu">
                 <p onclick="selectYear(2024)">2024</p>
                 <p onclick="selectYear(2023)">2023</p>
                 <p onclick="selectYear(2022)">2022</p>
@@ -149,16 +179,27 @@ border-radius: 10px !important;
                 <p onclick="selectYear(2016)">2016</p>
                 <p onclick="selectYear(2015)">2015</p>
             </div>
-            </div>
+        </div>
+    </div>
 
-          
+    <!-- Right Section: Tax Buttons -->
+    <div class="text-right">
+        <h3 class="texth2 mb-0">Tax</h3>
+        <div class="taxbtn1">
+            <button class="btn btn-primary taxbtn">21</button>
+            <button class="btn btn-primary taxbtn">%</button>
+        </div>
+    </div>
+</div>
+
+           
           <div class="row clearfix">
-            
+         
                 <div class="col-lg-3 col-md-6">
                     <div class="card">
                         <div class="body body1">
                             <div>Total revenue</div>
-                            <div class="py-4 m-0 text-center h1">$9,452</div>
+                            <div class="py-4 m-0 text-center h1">$ 563,518.13</div>
                             <div class="d-flex">
                                 <small class="">Income</small>
                                 <div class="ml-auto"><i class="fa fa-caret-up"></i> 4%</div>
@@ -169,8 +210,8 @@ border-radius: 10px !important;
                 <div class="col-lg-3 col-md-6">
                     <div class="card">
                         <div class="body body2">
-                            <div>Total revenue</div>
-                            <div class="py-4 m-0 text-center h1">$9,452</div>
+                            <div>Taxes to report</div>
+                            <div class="py-4 m-0 text-center h1">$ 118, 339</div>
                             <div class="d-flex">
                                 <small class="">Income</small>
                                 <div class="ml-auto"><i class="fa fa-caret-up"></i> 4%</div>
@@ -181,8 +222,8 @@ border-radius: 10px !important;
                 <div class="col-lg-3 col-md-6">
                     <div class="card">
                         <div class="body body3">
-                            <div>Total revenue</div>
-                            <div class="py-4 m-0 text-center h1">$9,452</div>
+                            <div>Income After Tax</div>
+                            <div class="py-4 m-0 text-center h1">$ 445,179.13</div>
                             <div class="d-flex">
                                 <small class="">Income</small>
                                 <div class="ml-auto"><i class="fa fa-caret-up"></i> 4%</div>
@@ -193,8 +234,8 @@ border-radius: 10px !important;
                 <div class="col-lg-3 col-md-6">
                     <div class="card">
                         <div class="body body4">
-                            <div>Total revenue</div>
-                            <div class="py-4 m-0 text-center h1">$9,452</div>
+                            <div>Expenses</div>
+                            <div class="py-4 m-0 text-center h1">$ 3,005</div>
                             <div class="d-flex">
                                 <small class="">Income</small>
                                 <div class="ml-auto"><i class="fa fa-caret-up"></i> 4%</div>
@@ -296,11 +337,11 @@ border-radius: 10px !important;
           
           <div class="row clearfix">
             
-                <div class="col-lg-3 col-md-6">
+          <div class="col-lg-3 col-md-6">
                     <div class="card">
                         <div class="body body1">
                             <div>Total revenue</div>
-                            <div class="py-4 m-0 text-center h1">$9,452</div>
+                            <div class="py-4 m-0 text-center h1">$ 563,518.13</div>
                             <div class="d-flex">
                                 <small class="">Income</small>
                                 <div class="ml-auto"><i class="fa fa-caret-up"></i> 4%</div>
@@ -311,8 +352,8 @@ border-radius: 10px !important;
                 <div class="col-lg-3 col-md-6">
                     <div class="card">
                         <div class="body body2">
-                            <div>Total revenue</div>
-                            <div class="py-4 m-0 text-center h1">$9,452</div>
+                            <div>Taxes to report</div>
+                            <div class="py-4 m-0 text-center h1">$ 118, 339</div>
                             <div class="d-flex">
                                 <small class="">Income</small>
                                 <div class="ml-auto"><i class="fa fa-caret-up"></i> 4%</div>
@@ -323,8 +364,8 @@ border-radius: 10px !important;
                 <div class="col-lg-3 col-md-6">
                     <div class="card">
                         <div class="body body3">
-                            <div>Total revenue</div>
-                            <div class="py-4 m-0 text-center h1">$9,452</div>
+                            <div>Income After Tax</div>
+                            <div class="py-4 m-0 text-center h1">$ 445,179.13</div>
                             <div class="d-flex">
                                 <small class="">Income</small>
                                 <div class="ml-auto"><i class="fa fa-caret-up"></i> 4%</div>
@@ -335,8 +376,8 @@ border-radius: 10px !important;
                 <div class="col-lg-3 col-md-6">
                     <div class="card">
                         <div class="body body4">
-                            <div>Total revenue</div>
-                            <div class="py-4 m-0 text-center h1">$9,452</div>
+                            <div>Expenses</div>
+                            <div class="py-4 m-0 text-center h1">$ 3,005</div>
                             <div class="d-flex">
                                 <small class="">Income</small>
                                 <div class="ml-auto"><i class="fa fa-caret-up"></i> 4%</div>

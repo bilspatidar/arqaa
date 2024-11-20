@@ -132,7 +132,7 @@
                 <th><?php echo $this->lang->line('concept');?></th>
                 <th><?php echo $this->lang->line('prices');?></th>
                 <th><?php echo $this->lang->line('currency');?></th>
-                <!-- <th><?php echo $this->lang->line('sub_type');?></th> -->
+                <th><?php echo $this->lang->line('taxes');?></th>
                 <th><?php echo $this->lang->line('status');?></th>
                 <th><?php echo $this->lang->line('Action');?></th>
               </tr>
@@ -159,7 +159,7 @@
       { "data": "concept", "orderable": true },
       { "data": "price", "orderable": true },
       { "data": "currency", "orderable": true },
-      // { "data": "sub_type", "orderable": true },
+      { "data": "tax", "orderable": true },
       {
         "data": "status",
         "orderable": true,

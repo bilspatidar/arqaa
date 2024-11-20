@@ -387,6 +387,22 @@ public function company(){
   $this->load->view('master/company');
   $this->load->view('includes/footer');
 }
+public function manage_your_staff(){
+    
+  is_login(array('superadmin','admin'));
+  $header_data['page_title'] = $this->lang->line('manage_your_staff');
+  $this->load->view('includes/header',$header_data);
+  $this->load->view('master/manage_your_staff');
+  $this->load->view('includes/footer');
+}
+public function Monthly_fixed_cost(){
+    
+  is_login(array('superadmin','admin'));
+  $header_data['page_title'] = $this->lang->line('Monthly_fixed_cost');
+  $this->load->view('includes/header',$header_data);
+  $this->load->view('master/Monthly_fixed_cost');
+  $this->load->view('includes/footer');
+}
 } 
 ?>
 
