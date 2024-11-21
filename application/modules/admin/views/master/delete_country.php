@@ -151,7 +151,7 @@ text-decoration-skip-ink: none;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: #22252a;
+    background-color: #22252A;
     border: 1px solid #ccc;
     border-radius: 5px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);

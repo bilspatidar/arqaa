@@ -5,7 +5,7 @@
    .header1{
     font-family: Montserrat;
     color:#2a64b7;
-font-size: 28px;
+font-size: 20px;
 font-weight: 700;
 line-height: 34.13px;
 letter-spacing: 0.03em;
@@ -17,7 +17,7 @@ text-decoration-skip-ink: none;
    .header2{
     font-family: Montserrat;
     color:#2a64b7;
-font-size: 28px;
+font-size: 20px;
 font-weight: 700;
 text-align: left;
 text-underline-position: from-font;
@@ -34,30 +34,32 @@ opacity: 0px;
 
 }
 </style>
+
 <div id="left-sidebar" class="sidebar">
         <div class="navbar-brand">
   <a href="<?php echo base_url();?>admin/index">
                     <img class="headerlogo"src="<?php echo base_url(); ?>assets/assets/images/logoarqaa.png" alt="Osam Logo" class="img-fluid logo"></a>            <button type="button" class="btn-toggle-offcanvas btn btn-sm float-right"><i class="lnr lnr-menu fa fa-chevron-circle-left"></i></button>
         </div>
         <div class="sidebar-scroll">
-            <div class="user-account">
-
-                <div class="user_div">
-                    <img src="<?php echo $UserDetails[0]->profile_pic;?>" class="user-photo" alt="User Profile Picture">
-                </div>
-                <div class="dropdown">
-                    <span><?php echo $UserDetails[0]->user_type;?></span>
-                    <a href="javascript:void(0);" class="dropdown-toggle user-name" data-toggle="dropdown"><strong><?php echo $UserDetails[0]->name;?></strong></a>
-                    <ul class="dropdown-menu dropdown-menu-right account vivify flipInY">
-                        <li><a href="<?php echo base_url();?>admin/master/my_profile"><i class="icon-user"></i>My Profile</a></li>
-                        <!-- <li><a href="app-inbox.html"><i class="icon-envelope-open"></i>Messages</a></li> -->
-                        <li><a href="<?php echo base_url();?>admin/master/setting"><i class="icon-settings"></i><?php echo $this->lang->line('change_password') ?: 'Change Password';?></a></li>
-                       
-                        <li><a href="<?php echo base_url();?>admin/admin/logout"><i class="icon-power"></i>Logout</a></li>
-                    </ul>
-                </div>
-                <a href="<?php echo base_url();?>admin/master/add_user" class="btn btn-sm btn-block btn-primary btn-round mt-3" title=""><i class="icon-plus mr-1"></i> Create New</a>
-            </div>  
+        <div class="user-account">
+            <div class="user_div">
+                <img src="<?php echo $UserDetails[0]->profile_pic;?>" class="user-photo" alt="User Profile Picture">
+            </div>
+            <div class="dropdown">
+                <span><?php echo $UserDetails[0]->user_type;?></span>
+                <a href="javascript:void(0);" class="dropdown-toggle user-name" data-toggle="dropdown">
+                    <strong><?php echo $UserDetails[0]->name;?></strong>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-right account vivify flipInY">
+                    <li><a href="<?php echo base_url();?>admin/master/my_profile"><i class="icon-user"></i>My Profile</a></li>
+                    <li><a href="<?php echo base_url();?>admin/master/setting"><i class="icon-settings"></i>Change Password</a></li>
+                    <li><a href="<?php echo base_url();?>admin/admin/logout"><i class="icon-power"></i>Logout</a></li>
+                </ul>
+            </div>
+            <a href="<?php echo base_url();?>admin/master/add_user" class="btn btn-sm btn-block btn-primary btn-round mt-3">
+                <i class="icon-plus mr-1"></i> Create New
+            </a>
+        </div> 
             <nav id="left-sidebar-nav" class="sidebar-nav">
                 <ul id="main-menu" class="metismenu">
 
@@ -136,23 +138,24 @@ opacity: 0px;
         <a href="#" ><i class="icon-heart"></i><?php echo $this->lang->line('days_and_times');?></a>
         </li> -->
 
-        <li>
-        <a href="#" ><?php echo $this->lang->line('new_subscriptions');?></a>
-        </li>
-        <li>
-        <a href="#" ><?php echo $this->lang->line('cancle_subscriptions');?></a>
-        </li>
-        <li>
-        <a href="#" ><?php echo $this->lang->line('post_code');?></a>
-        </li>
+       
         <li>
         <a href="#" ><?php echo $this->lang->line('completed_service');?></a>
         </li>
         <li>
-        <a href="#" ><?php echo $this->lang->line('create_serviced');?></a>
+        <a href="#" ><?php echo $this->lang->line('daily_visits');?></a>
         </li>
         <li>
-        <a href="#" ><?php echo $this->lang->line('most_ragistrate_services');?></a>
+        <a href="#" ><?php echo $this->lang->line('tatal_download_app');?></a>
+        </li>
+        <li>
+        <a href="#" ><?php echo $this->lang->line('member');?></a>
+        </li>
+        <li>
+        <a href="#" ><?php echo $this->lang->line('marketing');?></a>
+        </li>
+        <li>
+        <a href="#" ><?php echo $this->lang->line('sales_this_week');?></a>
         </li>
         
     </ul>
@@ -209,10 +212,16 @@ opacity: 0px;
                         <a href="<?php echo base_url();?>admin/master/map" class=""><i class=" icon-badge"></i><span><?php echo $this->lang->line('map');?></span></a>
                     </li> -->
                     <li>
-                        <a href="<?php echo base_url();?>admin/master/map" class=""><i class=" icon-settings"></i><span><?php echo $this->lang->line('manage_your_staff');?></span></a>
+                        <a href="<?php echo base_url();?>admin/master/manage_your_staff" class=""><i class=" icon-settings"></i><span><?php echo $this->lang->line('manage_your_staff');?></span></a>
                     </li>
                    
-
+                    <li>
+                        <a href="#" class=""></a>
+                    </li>
+                    <li>
+                        <a href="#" class=""></a>
+                    </li>
+                   
                 </ul>
             </nav>     
         </div>

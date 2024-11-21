@@ -93,6 +93,11 @@ $token = $_SESSION['user_details']['access_token'];
   <!-- Menu link -->
 <link rel="stylesheet" href="<?php echo base_url(); ?>assets/assets/vendor/summernote/dist/summernote.css"/>
 <style>
+    .card-body {
+   
+    padding: 15px;
+    padding-top: 10px;
+}
     .metismenu ul a {
    
     padding: 6px 0px 6px 35px;
