@@ -57,13 +57,16 @@ $lang['popular'] = 'Popular';
 $lang['postal_codes'] = 'Postal Codes';
 $lang['days_and_times'] = 'Days and Times';
 
-$lang['new_subscriptions'] ='New subscriptions';
-$lang['cancle_subscriptions'] ='Cancel subscriptions';
-$lang['post_code'] ='Post code subscribers';
-$lang['completed_service'] ='Completed services';
-$lang['create_serviced'] ='Created serviced';
-$lang['most_ragistrate_services'] ='Most Registrate Service';
 
+$lang['completed_service'] ='Completed services';
+$lang['daily_visits'] ='Daily Visits';
+$lang['tatal_download_app'] ='Total Download app Android / iOS';
+$lang['member'] ='Members';
+$lang['marketing'] ='Marketing';
+$lang['sales_this_week'] ='Sales this week';
+
+$lang['manage_your_staff'] = 'Manage Your Staff';
+$lang['Monthly_fixed_cost'] = 'Arqaa Cost Netherlands';
 
 $lang['reported_users'] = 'Reported Users';
 $lang['elite_users'] = 'Elite Users';
@@ -125,8 +128,12 @@ $lang['inactive'] = 'Inactive';
 $lang['deactive'] = 'Deactive';
 $lang['price'] = 'Price';
 $lang['prices'] = 'Prices';
+$lang['%'] = '%';
+$lang['tax_concept'] = 'Tax Concept';
+$lang['concept1'] = 'Concept';
+$lang['concept'] = 'Concept';
+$lang['total'] = 'Total';
 
-$lang['concept'] = 'Concept (Only For Website)';
 $lang['currency'] = 'Currency';
 $lang['description'] = 'Description';
 $lang['mobile'] = 'Mobile';
