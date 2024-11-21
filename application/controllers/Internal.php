@@ -18,7 +18,10 @@ class Internal extends CI_Controller {
     }
     
     // Load language file
-
+  function ddd(){
+      $uuu = $this->db->get('users')->result_array();
+      print_r($uuu);
+  }
 
     public function get_state($countryId='',$StateId=''){
         $states = $this->Internal_model->get_state($countryId);

@@ -28,7 +28,10 @@ class User extends REST_Controller {
 	 * @access public
 	 * @return void
 	 */
-	 
+	 public function check_user(){
+	     ini_set('display_errors', 1);
+	     echo"okok";
+	 }
 	 public function member_profile_list_post() {
         $input_data = file_get_contents('php://input');
         $request_data = json_decode($input_data, true);
@@ -895,7 +898,6 @@ class User extends REST_Controller {
 	 public function login_post() {
 		 // Enable error reporting
 
-
 		$_POST = json_decode($this->input->raw_input_stream, true);
 		// Validation rules set karein
 		$this->form_validation->set_rules('email', 'Email/Mobile', 'required');
@@ -1757,7 +1759,7 @@ public function company_user_delete($id) {
 
 
 
-public function signup_post($params='add') {
+public function signup_post_bkp($params='add') {
 
 	if($params=='add') {
 		//$getTokenData = $this->is_authorized('superadmin');
