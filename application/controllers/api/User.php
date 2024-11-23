@@ -2043,32 +2043,28 @@ public function company_signup_post() {
 }
 
 
-public function company_size() {
-    // Authorization token (optional based on your API's authentication system)
-    $getTokenData = $this->is_authorized(); 
+public function company_size_get() {
+	// Prepare the final response array
+	$final = array();
+	
+	// Fetch company size data from the model
+	$company_sizes = $this->Company_size_model->company_sizes();
 
-    // Prepare the final response array
-    $final = array();
-    
-    // Fetch company size data from the model
-    $company_sizes = $this->company_size_model->company_sizes();
+	if ($company_sizes) {
+		// If data is available, return success status
+		$final['status'] = true;
+		$final['data'] = $company_sizes;
+		$final['message'] = 'Company sizes fetched successfully.';
+	} else {
+		// If no data is found, return an error message
+		$final['status'] = false;
+		$final['data'] = [];
+		$final['message'] = 'No company sizes found.';
+	}
 
-    if ($company_sizes) {
-        // If data is available, return success status
-        $final['status'] = true;
-        $final['data'] = $company_sizes;
-        $final['message'] = 'Company sizes fetched successfully.';
-    } else {
-        // If no data is found, return an error message
-        $final['status'] = false;
-        $final['data'] = [];
-        $final['message'] = 'No company sizes found.';
-    }
-
-    // Send the response
-    $this->response($final, REST_Controller::HTTP_OK);
+	// Send the response
+	$this->response($final, REST_Controller::HTTP_OK);
 }
-
 
 
 
