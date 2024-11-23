@@ -83,7 +83,7 @@ public function cv (){
 public function add_user (){
     
   is_login(array('superadmin','admin'));
-  $header_data['page_title'] = $this->lang->line('users');
+  $header_data['page_title'] = $this->lang->line('add_user');
   $this->load->view('includes/header',$header_data);
   $this->load->view('master/regular_user');
   $this->load->view('includes/footer');
