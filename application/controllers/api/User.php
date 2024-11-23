@@ -2045,9 +2045,9 @@ public function company_signup_post() {
 }
 
 
-public function company_size() {
+public function company_size_post() {
     // Authorization token (optional based on your API's authentication system)
-    $getTokenData = $this->is_authorized(); 
+    //$getTokenData = $this->is_authorized(); 
 
     // Prepare the final response array
     $final = array();
