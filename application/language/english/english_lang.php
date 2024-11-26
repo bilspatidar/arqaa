@@ -134,6 +134,20 @@ $lang['concept1'] = 'Concept';
 $lang['concept'] = 'Concept';
 $lang['total'] = 'Total';
 
+$lang['price_per_unit'] = 'Price per unit';
+$lang['quantity'] = 'Quantity';
+$lang['total_tax'] = 'Total Tax Inc.';
+$lang['tax_report'] = '21 % Tax to report';
+$lang['tax_return'] = 'Tax Retourn';
+$lang['total_after_tax'] = 'Total after tax';
+$lang['revenue'] = 'Revenue';
+$lang['role'] = 'Role';
+$lang['add_user'] = 'Add User';
+$lang['switch'] = 'Switch';
+
+
+
+
 $lang['currency'] = 'Currency';
 $lang['description'] = 'Description';
 $lang['mobile'] = 'Mobile';

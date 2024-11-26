@@ -159,26 +159,26 @@ margin-right: 6px;
 <form class="" id="crudFormAddApiData" action="<?php echo API_DOMAIN; ?>api/user/company_user/add" method="POST">
 
     <div class="form-group row">
-        <div class="col-sm-6">
+    <div class="col-sm-6">
             <label class="col-form-label"><?php echo $this->lang->line('select_country'); ?></label>
-            <select name="country_id" id="country_id" class="form-control select2 dark-select" onchange="getStates(this.value)">
+            <select name="country_id" id="country_id" class="form-control select2 dark-select">
                 <option value=""><?php echo $this->lang->line('select_option'); ?></option>
                 <?php $countrys = $this->Internal_model->get_country();
                 foreach ($countrys as $country) { ?>
-                    <option value="<?php echo $country->id; ?>"><?php echo $country->name; ?></option>
+                    <option value="<?php echo $country->name; ?>"><?php echo $country->name; ?></option>
                 <?php } ?>
             </select>
         </div>
-       <div class="form-group row">
-                <div class="col-sm-6 text-right" style="margin-top: 32px;">
-                    <a href="<?php echo base_url();?>admin/index" class="btn btn-primary btn-continue">Continue</a>
-                </div>
-            </div>
+      
+        <div class="form-group row">
+        <div class="col-sm-6 text-right" style="margin-top: 32px;">
+            <button type="button" class="btn btn-primary btn-continue" onclick="redirectToDashboard()">Continue</button>
         </div>
+    </div>
     </div>
     </form>  
     </div>
-
+    </div>
     </div>                         
                       
    
@@ -238,4 +238,18 @@ text-decoration-skip-ink: none;
       allowClear: true // Allows clearing the selection
     });
   });
+</script>
+<script>
+    function redirectToDashboard() {
+        // सेलेक्ट किया गया देश (country_id) प्राप्त करें
+        var countryId = document.getElementById('country_id').value;
+
+        if (countryId) {
+            // रीडायरेक्ट URL के साथ देश की ID जोड़ें
+            var url = "<?php echo base_url(); ?>admin/index?country_id=" + countryId;
+            window.location.href = url;
+        } else {
+            alert("<?php echo $this->lang->line('select_country'); ?>"); // यदि कोई देश सेलेक्ट नहीं किया गया
+        }
+    }
 </script>

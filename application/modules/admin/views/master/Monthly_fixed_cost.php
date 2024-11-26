@@ -1,6 +1,14 @@
 <style>
+
+   .card-body {
+   padding: 30px;
+   padding-top: 10px;
+}
+  .row-gap {
+  margin-bottom: 8px; /* Row spacing if needed */
+}
     .card2{
-height: 173px;
+height: 150px;
 background-color:#383b3f;
 
     }
@@ -162,9 +170,9 @@ background-color:#383b3f;
             <!-- Empty or other content can go here -->
           </div>
           <div class="col-md-3 mt-3">
-  <h5 class="texth2 fs-2"><?php echo $this->lang->line('total'); ?></h5>
-  <div class="card card2">
-    <div class="table-responsive">
+           <h5 class="texth2 fs-2"><?php echo $this->lang->line('total'); ?></h5>
+     <div class="card card2">
+       <div class="table-responsive">
       <table class="table  table-striped texth2 text-bold">
         
         <tbody>
@@ -186,9 +194,346 @@ background-color:#383b3f;
     </div>
   </div>
 </div>
+</div>
+<div class="row">
+          <!-- First Column (Table) -->
+          <div class="col-md-5">
+            <div class="table-responsive">
+              <table class="table table-hover js-basic-example dataTable table-custom spacing5">
+                <thead>
+                  <tr>
+                    <th><?php echo $this->lang->line('concept1'); ?></th>
+                    <th><?php echo $this->lang->line('cost'); ?></th>
+                    <th><?php echo $this->lang->line('%'); ?></th>
+                    <th><?php echo $this->lang->line('tax_concept'); ?></th>
+                    <th><?php echo $this->lang->line('tax'); ?></th>
+                  </tr>
+                </thead>
+                <tbody id="api_response_table_body dataTables_paginate">
+                  <!-- Data will be dynamically inserted here -->
+                </tbody>
+              </table>
+              <button class="btn btn-secendory">+ Add New</button>
+            </div>
+          </div>
 
+          <!-- Second Column (Empty) -->
+          <div class="col-md-1">
+            <!-- Empty or other content can go here -->
+          </div>
+          <!-- Third Column (Currency Dropdown) -->
+          <div class="col-md-2 mt-3">
+            
+                <h5 class=""><?php echo $this->lang->line('currency'); ?></h5>
+                <select name="currency" class="form-control select2">
+                  <option value=""><?php echo $this->lang->line('select_option'); ?></option>
+                  <?php
+                    $get_currencys = $this->Internal_model->get_currency();
+                    foreach ($get_currencys as $get_currency) { ?>
+                      <option value="<?php echo $get_currency->symbol; ?>"><?php echo $get_currency->name; ?> (<?php echo $get_currency->symbol; ?>)</option>
+                  <?php } ?>
+                </select>
+              
+          </div>
+          <div class="col-md-1">
+            <!-- Empty or other content can go here -->
+          </div>
+          <div class="col-md-3 mt-3">
+           <h5 class="texth2 fs-2"><?php echo $this->lang->line('total'); ?></h5>
+     <div class="card card2">
+       <div class="table-responsive">
+      <table class="table  table-striped texth2 text-bold">
+        
+        <tbody>
+          <!-- Static Data -->
+          <tr class="text-primary ">
+            <td>Subtotal</td>
+            <td>$500</td>
+          </tr>
+          <tr>
+            <td>Total without taxes</td>
+            <td>$450</td>
+          </tr>
+          <tr>
+            <td>Tax (21%) Non food</td>
+            <td>$50</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+</div>
+<div class="container-fluid">
+   <div class="row mt-3">
+            <div class="col-md-5 bg-primary text-white p-3">
+              <h3>Monthly Sales</h3>
+              <h1>$563,518.13</h1>
+            </div>
+            <div class="col-md-5 offset-md-2 bg-primary text-white p-3">
+              <h3>Total Expense</h3>
+              <h1>$ 3,005</h1>
+            </div>
+          </div>
+          </div>
+
+          <div class="col-md-12 mt-3">
+            <div class="table-responsive">
+              <table class="table table-hover js-basic-example dataTable table-custom spacing5">
+                <thead>
+                  <tr>
+                    <th><?php echo $this->lang->line('concept1'); ?></th>
+                    <th><?php echo $this->lang->line('price_per_unit'); ?></th>
+                    <th><?php echo $this->lang->line('quantity'); ?></th>
+                    <th><?php echo $this->lang->line('total_tax'); ?></th>
+                    <th><?php echo $this->lang->line('tax_report'); ?></th>
+                    <th><?php echo $this->lang->line('tax_return'); ?></th>
+                    <th><?php echo $this->lang->line('total_after_tax'); ?></th>
+                    <th><?php echo $this->lang->line('revenue'); ?></th>
+                  </tr>
+                </thead>
+                <tbody id="api_response_table_body dataTables_paginate">
+                  <!-- Data will be dynamically inserted here -->
+                </tbody>
+              </table>
+              
+            </div>
+          </div>
+<div class="container mb-3 mt-3 card"style="background-color:#383b3f;">
+  <!-- Header Row -->
+  <div class="d-flex align-items-center mt-3">
+    <b class="texth2">Company Profiles</b>
+    <svg onclick="toggleDropdown()" width="21" height="8" viewBox="0 0 21 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path
+        d="M17.9305 2.88886C17.9305 2.88886 12.2023 10.6666 10.1528 10.6666C8.10307 10.6666 2.375 2.88879 2.375 2.88879"
+        stroke="white"
+        stroke-width="4.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+  </div>
+
+  <!-- Data Rows -->
+  <div class="mt-3">
+  <table class="table table-borderless texth2">
+   
+    
+    <tbody>
+      <tr>
+        <td>Micro Company</td>
+        <td>$ 14.99</td>
+        <td>6,000</td>
+        <td>$ 89,940</td>
+      </tr>
+    </tbody>
+    <tbody>
+      <tr>
+        <td>Small Profiles</td>
+        <td>$ 19.99</td>
+        <td>7,000</td>
+        <td>$ 139,930</td>
+      </tr>
+    </tbody>
+    <tbody>
+      <tr>
+        <td>Medium Profiles</td>
+        <td>$ 24.99</td>
+        <td>8,000</td>
+        <td>$ 124,950</td>
+      </tr>
+    </tbody>
+    <tbody>
+      <tr>
+        <td>Large Profiles</td>
+        <td>$ 49.99</td>
+        <td>3,237</td>
+        <td>$ 161,817.63</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+</div>
+ 
+<div class="container mb-3 card"style="background-color:#383b3f;">
+  <!-- Header Row -->
+  <div class="d-flex align-items-center mt-3">
+    <b class="texth2">Boost Profile</b>
+    <svg onclick="toggleDropdown()" width="21" height="8" viewBox="0 0 21 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path
+        d="M17.9305 2.88886C17.9305 2.88886 12.2023 10.6666 10.1528 10.6666C8.10307 10.6666 2.375 2.88879 2.375 2.88879"
+        stroke="white"
+        stroke-width="4.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+  </div>
+
+  <!-- Data Rows -->
+  <div class="mt-3">
+  <table class="table table-borderless texth2">
+   
+    
+    <tbody>
+      <tr>
+        <td>Position 1</td>
+        <td>$ 5.00</td>
+        <td>1</td>
+        <td>$ 5.00</td>
+      </tr>
+    </tbody>
+    <tbody>
+      <tr>
+      <td>Position 2</td>
+        <td>$ 5.00</td>
+        <td>1</td>
+        <td>$ 5.00</td>
+      </tr>
+    </tbody>
+    <tbody>
+      <tr>
+      <td>Position 3</td>
+        <td>$ 5.00</td>
+        <td>1</td>
+        <td>$ 5.00</td>
+      </tr>
+    </tbody>
+    <tbody>
+      <tr>
+      <td>Position 4</td>
+        <td>$ 5.00</td>
+        <td>1</td>
+        <td>$ 5.00</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+</div>
+<div class="container mb-3 card"style="background-color:#383b3f;">
+  <!-- Header Row -->
+  <div class="d-flex align-items-center mt-3">
+    <b class="texth2">Extra Services</b>
+    <svg onclick="toggleDropdown()" width="21" height="8" viewBox="0 0 21 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path
+        d="M17.9305 2.88886C17.9305 2.88886 12.2023 10.6666 10.1528 10.6666C8.10307 10.6666 2.375 2.88879 2.375 2.88879"
+        stroke="white"
+        stroke-width="4.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+  </div>
+
+  <!-- Data Rows -->
+  <div class="mt-3">
+  <table class="table table-borderless texth2">
+   
+    
+    <tbody>
+      <tr>
+        <td>Extra service 2</td>
+        <td>$ 14.99</td>
+        <td>5,270</td>
+        <td>$ 26,350</td>
+      </tr>
+    </tbody>
+    <tbody>
+      <tr>
+        <td>Extra service 3</td>
+        <td>$ 2.50</td>
+        <td>2,356</td>
+        <td>$ 5,890</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+</div>
+<div class="container mb-3 card"style="background-color:#383b3f;height: 45px;">
+  <!-- Header Row -->
+
+
+  <!-- Data Rows -->
+  <div class="">
+  <table class="table table-borderless texth2">
+   
+    
+    <tbody>
+      <tr>
+        <td>Banners</td>
+        <td>$ 14.99</td>
+        <td>5,270</td>
+        <td>$ 26,350</td>
+      </tr>
+    </tbody>
+    
+  </table>
+</div>
 
         </div>
+<div class="container mb-3 card"style="background-color:#383b3f;height: 45px;">
+  <!-- Header Row -->
+
+
+  <!-- Data Rows -->
+  <div class="">
+  <table class="table table-borderless texth2 ">
+   
+    
+    <tbody>
+      <tr>
+        <td>CV’s</td>
+        <td>$ 0.50</td>
+        <td>1,340</td>
+        <td>$ 670</td>
+      </tr>
+    </tbody>
+    
+  </table>
+</div>
+
+        </div>
+
+       
+       
+  <div class="container"style="height: 45px;">
+    <!-- सामान्य बटन -->
+    <button class="normal-button text-left" style="width: 650px; position: relative;">
+  <h3>Partners <i class="icon-eye"></i></h3>
+</button>
+
+  </div>
+
+
+
+
+<style scoped>
+
+
+.normal-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.icon-eye {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 40px;  /* Adjust the icon size as needed */
+}
+.normal-button:hover {
+  background-color: #0056b3;
+}
+</style>
+
+
 
       </div>
     </div>
