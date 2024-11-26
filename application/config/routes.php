@@ -70,6 +70,11 @@ $route['home'] = 'api/Media/home';
 $route['medias/(:any)'] = 'api/Media/medias/$i';
 $route['register'] = 'api/User/register';
 $route['signup'] = 'api/User/signup';
+$route['company_signup'] = 'api/user/company_signup';
+$route['company_size'] = 'api/User/company_size';
+
+
+
 $route['login'] = 'api/User/login';
 $route['logout'] = 'api/User/logout';
 $route['reGenToken'] = 'api/Token/reGenToken';

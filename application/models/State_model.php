@@ -44,7 +44,8 @@ class State_model extends CI_Model {
         $this->db->from($this->table);
 		$this->db->join('countries',"countries.id=$this->table.country_id");
         if(!empty($id)) {
-            $this->db->where($this->table.'.'.$this->primaryKey, $id);
+        
+             $this->db->where($this->table.'.'.$this->primaryKey, $id);
         }
 		
 		if(isset($filterData['name']) && !empty($filterData['name'])){

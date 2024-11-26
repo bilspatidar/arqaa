@@ -13,7 +13,7 @@ class Regular_user_monthly_subscription extends REST_Controller {
         $this->cors_header();
         parent::__construct();
         $this->load->model('regular_user_monthly_subscription_model');
-        $this->load->model('business_hrs_model'); 
+        //$this->load->model('business_hrs_model'); 
         $this->load->helper('security');
     }
 
