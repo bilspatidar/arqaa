@@ -893,93 +893,93 @@ class User extends REST_Controller {
 	 */
 
 	 public function login_post() {
-		 // Enable error reporting
+		// Enable error reporting
 
 
-		$_POST = json_decode($this->input->raw_input_stream, true);
-		// Validation rules set karein
-		$this->form_validation->set_rules('email', 'Email/Mobile', 'required');
-		$this->form_validation->set_rules('password', 'Password', 'required');
-	
-		if ($this->form_validation->run() == false) {
-			// Validation me koi error hai, use view me bhej dein
-			$array_error = array_map(function ($val) {
-				return str_replace(array("\r", "\n"), '', strip_tags($val));
-			}, array_filter(explode(".", trim(strip_tags(validation_errors())))));
-			$this->response([
-				'status' => FALSE,
-				'errors' =>$array_error,
-				'message' =>'Form submit me error hai'
-			], REST_Controller::HTTP_BAD_REQUEST,'','error');
-	
-		} else {
-			// Form se variables set karein
-			$email = $this->input->post('email');
-			$password = $this->input->post('password');
-	
-			// Check karein ki identifier ek email hai ya mobile number
-			if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
-				$user = $this->user_model->resolve_user_login($email, $password, 'email');
-			} else {
-				$user = $this->user_model->resolve_user_login($email, $password, 'mobile');
-			}
-	
-			if ($user) {
-				// Handle successful login
-				$users_id = $this->user_model->get_user_id_from_username($email); // Assuming you have a method to get user ID from identifier
-				$user = $this->user_model->get_user($users_id);
-				
-				if($user->status=='Deactive'){
-					// Account inactive hai
-					$this->response(
-						[
-							'status' => FALSE,
-							'message' =>'Account active nahi hai, kripya admin se sampark karein'
-						], 
-						REST_Controller::HTTP_UNAUTHORIZED
-					);
-				}
-				
-				// Session user data set karein
-				$token_data['id'] = (int)$user->id;
-				$token_data['user_type'] = (string)$user->user_type;
-				$token_data['email'] = (string)$user->email;
-				$token_data['name'] = (string)$user->name;
-				$token_data['logged_in'] = (bool)true;
-				$token_data['status'] = (bool)$user->status;
-				
-				// Successful login
-				$tokenData = $this->authorization_token->generateToken($token_data);
-				$final = array();
-				$final['access_token'] = $tokenData;
-				$final['status'] = true;
-				$final['message'] = 'Login success!';
-				$final['note'] = 'You are now logged in.';
-				$final['logged_in'] = (bool)true;
-				$final['user_type'] = $token_data['user_type'];
-				$final['id'] = $token_data['id'];
-				if ($user->user_type == 'superadmin') {
-					$final['redirect_url'] = base_url('admin/master/map');
-				} else {
-					$final['redirect_url'] = base_url('admin/index');
-				}
-				// CI session start
-				$this->session->set_userdata('user_details', $final);
-				// CI session end
-				$this->response($final, REST_Controller::HTTP_OK); 
-			} else {
-				// Login failed
-				$this->response(
-					[
-						'status' => FALSE,
-						'message' =>'Wrong email or password'
-					], 
-					REST_Controller::HTTP_UNAUTHORIZED
-				);
-			}
-		}
-	}
-	
+	   $_POST = json_decode($this->input->raw_input_stream, true);
+	   // Validation rules set karein
+	   $this->form_validation->set_rules('email', 'Email/Mobile', 'required');
+	   $this->form_validation->set_rules('password', 'Password', 'required');
+   
+	   if ($this->form_validation->run() == false) {
+		   // Validation me koi error hai, use view me bhej dein
+		   $array_error = array_map(function ($val) {
+			   return str_replace(array("\r", "\n"), '', strip_tags($val));
+		   }, array_filter(explode(".", trim(strip_tags(validation_errors())))));
+		   $this->response([
+			   'status' => FALSE,
+			   'errors' =>$array_error,
+			   'message' =>'Form submit me error hai'
+		   ], REST_Controller::HTTP_BAD_REQUEST,'','error');
+   
+	   } else {
+		   // Form se variables set karein
+		   $email = $this->input->post('email');
+		   $password = $this->input->post('password');
+   
+		   // Check karein ki identifier ek email hai ya mobile number
+		   if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+			   $user = $this->user_model->resolve_user_login($email, $password, 'email');
+		   } else {
+			   $user = $this->user_model->resolve_user_login($email, $password, 'mobile');
+		   }
+   
+		   if ($user) {
+			   // Handle successful login
+			   $users_id = $this->user_model->get_user_id_from_username($email); // Assuming you have a method to get user ID from identifier
+			   $user = $this->user_model->get_user($users_id);
+			   
+			   if($user->status=='Deactive'){
+				   // Account inactive hai
+				   $this->response(
+					   [
+						   'status' => FALSE,
+						   'message' =>'Account active nahi hai, kripya admin se sampark karein'
+					   ], 
+					   REST_Controller::HTTP_UNAUTHORIZED
+				   );
+			   }
+			   
+			   // Session user data set karein
+			   $token_data['id'] = (int)$user->id;
+			   $token_data['user_type'] = (string)$user->user_type;
+			   $token_data['email'] = (string)$user->email;
+			   $token_data['name'] = (string)$user->name;
+			   $token_data['logged_in'] = (bool)true;
+			   $token_data['status'] = (bool)$user->status;
+			   
+			   // Successful login
+			   $tokenData = $this->authorization_token->generateToken($token_data);
+			   $final = array();
+			   $final['access_token'] = $tokenData;
+			   $final['status'] = true;
+			   $final['message'] = 'Login success!';
+			   $final['note'] = 'You are now logged in.';
+			   $final['logged_in'] = (bool)true;
+			   $final['user_type'] = $token_data['user_type'];
+			   $final['id'] = $token_data['id'];
+			   if ($user->user_type == 'superadmin') {
+				   $final['redirect_url'] = base_url('admin/master/map');
+			   } else {
+				   $final['redirect_url'] = base_url('admin/index');
+			   }
+			   // CI session start
+			   $this->session->set_userdata('user_details', $final);
+			   // CI session end
+			   $this->response($final, REST_Controller::HTTP_OK); 
+		   } else {
+			   // Login failed
+			   $this->response(
+				   [
+					   'status' => FALSE,
+					   'message' =>'Wrong email or password'
+				   ], 
+				   REST_Controller::HTTP_UNAUTHORIZED
+			   );
+		   }
+	   }
+   }
+   
 	
 	
 

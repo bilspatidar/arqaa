@@ -271,8 +271,8 @@ background-color:#383b3f;
               <h1>$563,518.13</h1>
             </div>
             <div class="col-md-5 offset-md-2 bg-primary text-white p-3">
-              <h3>Monthly Sales</h3>
-              <h1>$563,518.13</h1>
+              <h3>Total Expense</h3>
+              <h1>$ 3,005</h1>
             </div>
           </div>
           </div>

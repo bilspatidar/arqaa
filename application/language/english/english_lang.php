@@ -143,6 +143,7 @@ $lang['total_after_tax'] = 'Total after tax';
 $lang['revenue'] = 'Revenue';
 $lang['role'] = 'Role';
 $lang['add_user'] = 'Add User';
+$lang['switch'] = 'Switch';
 
 
 
