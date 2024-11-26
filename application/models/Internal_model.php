@@ -55,6 +55,18 @@ class Internal_model extends CI_Model {
         return $this->db->get()->result();
     }
     
+    public function get_country_name_by_id($country_id) {
+        $this->db->select('name');
+        $this->db->from('countries'); // यहां आपके देश की टेबल का नाम दें
+        $this->db->where('id', $country_id);
+        $query = $this->db->get();
+    
+        if ($query->num_rows() > 0) {
+            return $query->row()->name;
+        } else {
+            return "Unknown Country"; // यदि ID मान्य नहीं है
+        }
+    }
     
     public function get_country($array=''){
         $this->db->select('id,name');

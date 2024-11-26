@@ -898,7 +898,7 @@ class User extends REST_Controller {
 	 */
 
 	 public function login_post() {
-		 // Enable error reporting
+		// Enable error reporting
 
 		$_POST = json_decode($this->input->raw_input_stream, true);
 		// Validation rules set karein
