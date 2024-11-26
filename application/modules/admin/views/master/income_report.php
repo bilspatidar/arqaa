@@ -146,7 +146,7 @@ border-radius: 10px !important;
       <h3 class="card-title texth2"><?php echo $page_title; ?></h3>
 
                 <div class="col-sm-6 text-right" >
-                    <a href="<?php echo base_url();?>admin/index" class="btn btn-primary btn-continue">Detail Info</a>
+                    <a href="<?php echo base_url();?>admin/master/monthly_fixed_cost" class="btn btn-primary btn-continue">Detail Info</a>
                 </div>
             </div>
       

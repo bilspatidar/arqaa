@@ -1,6 +1,8 @@
 <?php 
  $users_id = getUser('id');
- $UserDetails = $this->Internal_model->getUserDetails($users_id) ;?>
+ $UserDetails = $this->Internal_model->getUserDetails($users_id) ;
+?>
+
 <style>
    .header1{
     font-family: Montserrat;
@@ -62,8 +64,46 @@ opacity: 0px;
         </div> 
             <nav id="left-sidebar-nav" class="sidebar-nav">
                 <ul id="main-menu" class="metismenu">
+             
+                <?php
+           $country = $this->input->get('country_id');
 
-                    <li class="header1">China</li>
+            if (!empty($country)) {
+                 $user_details = $this->session->userdata('user_details');
+
+                   if (empty($user_details)) {
+                    $user_details = [];
+                        }
+
+                     $user_details['country_id'] = $country;
+
+                   $this->session->set_userdata('user_details', $user_details);
+                      }
+
+                    $user_details = $this->session->userdata('user_details');
+
+                    if (!empty($user_details) && isset($user_details['country_id'])) {
+                        // Display country name with a clickable button
+                        echo '<p class="header1" style="display: flex; align-items: center;">' . $user_details['country_id'] . ' 
+                            <a href="' . base_url() . 'admin/master/open_a_country" class=" btn-danger btn-sm ml-2" style="height: 5px; line-height: 0px;width:55px;padding-left: 0px;">' . $this->lang->line('switch') . '</a>
+                        </p>';
+                    } else {
+                        // If country is not set, display "Country not available" with a clickable button
+                        echo '<p class="header1" style="display: flex; align-items: center;">Country not available
+                            <a href="' . base_url() . 'admin/master/open_a_country" class=" btn-danger btn-sm ml-2" style="height: 5px; line-height: 0px;width:55px;padding-left: 0px;">' . $this->lang->line('switch') . '</a>
+                        </p>';
+                    }
+                    
+                    
+                    
+                    
+?>
+
+
+
+
+
+
                     <li class="">
                         <a href="<?php echo base_url();?>admin/master/manage_country" ><i class="icon-user-follow"></i><span><?php echo $this->lang->line('manage_country'); ?></span></a>
                         
