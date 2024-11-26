@@ -367,7 +367,7 @@ public function income_report(){
   is_login(array('superadmin','admin'));
   $header_data['page_title'] = $this->lang->line('income_report');
   $this->load->view('includes/header',$header_data);
-  $this->load->view('master/Income_report');
+  $this->load->view('master/income_report');
   $this->load->view('includes/footer');
 }
 
