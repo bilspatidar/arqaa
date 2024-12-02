@@ -27,7 +27,7 @@ class News extends REST_Controller {
         $limit = isset($request_data['limit']) ? $request_data['limit'] : 10; // Default limit to 10 if not provided
         $filterData = isset($request_data['filterData']) ? $request_data['filterData'] : [];
     
-        $getTokenData = $this->is_authorized('superadmin');
+        $getTokenData = $this->is_authorized(array('superadmin','admin','company','Freelancer'));
         $offset = ($page - 1) * $limit;
     
         $totalRecords =  $this->news_model->get('yes', $id, $limit, $offset, $filterData);
@@ -50,7 +50,7 @@ class News extends REST_Controller {
     
     public function news_details_get(){
         $id = $this->input->get('id') ? $this->input->get('id') : 0;
-        $getTokenData = $this->is_authorized('superadmin');
+        $getTokenData = $this->is_authorized(array('superadmin','admin','company','Freelancer'));
         $data =  $this->news_model->show($id);
         $response = [
             'status' => true,
@@ -86,6 +86,7 @@ class News extends REST_Controller {
                 $data['title'] = $this->input->post('title',TRUE);
                 $data['news_categories_id'] = $this->input->post('news_categories_id',TRUE);
                 $data['description'] = $this->input->post('description',TRUE);
+                $data['short_description'] = $this->input->post('short_description',TRUE);
 					///image 
 				if(!empty($_POST['image'])){
 					$base64_image = $_POST['image'];
@@ -99,6 +100,7 @@ class News extends REST_Controller {
 					$uploadFolder = 'news'; 
 
 					$data['image'] = $this->upload_media->upload_and_save($base64_image, $quality, $radioConfig, $uploadFolder);
+					$data['image_base_64'] = $_POST['image'];
 					
 				}
 				////image  

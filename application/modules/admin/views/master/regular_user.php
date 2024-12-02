@@ -49,7 +49,7 @@ opacity: 0px;
           <div class="image-upload">
   <img src="https://s3-alpha-sig.figma.com/img/9228/9e8f/500399fc590c34f44efe20fdedc977ea?Expires=1733097600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=C4jIA-~NPYHTVLjsEMrfVS340NpyJSIMwZYLU6sa4nzaaU3sgjseCrYJ1a1DSxJRhyYvdAyO~idcr8FjtQks6wArcEX9DHf6DpZOrSeIBxrKlT6joq1pQTK3uf~oa68T8WfoWkQvTtQTjHZOF1HNYfgiIDU4wbTvYT7KnPpprC-zWBE68uSNY180Ya5L1W852mvQmW-RIKuhMbpBr1JPQc9WOkPNfweSXu-5ZLChsprOjyYKtA5MqMNKAZiPWejMhfoSpfUQwNfV7iIMdsApjfOJ3yhZb~a1Z0bnUNSJZY4jOi4LsaTM6MIyzdjc9h0IrtcTuUN59OiT0Pi6oZNebg__" alt="Profile Image" class="profile-image">
   <label for="image-upload" class="upload-label">
-    <input type="file" id="image-upload" class="upload-input" />
+    <input type="file" id="image-upload" name="image" class="upload-input" />
     <span><i class="icon-note"></i></span>
   </label>
 </div>
@@ -97,7 +97,7 @@ opacity: 0px;
               </div>
             </div> -->
 
-            <!-- <div class="col-md-4">
+             <div class="col-md-4">
                <div class="form-group row">
         <div class="col-sm-12">
             <label class="col-form-label"><?php echo $this->lang->line('country'); ?></label>
@@ -110,8 +110,16 @@ opacity: 0px;
             </select>
         </div>
     </div>
-</div> -->
+</div>
 
+ <div class="col-md-4">
+              <div class="form-group row">
+                <div class="col-sm-12">
+                  <label class="col-form-label"><?php echo $this->lang->line('email');?></label>
+                  <input type="email" class="form-control" name="email" />
+                </div>
+              </div>
+            </div> 
 <!-- <div class="col-md-4">
     <div class="form-group row">
         <div class="col-sm-12">
@@ -559,7 +567,7 @@ opacity: 0px;
 
 
 <div class="row">
-  <input type="hidden" value="<?php echo API_DOMAIN; ?>api/user/company_user_list/<?php echo $role;?>" id="list_end_point">
+  <input type="hidden" value="<?php echo API_DOMAIN; ?>api/user/company_user_list/admin" id="list_end_point">
   <input type="hidden" value="<?php echo API_DOMAIN; ?>api/user/company_user/" id="delete_end_point">
   <input type="hidden" value="<?php echo API_DOMAIN; ?>api/user/company_user_details" id="show_endpoint">
   <input type="hidden" value="admin/master/company_user_edit" id="edit_page_name">

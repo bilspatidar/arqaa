@@ -353,6 +353,36 @@ $strong =  filter_var( ($microTime + 15 * 60 * 1000), FILTER_SANITIZE_NUMBER_INT
 return password_hash($strong, PASSWORD_DEFAULT);
 
    }
+   
+   function send_email($subject='',$body='',$to=''){
+       
+                $brand_name =  BRAND_NAME;
+                $this->load->library('phpmailer_lib');
+				$mail = $this->phpmailer_lib->load();
+				$mail->isSMTP();
+				$mail->SMTPDebug = 0;
+				$mail->Host     = SMTP_HOST;
+				$mail->SMTPAuth = true;
+				$mail->Username = SMTP_UNAME;
+				$mail->Password = SMTP_PWORD;
+				$mail->SMTPSecure = 'SSL';
+				$mail->Port     = SMTP_PORT;
+				$mail->setFrom(SET_FROM,SET_FROM_PARA); 
+				$mail->addReplyTo(SET_FROM,SET_FROM_PARA); 
+				$mail->addAddress($to);  
+				$mail->Subject = $subject; 
+				$mail->isHTML(true); 
+				$mail->Body = "$body
+				<p> $brand_name </p>
+				<p><a href='<?php echo base_url();?>' target='_blank()'><?php echo base_url(); ?></a></p>
+				"; 
+				if(!$mail->send()){ 
+					return false;
+				}else{ 
+			    	return true;
+				}
+
+   }
 
 
 }

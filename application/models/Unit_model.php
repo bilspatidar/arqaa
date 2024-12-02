@@ -53,6 +53,9 @@ class Unit_model extends CI_Model {
 		if(!empty($id)){
 			$this->db->where($this->primaryKey,$id);
 		}
+		if(isset($filterData['user_type']) && !empty($filterData['user_type'])){
+			$this->db->like('user_type',$filterData['user_type']);
+		}
 		if(isset($filterData['name']) && !empty($filterData['name'])){
 			$this->db->like('name',$filterData['name']);
 		}

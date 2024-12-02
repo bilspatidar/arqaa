@@ -18,10 +18,11 @@ class News_model extends CI_Model {
     }
 
     public function show($id) {
-        $this->db->select("*");
+        $this->db->select($this->table.'.*, TRIM(CONCAT(users.name, " ", users.last_name)) AS authorname,users.profile_pic_base_64');
         $this->db->from($this->table);
+        $this->db->join('users','users.id=news.addedBy');
         if(!empty($id)) {
-            $this->db->where($this->primaryKey, $id);
+            $this->db->where($this->table.'.'.$this->primaryKey, $id);
         }
         return $this->db->get()->result();
     }
@@ -44,8 +45,9 @@ class News_model extends CI_Model {
     }
 
     public function get($isCount = '', $id = '', $limit = '', $page = '', $filterData = '') {
-        $this->db->select("*");
+        $this->db->select($this->table.'.*, TRIM(CONCAT(users.name, " ", users.last_name)) AS authorname,users.profile_pic_base_64');
         $this->db->from($this->table);
+        $this->db->join('users','users.id=news.addedBy');
 
         if(!empty($id)) {
             $this->db->where($this->primaryKey, $id);

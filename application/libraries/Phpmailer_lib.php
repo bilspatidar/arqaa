@@ -23,11 +23,11 @@ class PHPMailer_Lib
         // Include PHPMailer library files
     define("SMTP_HOST", "smtp.gmail.com"); //mail.ebusinessmart.in    Hostname of the mail server
     define("SMTP_PORT", "587"); //Port of the SMTP like to be 25, 80, 465 or 587
-    define("SMTP_UNAME", "reecashshopping@gmail.com"); //Username for SMTP authentication any valid email created in your domain
-    define("SMTP_PWORD", "qygxelvmwfjqhwcc"); //Password for SMTP authentication
+    define("SMTP_UNAME", "Arqaatest@gmail.com"); //Username for SMTP authentication any valid email created in your domain
+    define("SMTP_PWORD", "jwbc anfw czze zqwh"); //Password for SMTP authentication
     define("SMTP_SECURE",'true');
-    define("SET_FROM", "bilspatidar@gmail.com");
-    define("SET_FROM_PARA", "KFC MART");
+    define("SET_FROM", "Arqaatest@gmail.com");
+    define("SET_FROM_PARA", "ARQAA");
 
         require_once APPPATH.'third_party/PHPMailer/src/Exception.php';
         require_once APPPATH.'third_party/PHPMailer/src/PHPMailer.php';

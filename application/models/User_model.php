@@ -310,6 +310,53 @@ class User_model extends CI_Model {
 		
 	}
 	
+	
+	public function validate_user_by_email_or_phone($email) {
+		
+		$this->db->select('*');
+		$this->db->from('users');
+		$this->db->where('email', $email);
+		$this->db->or_where('mobile', $email);
+		$get_res = $this->db->get();
+		if($get_res->num_rows()>0){
+		    return $get_res->result();
+		}
+		else{
+		    return false;
+		}
+		
+	}
+	
+	public function validate_user_by_email_or_phone_and_otp($email,$otp){
+	    $this->db->select('*');
+		$this->db->from('users');
+		$this->db->where('email', $email);
+		$this->db->where('forgot_email_otp', $otp);
+		$get_res = $this->db->get();
+		if($get_res->num_rows()>0){
+		    return $get_res->result();
+		}
+		else{
+		    return false;
+		}
+	}
+	
+	public function validate_user_by_email_or_phone_and_token($email,$token){
+	    $this->db->select('*');
+		$this->db->from('users');
+		$this->db->where('email', $email);
+		$this->db->where('user_token', $token);
+		$get_res = $this->db->get();
+		if($get_res->num_rows()>0){
+		    return $get_res->result();
+		}
+		else{
+		    return false;
+		}
+	}
+	
+	
+	
 	/**
 	 * get_user function.
 	 * 

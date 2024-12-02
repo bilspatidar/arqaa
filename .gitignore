@@ -1,3 +1,6 @@
 # Ignore the 'upload' folder in the root directory
 /uploads/
 /system/
+/application/config/databse.php
+/application/config/constants.php
+/application/config/config.php

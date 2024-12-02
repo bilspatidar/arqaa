@@ -16,21 +16,22 @@
                   <input type="text" class="form-control" name="title" />
                 </div>
               </div>
-            </div>
-		  <div class="col-md-6">
-              <div class="form-group row">
-                <div class="col-sm-12">
-                  <label class="col-form-label"><?php echo $this->lang->line('news_categories');?></label>
-				  <select name="news_categories_id" class="form-control select2">
-				  <option value=""><?php echo $this->lang->line('select_option');?></option>
-				  <?php $get_news_categories = $this->Internal_model->get_news_categories();
-				  foreach($get_news_categories as $news_categories) { ?>
-				  <option value="<?php echo $news_categories->id;?>"><?php echo $news_categories->name;?></option>
-				  <?php } ?>
-				  </select>
-                </div>
-              </div>
-            </div>
+              <input type="hidden" name="news_categories_id" value="1">
+  </div>
+		  <!--<div class="col-md-6">-->
+    <!--          <div class="form-group row">-->
+    <!--            <div class="col-sm-12">-->
+    <!--              <label class="col-form-label"><?php echo $this->lang->line('news_categories');?></label>-->
+				<!--  <select name="news_categories_id" class="form-control select2">-->
+				<!--  <option value=""><?php echo $this->lang->line('select_option');?></option>-->
+				  <!-- //$get_news_categories = $this->Internal_model->get_news_categories();-->
+				<!--  //foreach($get_news_categories as $news_categories) { ?>-->
+				<!--  <option value="<?php //echo $news_categories->id;?>"><?php echo $news_categories->name;?></option>-->
+				<!--  <?php //} ?>-->
+				<!--  </select>-->
+    <!--            </div>-->
+    <!--          </div>-->
+    <!--        </div>-->
             
             <div class="col-md-6">
               <div class="form-group row">
@@ -40,11 +41,21 @@
                 </div>
               </div>
             </div>
+            			 <div class="col-md-12">
+    <div class="form-group row">
+        <div class="col-sm-12">
+            <label class="col-form-label"><?php echo $this->lang->line('short_description'); ?></label>
+            <textarea class="form-control summernote" name="short_description" rows="4"></textarea>
+        </div>
+    </div>
+</div>
+
+
 			 <div class="col-md-12">
     <div class="form-group row">
         <div class="col-sm-12">
             <label class="col-form-label"><?php echo $this->lang->line('description'); ?></label>
-            <textarea class="form-control summernote " name="description" rows="4"></textarea>
+            <textarea class="form-control summernote" name="description" rows="4"></textarea>
         </div>
     </div>
 </div>
@@ -101,7 +112,7 @@
               <tr>
                 <th>#</th>
                 <th><?php echo $this->lang->line('title');?></th>
-                <th><?php echo $this->lang->line('news_categories_id');?></th>
+                <th><?php echo $this->lang->line('short_description');?></th>
                 <th><?php echo $this->lang->line('image');?></th>
                 <th><?php echo $this->lang->line('status');?></th>
                 <th><?php echo $this->lang->line('Action');?></th>
@@ -132,7 +143,7 @@
       "orderable": true 
     },
     { 
-      "data": "news_categories_id", // Check if 'name' exists in your data
+      "data": "short_description", // Check if 'name' exists in your data
       "orderable": true 
     },
     {

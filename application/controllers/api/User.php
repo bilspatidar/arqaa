@@ -34,6 +34,180 @@ class User extends REST_Controller {
 	     ini_set('display_errors', 1);
 	     echo"okok";
 	 }
+	 
+	 public function verification_code_send_post() {
+          $_POST = json_decode($this->input->raw_input_stream, true);
+    
+          if(isset($_POST['email'])  && !empty($_POST['email']) ){
+              $email = $_POST['email'];
+              $otp = rand(11111,99999);
+              $subject = 'Forgot Password Reset OTP';
+              $body = "Dear Sir/Madam \n\n <p><h3>Congratulations! Your OTP has been sent successfully,
+    				Your OTP is $otp </h3></p>\n\n\n\n\n\n\n\n\n\n\n";
+    		  
+              $user_details = $this->user_model->validate_user_by_email_or_phone($email);
+              if($user_details!= false){
+                  
+              $otp = rand(11111,99999);
+              $subject = 'Forgot Password Reset OTP';
+              $body = "Dear Sir/Madam \n\n <p><h3>Congratulations! Your OTP has been sent successfully,
+    				Your OTP is $otp </h3></p>\n\n\n\n\n\n\n\n\n\n\n";
+    		  
+              $email_status = $this->Common->send_email($subject,$body,$email);
+              if($email_status==true){
+                  $otp_data['forgot_email_otp_time'] = date('Y-m-d H:i:s');
+                  $otp_data['forgot_email_otp'] = $otp;
+                  $this->db->where('id',$user_details[0]->id);
+                  $this->db->update('users',$otp_data);
+                
+                $response = [
+                    'status' => true,
+                    'data' => 'Otp sent',
+                    'message' => 'A verification code has been sent to your registered email.'
+                ];
+                $this->response($response, REST_Controller::HTTP_OK); 
+                  
+               }
+               else{
+                   $this->response([
+                        'status' => FALSE,
+    					'errors' => ['Error in email sending'],
+                        'message' =>'Error in email sending'
+                  ], REST_Controller::HTTP_BAD_REQUEST,'','error');
+               }
+              }
+              else{
+                  $this->response([
+                        'status' => FALSE,
+    					'errors' => ['Email is invalid'],
+                        'message' =>'Please enter correct Registered email'
+                  ], REST_Controller::HTTP_BAD_REQUEST,'','error');
+                  
+              }
+    	     } 
+    	     else{
+                $this->response([
+                        'status' => FALSE,
+    					'errors' => ['Email is empty'],
+                        'message' =>'Please enter correct Registered email'
+                  ], REST_Controller::HTTP_BAD_REQUEST,'','error');
+             }
+	 
+    }
+    
+     public function validate_email_otp_post(){
+         $_POST = json_decode($this->input->raw_input_stream, true);
+    
+          if(!empty($_POST['otp'])  && !empty($_POST['email']) ){
+              $email = $_POST['email'];
+              $otp = $_POST['otp'];
+              $user_details = $this->user_model->validate_user_by_email_or_phone($email);
+              if($user_details!= false){
+              $email_status = $this->user_model->validate_user_by_email_or_phone_and_otp($email,$otp);
+              if($email_status==true){
+                  
+                    $length = 64; // Length of the token
+                    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+                    $token = substr(str_shuffle($characters), 0, $length);
+
+
+                  $otp_data['forgot_email_otp_time'] = '';
+                  $otp_data['forgot_email_otp'] = '';
+                  $otp_data['user_token'] = $token;
+                  $this->db->where('id',$user_details[0]->id);
+                  $this->db->update('users',$otp_data);
+                
+                $response = [
+                    'status' => true,
+                    'data' => $token,
+                    'message' => 'Otp verified.'
+                ];
+                $this->response($response, REST_Controller::HTTP_OK); 
+                  
+               }
+               else{
+                   $this->response([
+                        'status' => FALSE,
+    					'errors' => ['Invalid OTP'],
+                        'message' =>'Entered OTP is invalid'
+                  ], REST_Controller::HTTP_BAD_REQUEST,'','error');
+               }
+              }
+              else{
+                  $this->response([
+                        'status' => FALSE,
+    					'errors' => ['Email is invalid'],
+                        'message' =>'Please enter correct Registered email'
+                  ], REST_Controller::HTTP_BAD_REQUEST,'','error');
+                  
+              }
+    	     } 
+    	     else{
+                $this->response([
+                        'status' => FALSE,
+    					'errors' => ['OTP or Email is empty'],
+                        'message' =>'Please enter correct Registered email and OTP'
+                  ], REST_Controller::HTTP_BAD_REQUEST,'','error');
+             }
+     }
+     
+     public function reset_password_post($params=''){
+		$_POST = json_decode($this->input->raw_input_stream, true);
+		
+		// Validate old and new passwords
+		$this->form_validation->set_rules('email', 'Email', 'trim|required');
+		$this->form_validation->set_rules('password_token', 'Password token', 'trim|required');
+		$this->form_validation->set_rules('password', 'New Password', 'trim|required|min_length[6]');
+		$this->form_validation->set_rules('cPassword', 'Confirm New Password', 'trim|required|matches[password]');
+	
+		if ($this->form_validation->run() === false) {
+			// Validation failed, send validation errors to the view
+			$array_error = array_map(function ($val) { return str_replace(array("\r", "\n"), '', strip_tags($val));}, array_filter(explode(".", trim(strip_tags(validation_errors())))));
+			$this->response(['status' => FALSE,'errors' => $array_error,'message' => 'Error in submit forms'], REST_Controller::HTTP_BAD_REQUEST, '', 'error');
+		} else {
+			    $new_password = $_POST['password'];
+			    $email = $_POST['email'];
+			    $token = $_POST['password_token'];
+				$email_status = $this->user_model->validate_user_by_email_or_phone_and_token($email,$token);
+				if($email_status!=false)
+				{
+					$data['password'] = password_hash($new_password, PASSWORD_DEFAULT);
+					$data['updatedBy'] = $email_status[0]->id;
+					$data['updated'] = date('Y-m-d H:i:s');
+					
+					
+					$res = $this->user_model->update($data, $email_status[0]->id);
+			
+					if ($res) {
+						// Password update successful
+						$final = array();
+						$final['status'] = true;
+						$final['data'] = 'Password reset successfully.';
+						$final['message'] = 'Password reset successfully.';
+						$this->response($final, REST_Controller::HTTP_OK);
+					} else {
+						// Password update failed
+						$this->response([
+							'status' => FALSE,
+							'errors' => [$this->db->error()],
+							'message' => 'There was a problem updating password. Please try again',
+						], REST_Controller::HTTP_BAD_REQUEST, '', 'error');
+					}
+				  }
+				  else
+				  {
+					  $this->response([
+							'status' => FALSE,
+							'errors' => ['Invalid email or Password token'],
+							'message' => 'Error in submit form',
+						], REST_Controller::HTTP_BAD_REQUEST, '', 'error');
+					 
+				   }
+				
+		    }	
+	    }
+    
+    
 	 public function member_profile_list_post() {
         $input_data = file_get_contents('php://input');
         $request_data = json_decode($input_data, true);
@@ -879,7 +1053,7 @@ class User extends REST_Controller {
         return TRUE;
     }
 	 public function date_valid($date)
-  {
+     {
     $parts = explode("/", $date);
     if (count($parts) == 3) {      
       if (checkdate($parts[2], $parts[0], $parts[1]))
@@ -987,85 +1161,7 @@ class User extends REST_Controller {
 	
 	
 
-	public function login_post00() {
-		$_POST = json_decode($this->input->raw_input_stream, true);
-		// set validation rules
-		$this->form_validation->set_rules('email', 'Email', 'required');
-		$this->form_validation->set_rules('password', 'Password', 'required');
-		
-		if ($this->form_validation->run() == false) {
-			
-			// validation not ok, send validation errors to the view
-            $array_error = array_map(function ($val) {
-				return str_replace(array("\r", "\n"), '', strip_tags($val));
-			}, array_filter(explode(".", trim(strip_tags(validation_errors())))));
-            $this->response([
-                    'status' => FALSE,
-					'errors' =>$array_error,
-                    'message' =>'Error in submit form'
-              ], REST_Controller::HTTP_BAD_REQUEST,'','error');
 
-		} else {
-			
-			// set variables from the form
-			$email = $this->input->post('email');
-			$password = $this->input->post('password');
-			
-			if ($this->user_model->resolve_user_login($email,$password)) {
-				
-				$users_id = $this->user_model->get_user_id_from_username($email);
-				$user    = $this->user_model->get_user($users_id);
-				
-				if($user->status=='Deactive'){
-					// login failed
-                $this->response(
-				[
-                    'status' => FALSE,
-                    'message' =>'Account is not active please contact to admin'
-                ]
-			  , REST_Controller::HTTP_UNAUTHORIZED);
-				}
-				// set session user datas
-				$token_data['id']      = (int)$user->id;
-				$token_data['user_type']      = (string)$user->user_type;
-				$token_data['email']     = (string)$user->email;
-				$token_data['name']     = (string)$user->name;
-				$token_data['logged_in']    = (bool)true;
-				$token_data['status'] = (bool)$user->status;
-				
-				
-				// user login ok
-                $token_data['id'] = $token_data['id'];
-                $token_data['username'] = $user->email;
-                $tokenData = $this->authorization_token->generateToken($token_data);
-                $final = array();
-                $final['access_token'] = $tokenData;
-                $final['status'] = true;
-                $final['message'] = 'Login success!';
-                $final['note'] = 'You are now logged in.';
-				$final['logged_in'] = (bool)true;
-				$final['user_type'] = $token_data['user_type'];
-				$final['id'] = $token_data['id'];
-                // start ci session 
-                $this->session->set_userdata('user_details', $final);
-                // end ci session 
-                $this->response($final, REST_Controller::HTTP_OK); 
-				
-			} else {
-				
-				// login failed
-                $this->response(
-				[
-                    'status' => FALSE,
-                    'message' =>'Wrong email or password'
-                ]
-			  , REST_Controller::HTTP_UNAUTHORIZED);
-				
-			}
-			
-		}
-		
-	}
 	
 	/**
 	 * logout function.
@@ -1159,7 +1255,7 @@ class User extends REST_Controller {
 		    }	
 	    }
 
-		public function profile_update_post($params=""){
+	public function profile_update_post($params=""){
 			{
 				$getTokenData = $this->is_authorized();
 				$usersData = json_decode(json_encode($getTokenData), true);
@@ -1486,7 +1582,7 @@ class User extends REST_Controller {
     }
 }
 
-public function company_user_post($params='') {
+ public function company_user_post($params='') {
 
 	if($params=='add') {
 		$getTokenData = $this->is_authorized('superadmin');
@@ -1498,7 +1594,9 @@ public function company_user_post($params='') {
 		// set validation rules
 		$this->form_validation->set_rules('name', 'Username', 'trim|required|xss_clean|alpha_numeric|min_length[3]');
 		$this->form_validation->set_rules('email', 'Email', 'trim|required|xss_clean|is_unique[users.email]');
-		$this->form_validation->set_rules('mobile', 'Mobile Number', 'trim|required|xss_clean|min_length[10]');
+		$this->form_validation->set_rules('country_id', 'Country', 'trim|required|xss_clean');
+		$this->form_validation->set_rules('guy', 'User Role', 'trim|required|xss_clean');
+		//$this->form_validation->set_rules('mobile', 'Mobile Number', 'trim|required|xss_clean|min_length[10]');
 		$this->form_validation->set_rules('password', 'Password', 'trim|required|xss_clean|min_length[6]');
 		$this->form_validation->set_rules('confirm_password', 'Confirm Password', 'trim|required|xss_clean|min_length[6]|matches[password]');
 	
@@ -1516,45 +1614,45 @@ public function company_user_post($params='') {
 			// set variables from the form
 			$data['name'] = $this->input->post('name',TRUE);
 			$data['last_name'] = $this->input->post('last_name',TRUE);
-			$date_of_birth = $this->input->post('date_of_birth', TRUE);
+			//$date_of_birth = $this->input->post('date_of_birth', TRUE);
 
 			// अगर डेट पिकर से ली गई तारीख सही है तो उसे फॉर्मेट करें
-			if ($date_of_birth) {
-				$formatted_date_of_birth = date('Y-m-d', strtotime($date_of_birth));
-				$data['date_of_birth'] = $formatted_date_of_birth;
-			} else {
-				$data['date_of_birth'] = NULL; // अगर तारीख नहीं है तो NULL कर सकते हैं
-			}
-							$data['country_id'] = $this->input->post('country_id',TRUE);
+// 			if ($date_of_birth) {
+// 				$formatted_date_of_birth = date('Y-m-d', strtotime($date_of_birth));
+// 				$data['date_of_birth'] = $formatted_date_of_birth;
+// 			} else {
+// 				$data['date_of_birth'] = NULL; // अगर तारीख नहीं है तो NULL कर सकते हैं
+// 			}
+			$data['country_id'] = $this->input->post('country_id',TRUE);
 			$data['email'] = $this->input->post('email',TRUE);
-			$data['state_id'] = $this->input->post('state_id',TRUE);
-			$data['cologne'] = $this->input->post('cologne',TRUE);
-			$data['street'] = $this->input->post('street',TRUE);
-			$data['crossings'] = $this->input->post('crossings',TRUE);
-			$data['external_number'] = $this->input->post('external_number',TRUE);
-			$data['interior_number'] = $this->input->post('interior_number',TRUE);
-			$data['zip_code'] = $this->input->post('zip_code',TRUE);
+			//$data['state_id'] = $this->input->post('state_id',TRUE);
+			//$data['cologne'] = $this->input->post('cologne',TRUE);
+			//$data['street'] = $this->input->post('street',TRUE);
+			//$data['crossings'] = $this->input->post('crossings',TRUE);
+			//$data['external_number'] = $this->input->post('external_number',TRUE);
+			//$data['interior_number'] = $this->input->post('interior_number',TRUE);
+			//$data['zip_code'] = $this->input->post('zip_code',TRUE);
 			$data['password'] = password_hash($this->input->post('password',TRUE),PASSWORD_DEFAULT);
 			$data['confirm_password'] = $this->input->post('confirm_password',TRUE);
-			$data['mobile'] = $this->input->post('mobile',TRUE);
+			//$data['mobile'] = $this->input->post('mobile',TRUE);
 			$data['user_type'] = $this->input->post('guy',TRUE);
-			$radius = $this->input->post('radius', TRUE);
-			 $data['radius'] = (is_null($radius) || $radius === '') ? 0 : (int)$radius; // Ensure it's an integer
+			//$radius = $this->input->post('radius', TRUE);
+			//$data['radius'] = (is_null($radius) || $radius === '') ? 0 : (int)$radius; // Ensure it's an integer
 
 
-		   $languages = $this->input->post('languages');
-			if (is_array($languages)) {
-				$languages = implode(',', $languages);
-			} else {
-				$languages = ''; // Handle the case where no languages are selected
-			}
-			$data['languages'] = $languages;
+// 		   $languages = $this->input->post('languages');
+// 			if (is_array($languages)) {
+// 				$languages = implode(',', $languages);
+// 			} else {
+// 				$languages = ''; // Handle the case where no languages are selected
+// 			}
+// 			$data['languages'] = $languages;
 
-		   $languages = $this->input->post('languages');
-				if(!empty($languages)){
-				$languages = implode(",",$languages);
-				$data['languages'] = $languages;
-				}
+		  // $languages = $this->input->post('languages');
+				// if(!empty($languages)){
+				// $languages = implode(",",$languages);
+				// $data['languages'] = $languages;
+				// }
 			
 		   // $data['image'] = $this->input->post('image',TRUE);
 			if(!empty($_POST['image'])){
@@ -1567,8 +1665,8 @@ public function company_user_post($params='') {
 					]
 				 ];
 				$uploadFolder = 'regular_user'; 
-
-				$data['image'] = $this->upload_media->upload_and_save($base64_image, $quality, $radiusConfig, $uploadFolder);
+                $data['profile_pic_base_64'] = $_POST['image'];
+				$data['profile_pic'] = $this->upload_media->upload_and_save($base64_image, $quality, $radiusConfig, $uploadFolder);
 				
 			}
 				
@@ -1577,11 +1675,12 @@ public function company_user_post($params='') {
 			$data['addedBy'] = $session_id;
 
 			if ($res = $this->user_model->create_user($data)) {
+			    $filterData['user_type'] = 'admin';
 				// Regular User creation ok
 				$final = array();
 				$final['status'] = true;
-				$final['data'] = $this->user_model->get();
-				$final['message'] = 'Regular User created successfully.';
+				$final['data'] = $this->user_model->get($isCount = '', $id = '', $limit = '', $page = '', $filterData);
+				$final['message'] = 'Admin User created successfully.';
 				$this->response($final, REST_Controller::HTTP_OK); 
 			} else {
 				// Regular user creation failed, this should never happen
@@ -1714,6 +1813,7 @@ public function company_user_list_post($role='') {
 	$page = isset($request_data['page']) ? $request_data['page'] : 1; // Default to page 1 if not provided
 	$limit = isset($request_data['limit']) ? $request_data['limit'] : 10; // Default limit to 10 if not provided
 	$filterData = isset($request_data['filterData']) ? $request_data['filterData'] : [];
+	$filterData['user_type'] = $role;
 
 	$getTokenData = $this->is_authorized('superadmin');
 	$offset = ($page - 1) * $limit;
@@ -1761,116 +1861,6 @@ public function company_user_delete($id) {
 
 
 
-public function signup_post_bkp($params='add') {
-
-	if($params=='add') {
-		//$getTokenData = $this->is_authorized('superadmin');
-		///$usersData = json_decode(json_encode($getTokenData), true);
-		//$session_id = $usersData['data']['id'];
-
-		$_POST = json_decode($this->input->raw_input_stream, true);
-
-		// set validation rules
-		$this->form_validation->set_rules('name', 'Username', 'trim|required|xss_clean|alpha_numeric|min_length[3]');
-		$this->form_validation->set_rules('email', 'Email', 'trim|required|xss_clean|is_unique[users.email]');
-		$this->form_validation->set_rules('mobile', 'Mobile Number', 'trim|required|xss_clean|min_length[10]');
-		$this->form_validation->set_rules('password', 'Password', 'trim|required|xss_clean|min_length[6]');
-		$this->form_validation->set_rules('confirm_password', 'Confirm Password', 'trim|required|xss_clean|min_length[6]|matches[password]');
-	
-		if ($this->form_validation->run() === false) {
-			$array_error = array_map(function ($val) {
-				return str_replace(array("\r", "\n"), '', strip_tags($val));
-			}, array_filter(explode(".", trim(strip_tags(validation_errors())))));
-
-			$this->response([
-				'status' => FALSE,
-				'message' =>'Error in submit form',
-				'errors' =>$array_error
-			], REST_Controller::HTTP_BAD_REQUEST,'','error');
-		} else {
-			// set variables from the form
-			$data['name'] = $this->input->post('name',TRUE);
-			$data['last_name'] = $this->input->post('last_name',TRUE);
-			$date_of_birth = $this->input->post('date_of_birth', TRUE);
-
-			if ($date_of_birth) {
-				$formatted_date_of_birth = date('Y-m-d', strtotime($date_of_birth));
-				$data['date_of_birth'] = $formatted_date_of_birth;
-			} else {
-				$data['date_of_birth'] = NULL; // अगर तारीख नहीं है तो NULL कर सकते हैं
-			}
-		    $data['country_id'] = $this->input->post('country_id',TRUE);
-			$data['email'] = $this->input->post('email',TRUE);    ///ok
-			$data['state_id'] = $this->input->post('state_id',TRUE);
-			$data['city_id'] = $this->input->post('city_id',TRUE);
-			$data['address'] = $this->input->post('address',TRUE);
-			$data['zip_code'] = $this->input->post('zip_code',TRUE);  ///ok
-			$data['password'] = password_hash($this->input->post('password',TRUE),PASSWORD_DEFAULT);  ///ok
-			$data['confirm_password'] = $this->input->post('confirm_password',TRUE);  ///ok
-			$data['mobile'] = $this->input->post('mobile',TRUE);  ///ok
-			$data['linked_in'] = $this->input->post('linked_in',TRUE);  ///ok
-			
-			
-
-
-			$data['user_type'] = $this->input->post('user_type',TRUE);
-			//$radius = $this->input->post('radius', TRUE);
-			//$data['radius'] = (is_null($radius) || $radius === '') ? 0 : (int)$radius; // Ensure it's an integer
-
-
-// 		   $languages = $this->input->post('languages');
-// 			if (is_array($languages)) {
-// 				$languages = implode(',', $languages);
-// 			} else {
-// 				$languages = ''; 
-// 			}
-// 			$data['languages'] = $languages;
-
-// 		   $languages = $this->input->post('languages');
-// 				if(!empty($languages)){
-// 				$languages = implode(",",$languages);
-// 				$data['languages'] = $languages;
-// 				}
-			
-		   // $data['image'] = $this->input->post('image',TRUE);
-			if(!empty($_POST['image'])){
-				$base64_image = $_POST['image'];
-				$quality = 90;
-				$radiusConfig = [
-					'resize' => [
-					'width' => 500,
-					'height' => 300
-					]
-				 ];
-				$uploadFolder = 'regular_user'; 
-
-				$data['image'] = $this->upload_media->upload_and_save($base64_image, $quality, $radiusConfig, $uploadFolder);
-				
-			}
-				
-			$data['status'] = 'Active';
-			$data['added'] = date('Y-m-d H:i:s');
-			$data['addedBy'] = '';
-
-			if ($res = $this->user_model->create_user($data)) {
-				// Regular User creation ok
-				$final = array();
-				$final['status'] = true;
-				$final['data'] = $this->user_model->get();
-				$final['message'] = 'Regular User created successfully.';
-				$this->response($final, REST_Controller::HTTP_OK); 
-			} else {
-				// Regular user creation failed, this should never happen
-				$this->response([ 'status' => FALSE,
-					'message' =>'Error in submit form',
-					'errors' =>[$this->db->error()]], REST_Controller::HTTP_BAD_REQUEST,'','error');
-			}
-		}
-	}
-
-	
-}
-	
 public function signup_post() {
     $_POST = json_decode($this->input->raw_input_stream, true);
 

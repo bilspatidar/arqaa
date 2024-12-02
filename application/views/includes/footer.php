@@ -99,7 +99,10 @@ $(document).ready(function(){
  
 
         // Convert file inputs to base64
-        var files = $(this).find('input[type=file]');
+        ///var files = $(this).find('input[type=file]');
+        //var files = $(this).find('input[type=file]:not(.summernote input[type=file])');
+        var files = $(this).find('input[type="file"]:not(.note-editor input[type="file"])'); // Select only file inputs outside Summernote
+
         files.each(function(index, fileInput) {
             if (fileInput.files.length > 0) { // Check if file is selected
                 var file = fileInput.files[0];
