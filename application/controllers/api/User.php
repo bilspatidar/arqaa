@@ -13,17 +13,14 @@ class User extends REST_Controller {
 	 * @return void
 	 */
 	public function __construct() {
-    $this->cors_header();
-    parent::__construct();
-	$this->load->helper('security');
-		
-		$this->load->model('user_model');
-		$this->load->model('Company_size_model');
-
+        parent::__construct();
+        $this->cors_header();  // Ensure this is necessary in your setup
+        $this->load->library(['form_validation', 'upload', 'authorization_token']);
+        $this->load->helper(['url', 'form', 'security']);
+        $this->load->model('user_model');
+        $this->load->model('Company_size_model');
         header('Access-Control-Allow-Origin: *');
-		
-	}
-
+    }
 	/**
 	 * register function.
 	 * 
@@ -1973,6 +1970,15 @@ public function portfolio_post() {
         $this->response([
             'status' => false,
             'message' => 'Please upload at least one image.',
+        ], REST_Controller::HTTP_BAD_REQUEST);
+        return;
+    }
+
+	 // Limit the number of images to a maximum of 5
+	 if (count($_FILES['images']['name']) > 5) {
+        $this->response([
+            'status' => false,
+            'message' => 'You can only upload a maximum of 5 images.',
         ], REST_Controller::HTTP_BAD_REQUEST);
         return;
     }
