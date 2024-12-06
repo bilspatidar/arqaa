@@ -13,17 +13,14 @@ class User extends REST_Controller {
 	 * @return void
 	 */
 	public function __construct() {
-    $this->cors_header();
-    parent::__construct();
-	$this->load->helper('security');
-		
-		$this->load->model('user_model');
-		$this->load->model('Company_size_model');
-
+        parent::__construct();
+        $this->cors_header();  // Ensure this is necessary in your setup
+        $this->load->library(['form_validation', 'upload', 'authorization_token']);
+        $this->load->helper(['url', 'form', 'security']);
+        $this->load->model('user_model');
+        $this->load->model('Company_size_model');
         header('Access-Control-Allow-Origin: *');
-		
-	}
-
+    }
 	/**
 	 * register function.
 	 * 
@@ -2058,6 +2055,119 @@ public function company_size_get() {
 	// Send the response
 	$this->response($final, REST_Controller::HTTP_OK);
 }
+
+public function portfolio_post() {
+    // Decode input stream (in case data is sent in JSON format)
+    $_POST = json_decode($this->input->raw_input_stream, true);
+
+    // Extract user ID from token
+    $token_data = $this->authorization_token->validateToken();
+    if (!$token_data['status']) {
+        $this->response([
+            'status' => false,
+            'message' => 'Unauthorized access: Invalid token.',
+        ], REST_Controller::HTTP_UNAUTHORIZED);
+        return;
+    }
+
+    $user_id = $token_data['data']->id; // Assuming token contains `id` field
+
+    // Get the description from POST data or set a default value
+    $description = $this->input->post('description', true) ?: 'Default description'; // Default description if not provided
+
+    // Check if images are provided in the request (array type for multiple files)
+    if (empty($_FILES['images']['name'][0])) {
+        $this->response([
+            'status' => false,
+            'message' => 'Please upload at least one image.',
+        ], REST_Controller::HTTP_BAD_REQUEST);
+        return;
+    }
+
+	 // Limit the number of images to a maximum of 5
+	 if (count($_FILES['images']['name']) > 5) {
+        $this->response([
+            'status' => false,
+            'message' => 'You can only upload a maximum of 5 images.',
+        ], REST_Controller::HTTP_BAD_REQUEST);
+        return;
+    }
+
+    // Set the upload path
+    $upload_path = './uploads/portfolio/';
+    $addedBy = $updatedBy = $user_id;
+
+    // Load the upload library
+    $this->load->library('upload');
+    $insert_data = [];
+
+    // Create the upload path if it doesn't exist
+    if (!is_dir($upload_path)) {
+        mkdir($upload_path, 0777, true);
+    }
+
+    // Process each image file
+    $images = $_FILES['images'];
+    for ($i = 0; $i < count($images['name']); $i++) {
+        $_FILES['file']['name']     = $images['name'][$i];
+        $_FILES['file']['type']     = $images['type'][$i];
+        $_FILES['file']['tmp_name'] = $images['tmp_name'][$i];
+        $_FILES['file']['error']    = $images['error'][$i];
+        $_FILES['file']['size']     = $images['size'][$i];
+
+        // Upload configuration
+        $config = [
+            'upload_path'   => $upload_path,
+            'allowed_types' => 'jpg|jpeg|png|gif',
+            'max_size'      => 2048,  // Max size 2MB
+            'file_name'     => uniqid() . '-' . time(),  // Ensure unique filenames
+        ];
+
+        $this->upload->initialize($config);
+
+        // Attempt file upload
+        if ($this->upload->do_upload('file')) {
+            $file_data = $this->upload->data();
+
+            // Prepare data for insertion
+            $insert_data[] = [
+                'user_id'     => $user_id,
+                'description' => $description,
+                'file'        => $file_data['file_name'],
+                'added'       => date('Y-m-d H:i:s'),
+                'addedBy'     => $addedBy,
+                'updated'     => date('Y-m-d H:i:s'),
+                'updatedBy'   => $updatedBy
+            ];
+        } else {
+            // Handle individual file upload failure
+            $this->response([
+                'status'  => false,
+                'message' => 'Error uploading file: ' . $this->upload->display_errors(),
+            ], REST_Controller::HTTP_BAD_REQUEST);
+            return;
+        }
+    }
+
+    // Insert data into portfolio table if any files were successfully uploaded
+    if (!empty($insert_data)) {
+        // Insert the data into the portfolio table
+        $this->db->insert_batch('portfolio', $insert_data);
+
+        $this->response([
+            'status'  => true,
+            'message' => 'Portfolio images uploaded and saved successfully.',
+            'data'    => $insert_data
+        ], REST_Controller::HTTP_OK);
+    } else {
+        $this->response([
+            'status'  => false,
+            'message' => 'No files were uploaded.'
+        ], REST_Controller::HTTP_BAD_REQUEST);
+    }
+}
+
+
 
 
 

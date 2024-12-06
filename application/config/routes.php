@@ -74,6 +74,7 @@ $route['company_signup'] = 'api/user/company_signup';
 $route['company_size'] = 'api/User/company_size';
 
 
+$route['portfolio_post'] = 'api/User/portfolio_post';
 
 $route['login'] = 'api/User/login';
 $route['logout'] = 'api/User/logout';
