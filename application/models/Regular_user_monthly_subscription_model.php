@@ -62,6 +62,12 @@ class Regular_user_monthly_subscription_model extends CI_Model {
         if(isset($filterData['name']) && !empty($filterData['name'])) {
             $this->db->like('name', $filterData['name']);
         }
+        
+        if(isset($filterData['sub_type']) && !empty($filterData['sub_type'])) {
+            $this->db->like('sub_type', $filterData['sub_type']);
+        }
+        
+        
         if(isset($filterData['status']) && !empty($filterData['status'])) {
             $this->db->where('status', $filterData['status']);
         }

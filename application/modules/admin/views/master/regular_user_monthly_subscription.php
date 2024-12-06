@@ -21,15 +21,14 @@
           <div class="col-md-4">
             <label class="col-form-label"><?php echo $this->lang->line('subscription_type');?></label>
             <select  name="sub_type" class="form-control Select2">
-                <option value="Regular User">Regular User</option>
-                <option value="Company User">Company User</option>
-                <option value="Boost Profile">Boost Profile</option>
-                <option value="Additional Services">Additional Services</option>
-                <option value="Banners">Banners</option>
-                <option value="CV">CV</option>
-                <option value="Taxes">Taxes</option>
-                 </select>
-              </div>
+             
+                <option value="Boost Your Profile">Boost Your Profile</option>
+                <option value="Extra Service">Extra Service</option>
+                <option value="Advertising Banner">Advertising Banner</option>
+                <option value="CV / Resume">CV / Resume</option>
+        
+            </select>
+        </div>
          
           
          
@@ -129,7 +128,7 @@
             <thead>
               <tr>
                 <th>#</th>
-                <th><?php echo $this->lang->line('concept');?></th>
+                <th><?php echo $this->lang->line('description');?></th>
                 <th><?php echo $this->lang->line('prices');?></th>
                 <th><?php echo $this->lang->line('currency');?></th>
                 <th><?php echo $this->lang->line('taxes');?></th>

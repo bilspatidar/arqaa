@@ -9,7 +9,12 @@ class Common extends CI_Model {
        parent::__construct();
     }
     
-	
+	 function get_user_country($user_id){
+	     $this->db->select('country_id');
+	     $this->db->from('users');
+	     $this->db->where('id',$user_id);
+	     return $this->db->get()->row()->country_id;
+	 }
 	 function getYoutubeImage($e){
         //GET THE URL
         $url = $e;

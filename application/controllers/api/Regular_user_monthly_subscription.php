@@ -28,7 +28,7 @@ class Regular_user_monthly_subscription extends REST_Controller {
         $limit = isset($request_data['limit']) ? $request_data['limit'] : 10; // Default limit to 10 if not provided
         $filterData = isset($request_data['filterData']) ? $request_data['filterData'] : [];
     
-        $getTokenData = $this->is_authorized('superadmin');
+        $getTokenData = $this->is_authorized(array('superadmin','admin','company','freelancer'));
         $offset = ($page - 1) * $limit;
     
         $totalRecords =  $this->regular_user_monthly_subscription_model->get('yes', $id, $limit, $offset, $filterData);
@@ -89,7 +89,7 @@ class Regular_user_monthly_subscription extends REST_Controller {
 
     public function regular_user_monthly_subscription_post($params='') {
         if($params=='add') {
-            $getTokenData = $this->is_authorized('superadmin');
+            $getTokenData = $this->is_authorized(array('superadmin','admin','company','Freelancer'));
             $usersData = json_decode(json_encode($getTokenData), true);
             $session_id = $usersData['data']['id'];
 
@@ -114,6 +114,8 @@ class Regular_user_monthly_subscription extends REST_Controller {
                 $data['price'] = $this->input->post('price',TRUE);
                 $data['currency'] = $this->input->post('currency',TRUE);
                 $data['sub_type'] = $this->input->post('sub_type',TRUE);
+                $data['tax'] = $this->input->post('tax',TRUE);
+                $data['country'] = $this->Common->get_user_country($session_id);
 
                 if(!empty($_POST['image'])){
 					$base64_image = $_POST['image'];

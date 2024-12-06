@@ -919,7 +919,7 @@ abstract class REST_Controller extends CI_Controller {
     }
 
 
-    public function is_authorized($params=''){
+    public function is_authorized_bkp($params=''){
 		$headers = $this->input->request_headers(); 
         $token =  strtolower($headers['Token']);
 	if (isset($token)) {		
@@ -934,7 +934,7 @@ abstract class REST_Controller extends CI_Controller {
 				if(!empty($params)){
 				    	if(is_array($params)){
 				    	    
-    					  if(in_array($user_type,$params)){
+    					  if(in_array(strtolower($user_type),strtolower($params))){
                 			  return $decodedToken;
                 		  }else{
                 			 return $this->response(['status' => FALSE, 'message' => 'You are not authorize to perform this action'], REST_Controller::HTTP_UNAUTHORIZED);
@@ -947,6 +947,50 @@ abstract class REST_Controller extends CI_Controller {
         						return $this->response(['status' => FALSE, 'message' => 'You are not authorize to perform this action'], REST_Controller::HTTP_UNAUTHORIZED);
         					}
             			}
+				}
+				else{
+
+				     return $decodedToken;
+
+				}
+            } 
+            else {
+                return $this->response($decodedToken, REST_Controller::HTTP_UNAUTHORIZED);
+            }
+    	}else{
+    	   return $this->response(['status' => FALSE, 'message' => 'Authentication failed'], REST_Controller::HTTP_UNAUTHORIZED);
+        }
+    }
+    
+     public function is_authorized($params=''){
+		$headers = $this->input->request_headers(); 
+        $token =  strtolower($headers['Token']);
+	if (isset($token)) {		
+               
+
+			$decodedToken = $this->authorization_token->validateToken($token);
+			
+            if ($decodedToken['status'])
+            {
+				$usersData    = json_decode(json_encode($decodedToken), true);
+			    $user_type   =  $usersData['data']['user_type'];
+				if(!empty($params)){
+                    if(is_array($params) || is_object($params)){
+                        if(in_array($user_type,$params)){
+                            return $decodedToken;
+                        }
+                        else{
+                            return $this->response(['status' => FALSE, 'message' => 'You are not authorize to perform this action'], REST_Controller::HTTP_UNAUTHORIZED);
+                        }
+
+                    }
+					else { 
+                    if($params==$user_type){
+						return $decodedToken;
+					}else{
+						return $this->response(['status' => FALSE, 'message' => 'You are not authorize to perform this action'], REST_Controller::HTTP_UNAUTHORIZED);
+					}
+                   } 
 				}
 				else{
 

@@ -22,6 +22,70 @@ class Internal extends CI_Controller {
       $uuu = $this->db->get('users')->result_array();
       print_r($uuu);
   }
+  
+  function country_currency(){
+      $this->db->select('shortname,id');
+      $this->db->from('countries');
+      $this->db->where('currency_code','');
+      $this->db->limit(400);
+      $countries =  $this->db->get()->result();
+     foreach($countries as $cnt){
+       
+         
+         $country_code =  $cnt->shortname; // Change this to any valid ISO 3166-1 alpha-2 country code
+
+        // Create the URL for the API request
+        $url = "https://restcountries.com/v3.1/alpha/$country_code";
+        
+        // Initialize cURL session
+        $ch = curl_init();
+        
+        // Set cURL options
+        curl_setopt($ch, CURLOPT_URL, $url); // Set the URL to fetch
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); // Return response as a string instead of outputting it
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // Disable SSL certificate verification (for development)
+        
+        $response = curl_exec($ch); // Execute cURL request
+        
+        // Check if the request was successful
+        if (curl_errno($ch)) {
+            echo 'cURL error: ' . curl_error($ch); // Output error if any
+        } else {
+            // Decode the JSON response
+            $country_data = json_decode($response, true);
+        
+            // Output the country data
+            if (isset($country_data[0])) {
+                // Example of displaying country name and currency
+                //echo "Country: " . $country_data[0]['name']['common'] . "\n";
+                //echo "Currency: " . key($country_data[0]['currencies']) . " - " . $country_data[0]['currencies'][key($country_data[0]['currencies'])]['name'] . "\n";
+               
+                
+                // Output the results
+                $ind['currency_code'] = key($country_data[0]['currencies']);
+                $ind['currency_name'] =  $country_data[0]['currencies'][key($country_data[0]['currencies'])]['name'];
+                // $this->db->where('id',$cnt->id);
+                // $this->db->update('countries',$ind);
+
+
+
+
+            } else {
+               $ind['currency_code'] = ''; 
+            }
+            
+            $this->db->where('id',$cnt->id);
+            $this->db->update('countries',$ind);
+        }
+        
+        // Close cURL session
+        curl_close($ch);
+        
+        
+        
+        
+     }
+  }
 
     public function get_state($countryId='',$StateId=''){
         $states = $this->Internal_model->get_state($countryId);
