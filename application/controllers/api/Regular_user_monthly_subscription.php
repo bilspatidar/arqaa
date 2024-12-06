@@ -373,5 +373,74 @@ class Regular_user_monthly_subscription extends REST_Controller {
             ], REST_Controller::HTTP_NOT_FOUND);
         }
     }
-       
+    public function user_purchasing_post($params = '') {
+        if ($params == 'add') {
+            // Ensure token is valid
+            $getTokenData = $this->is_authorized('user');
+            $usersData = json_decode(json_encode($getTokenData), true);
+            $session_id = $usersData['data']['id'];
+    
+            // Get form data and debug it
+            log_message('debug', 'POST Data: ' . print_r($_POST, true));
+            log_message('debug', 'Raw Input Stream: ' . $this->input->raw_input_stream);
+    
+            // Fetch form data
+            $_POST = $this->input->post();
+    
+            // Debug data again
+            log_message('debug', 'Parsed Form Data: ' . print_r($_POST, true));
+    
+            // Set validation rules
+            $this->form_validation->set_rules('purchase_type', 'Purchase Type', 'trim|required');
+            $this->form_validation->set_rules('purchasing_id', 'Purchasing ID', 'trim|required|integer');
+            $this->form_validation->set_rules('amount', 'Amount', 'trim|required|numeric');
+            $this->form_validation->set_rules('details', 'Details', 'trim|required');
+    
+            if ($this->form_validation->run() === false) {
+                $array_error = array_map(function ($val) {
+                    return str_replace(array("\r", "\n"), '', strip_tags($val));
+                }, array_filter(explode(".", trim(strip_tags(validation_errors())))));
+    
+                $this->response([
+                    'status' => FALSE,
+                    'message' => 'Error in submit form',
+                    'errors' => $array_error
+                ], REST_Controller::HTTP_BAD_REQUEST, '', 'error');
+            } else {
+                // Parse files JSON string into an array
+                $files = !empty($_POST['files']) ? json_decode($_POST['files'], true) : null;
+                log_message('debug', 'Parsed Files: ' . print_r($files, true));
+    
+                // Prepare data for database insertion
+                $data = [
+                    'purchase_type' => $this->input->post('purchase_type', TRUE),
+                    'purchasing_id' => $this->input->post('purchasing_id', TRUE),
+                    'amount' => $this->input->post('amount', TRUE),
+                    'details' => $this->input->post('details', TRUE),
+                    'transaction_id' => $this->input->post('transaction_id', TRUE),
+                    'files' => $files ? json_encode($files) : null,
+                    'status' => 'Pending',
+                    'added' => date('Y-m-d H:i:s'),
+                    'addedBy' => $session_id
+                ];
+    
+                // Insert data into the database
+                if ($res = $this->user_purchasing_model->create($data)) {
+                    $final = [
+                        'status' => true,
+                        'data' => $this->user_purchasing_model->get($res),
+                        'message' => 'User purchasing record created successfully.'
+                    ];
+                    $this->response($final, REST_Controller::HTTP_OK);
+                } else {
+                    $this->response([
+                        'status' => FALSE,
+                        'message' => 'Error in submit form',
+                        'errors' => [$this->db->error()]
+                    ], REST_Controller::HTTP_BAD_REQUEST, '', 'error');
+                }
+            }
+        }
+    }
+    
 }
