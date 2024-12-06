@@ -13,7 +13,8 @@ class Regular_user_monthly_subscription extends REST_Controller {
         $this->cors_header();
         parent::__construct();
         $this->load->model('regular_user_monthly_subscription_model');
-        //$this->load->model('business_hrs_model'); 
+        $this->load->model('business_hrs_model');
+        $this->load->model('user_purchasing_model');  
         $this->load->helper('security');
     }
 
@@ -373,26 +374,18 @@ class Regular_user_monthly_subscription extends REST_Controller {
             ], REST_Controller::HTTP_NOT_FOUND);
         }
     }
+
     public function user_purchasing_post($params = '') {
         if ($params == 'add') {
             // Ensure token is valid
-            $getTokenData = $this->is_authorized('user');
+            $getTokenData = $this->is_authorized('superadmin');
             $usersData = json_decode(json_encode($getTokenData), true);
             $session_id = $usersData['data']['id'];
     
-            // Get form data and debug it
-            log_message('debug', 'POST Data: ' . print_r($_POST, true));
-            log_message('debug', 'Raw Input Stream: ' . $this->input->raw_input_stream);
-    
-            // Fetch form data
+            // Get data from form-data (multipart)
             $_POST = $this->input->post();
     
-            // Debug data again
-            log_message('debug', 'Parsed Form Data: ' . print_r($_POST, true));
-    
             // Set validation rules
-            $this->form_validation->set_rules('purchase_type', 'Purchase Type', 'trim|required');
-            $this->form_validation->set_rules('purchasing_id', 'Purchasing ID', 'trim|required|integer');
             $this->form_validation->set_rules('amount', 'Amount', 'trim|required|numeric');
             $this->form_validation->set_rules('details', 'Details', 'trim|required');
     
@@ -407,24 +400,21 @@ class Regular_user_monthly_subscription extends REST_Controller {
                     'errors' => $array_error
                 ], REST_Controller::HTTP_BAD_REQUEST, '', 'error');
             } else {
-                // Parse files JSON string into an array
-                $files = !empty($_POST['files']) ? json_decode($_POST['files'], true) : null;
-                log_message('debug', 'Parsed Files: ' . print_r($files, true));
+                // Decode files JSON string into array, or set an empty array if no files are provided
+                $files = !empty($_POST['files']) ? json_decode($_POST['files'], true) : [];
     
-                // Prepare data for database insertion
+                // Prepare data for insertion into the database
                 $data = [
-                    'purchase_type' => $this->input->post('purchase_type', TRUE),
-                    'purchasing_id' => $this->input->post('purchasing_id', TRUE),
                     'amount' => $this->input->post('amount', TRUE),
                     'details' => $this->input->post('details', TRUE),
                     'transaction_id' => $this->input->post('transaction_id', TRUE),
-                    'files' => $files ? json_encode($files) : null,
+                    'files' => !empty($files) ? json_encode($files) : json_encode([]),  // Ensure files is never null
                     'status' => 'Pending',
                     'added' => date('Y-m-d H:i:s'),
                     'addedBy' => $session_id
                 ];
     
-                // Insert data into the database
+                // Insert the data using model
                 if ($res = $this->user_purchasing_model->create($data)) {
                     $final = [
                         'status' => true,
@@ -443,4 +433,122 @@ class Regular_user_monthly_subscription extends REST_Controller {
         }
     }
     
+
+    public function boost_profile_data_post($params = '') {
+        if ($params == 'add') {
+            // Ensure token is valid
+            $getTokenData = $this->is_authorized('superadmin');
+            $usersData = json_decode(json_encode($getTokenData), true);
+            $session_id = $usersData['data']['id'];
+        
+            // Get data from form-data (multipart)
+            $_POST = $this->input->post();
+        
+            // Set validation rules
+            $this->form_validation->set_rules('position', 'Position', 'trim|required');
+            $this->form_validation->set_rules('service_id', 'Service ID', 'trim|required|numeric');
+            $this->form_validation->set_rules('amount', 'Amount', 'trim|required|numeric');
+            $this->form_validation->set_rules('transaction_id', 'Transaction ID', 'trim|required');
+        
+            if ($this->form_validation->run() === false) {
+                $array_error = array_map(function ($val) {
+                    return str_replace(array("\r", "\n"), '', strip_tags($val));
+                }, array_filter(explode(".", trim(strip_tags(validation_errors())))));
+        
+                $this->response([
+                    'status' => FALSE,
+                    'message' => 'Error in submit form',
+                    'errors' => $array_error
+                ], REST_Controller::HTTP_BAD_REQUEST, '', 'error');
+            } else {
+                // Prepare data for insertion into the database
+                $data = [
+                    'position' => $this->input->post('position', TRUE),
+                    'service_id' => $this->input->post('service_id', TRUE),
+                    'amount' => $this->input->post('amount', TRUE),
+                    'transaction_id' => $this->input->post('transaction_id', TRUE),
+                    'status' => 'Pending',
+                    'added' => date('Y-m-d H:i:s'),
+                    'addedBy' => $session_id,
+                    'updated' => date('Y-m-d H:i:s'),
+                    'updatedBy' => $session_id
+                ];
+        
+                // Insert the data using model
+                if ($res = $this->user_purchasing_model-> create_boost_profile_data($data)) {
+                    $final = [
+                        'status' => true,
+                        'data' => $this->user_purchasing_model->get_boost_profile_data($res),
+                        'message' => 'Boost profile data created successfully.'
+                    ];
+                    $this->response($final, REST_Controller::HTTP_OK);
+                } else {
+                    $this->response([
+                        'status' => FALSE,
+                        'message' => 'Error in submit form',
+                        'errors' => [$this->db->error()]
+                    ], REST_Controller::HTTP_BAD_REQUEST, '', 'error');
+                }
+            }
+        }
+    }
+    
+    public function cv_resume_data_post($params = '') {
+        if ($params == 'add') {
+            // Ensure token is valid
+            $getTokenData = $this->is_authorized('superadmin');
+            $usersData = json_decode(json_encode($getTokenData), true);
+            $session_id = $usersData['data']['id'];
+    
+            // Get data from form-data (multipart)
+            $_POST = $this->input->post();
+    
+            // Set validation rules
+            $this->form_validation->set_rules('amount', 'Amount', 'trim|required|numeric');
+            $this->form_validation->set_rules('details', 'Details', 'trim|required');
+    
+            if ($this->form_validation->run() === false) {
+                $array_error = array_map(function ($val) {
+                    return str_replace(array("\r", "\n"), '', strip_tags($val));
+                }, array_filter(explode(".", trim(strip_tags(validation_errors())))));
+    
+                $this->response([
+                    'status' => FALSE,
+                    'message' => 'Error in submit form',
+                    'errors' => $array_error
+                ], REST_Controller::HTTP_BAD_REQUEST, '', 'error');
+            } else {
+                // Decode files JSON string into array, or set an empty array if no files are provided
+                $files = !empty($_POST['files']) ? json_encode($_POST['files']) : '';
+
+                  // Prepare data for insertion into the database
+                $data = [
+                  'amount' => $this->input->post('amount', TRUE),
+                   'details' => $this->input->post('details', TRUE),
+                   'transaction_id' => $this->input->post('transaction_id', TRUE),
+                   'files' => $files,   // Store files as a JSON string or text string
+                   'status' => 'Pending',
+                    'added' => date('Y-m-d H:i:s'),
+                    'addedBy' => $session_id
+];
+    
+                // Insert the data using model
+                if ($res = $this->user_purchasing_model->create_cv_resume_data($data)) {
+                    $final = [
+                        'status' => true,
+                        'data' => $this->user_purchasing_model->get_cv_resume_data($res),
+                        'message' => 'User purchasing record created successfully.'
+                    ];
+                    $this->response($final, REST_Controller::HTTP_OK);
+                } else {
+                    $this->response([
+                        'status' => FALSE,
+                        'message' => 'Error in submit form',
+                        'errors' => [$this->db->error()]
+                    ], REST_Controller::HTTP_BAD_REQUEST, '', 'error');
+                }
+            }
+        }
+    }
+       
 }
