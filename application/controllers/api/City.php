@@ -18,7 +18,7 @@ class City extends REST_Controller {
 
     // City start
     public function parent_city_get($id='') {
-        $getTokenData = $this->is_authorized('superadmin');
+         $getTokenData = $this->is_authorized(array('superadmin','admin','company','freelancer'));
         $final = array();
         $final['status'] = true;
         $final['data'] = $this->city_model->parent_city($id);
@@ -35,7 +35,7 @@ class City extends REST_Controller {
         $limit = isset($request_data['limit']) ? $request_data['limit'] : 10; // Default limit to 10 if not provided
         $filterData = isset($request_data['filterData']) ? $request_data['filterData'] : [];
     
-        //$getTokenData = $this->is_authorized('superadmin');
+        //$getTokenData = $this->is_authorized(array('superadmin','admin','company','freelancer'));
         $offset = ($page - 1) * $limit;
     
         $totalRecords =  $this->city_model->get('yes', $id, $limit, $offset, $filterData);
@@ -58,7 +58,7 @@ class City extends REST_Controller {
     
     public function city_details_get(){
         $id = $this->input->get('id') ? $this->input->get('id') : 0;
-        $getTokenData = $this->is_authorized('superadmin');
+         $getTokenData = $this->is_authorized(array('superadmin','admin','company','freelancer'));
         $data =  $this->city_model->show($id);
         $response = [
             'status' => true,

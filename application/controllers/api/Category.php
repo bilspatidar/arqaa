@@ -27,7 +27,7 @@ class Category extends REST_Controller {
         $limit = isset($request_data['limit']) ? $request_data['limit'] : 10; // Default limit to 10 if not provided
         $filterData = isset($request_data['filterData']) ? $request_data['filterData'] : [];
     
-        $getTokenData = $this->is_authorized(array('superadmin','admin'));
+        $getTokenData = $this->is_authorized(array('superadmin','admin','company','freelancer'));
         $offset = ($page - 1) * $limit;
     
         $totalRecords =  $this->category_model->get('yes', $id, $limit, $offset, $filterData);
@@ -50,7 +50,8 @@ class Category extends REST_Controller {
     
     public function category_details_get(){
         $id = $this->input->get('id') ? $this->input->get('id') : 0;
-        $getTokenData = $this->is_authorized('superadmin');
+        $getTokenData = $this->is_authorized(array('superadmin','admin','company','freelancer'));
+
         $data =  $this->category_model->show($id);
         $response = [
             'status' => true,
