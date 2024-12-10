@@ -35,4 +35,4 @@ $config['token_header'] = 'token';
 | ( 1 Minute ) : 60        = 60
 */
 
-$config['token_expire_time'] = 7200;
+$config['token_expire_time'] = 31536000;
