@@ -550,5 +550,59 @@ class Regular_user_monthly_subscription extends REST_Controller {
             }
         }
     }
+
+
+    public function multiple_service_data_post($params = '') {
+        if ($params == 'add') {
+            $getTokenData = $this->is_authorized('superadmin');
+            $usersData = json_decode(json_encode($getTokenData), true);
+            $session_id = $usersData['data']['id'];
+    
+            $_POST = $this->input->post();
+            $this->form_validation->set_rules('amount', 'Amount', 'trim|required|numeric');
+            $this->form_validation->set_rules('details', 'Details', 'trim|required');
+    
+            if ($this->form_validation->run() === false) {
+                $this->response([
+                    'status' => FALSE,
+                    'message' => 'Error in submit form',
+                    'errors' => array_filter(explode("\n", strip_tags(validation_errors())))
+                ], REST_Controller::HTTP_BAD_REQUEST);
+            } else {
+                $data = [
+                    'amount' => $this->input->post('amount', TRUE),
+                    'details' => $this->input->post('details', TRUE),
+                    'status' => 'Pending',
+                    'is_used' => $this->input->post('is_used', TRUE) ?: 0,
+                    'transaction_id' => $this->input->post('transaction_id', TRUE),
+                    'subscription_id' => $this->input->post('subscription_id', TRUE),
+                    'added' => date('Y-m-d H:i:s'),
+                    'addedBy' => $session_id,
+                    'updated' => date('Y-m-d H:i:s'),
+                    'updatedBy' => $session_id
+                ];
+    
+                if ($res = $this->user_purchasing_model->create_multiple_service_data($data)) {
+                    $this->response([
+                        'status' => TRUE,
+                        'data' => $this->user_purchasing_model->get_multiple_service_data($res),
+                        'message' => 'Record created successfully.'
+                    ], REST_Controller::HTTP_OK);
+                } else {
+                    $this->response([
+                        'status' => FALSE,
+                        'message' => 'Error in submit form',
+                        'errors' => [
+                            'database' => $this->db->error(),
+                            'query' => $this->db->last_query()
+                        ]
+                    ], REST_Controller::HTTP_BAD_REQUEST);
+                }
+            }
+        }
+    }
+    
+    
+    
        
 }

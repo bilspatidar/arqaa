@@ -51,6 +51,18 @@ class User_purchasing_model extends CI_Model {
         }
     }
 
+    public function create_multiple_service_data($data) {
+        // Insert data into the `user_purchasing` table
+        $this->db->insert('multiple_service_data', $data);
+        
+        // Return the inserted record's ID
+        if ($this->db->affected_rows() > 0) {
+            return $this->db->insert_id();
+        } else {
+            return false;
+        }
+    }
+
     /**
      * Get a user purchasing record by ID
      *
@@ -92,7 +104,17 @@ class User_purchasing_model extends CI_Model {
             return null;
         }
     }
-
+    public function get_multiple_service_data($id) {
+        // Fetch the record from `user_purchasing` table by ID
+        $query = $this->db->get_where('multiple_service_data', ['id' => $id]);
+        
+        // Return the row data if found, otherwise null
+        if ($query->num_rows() > 0) {
+            return $query->row_array();
+        } else {
+            return null;
+        }
+    }
 
     /**
      * Update an existing user purchasing record
