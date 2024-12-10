@@ -433,6 +433,36 @@ class Regular_user_monthly_subscription extends REST_Controller {
         }
     }
     
+    public function user_purchasing_list_post() {
+        $input_data = file_get_contents('php://input');
+        $request_data = json_decode($input_data, true);
+    
+        $id = $this->input->get('id') ? $this->input->get('id') : 0;
+    
+        $page = isset($request_data['page']) ? $request_data['page'] : 1; // Default to page 1 if not provided
+        $limit = isset($request_data['limit']) ? $request_data['limit'] : 10; // Default limit to 10 if not provided
+        $filterData = isset($request_data['filterData']) ? $request_data['filterData'] : [];
+    
+        $getTokenData = $this->is_authorized('superadmin');
+        $offset = ($page - 1) * $limit;
+    
+        $totalRecords =  $this->user_purchasing_model->get('yes', $id, $limit, $offset, $filterData);
+        $data =  $this->user_purchasing_model->get('no', $id, $limit, $offset, $filterData);
+    
+        $totalPages = ceil($totalRecords / $limit);
+    
+        $response = [
+            'status' => true,
+            'data' => $data,
+            'pagination' => [
+                'page' => $page,
+                'totalPages' => $totalPages,
+                'totalRecords' => $totalRecords
+            ],
+            'message' => 'User purchshasing fetched successfully.'
+        ];
+        $this->response($response, REST_Controller::HTTP_OK); 
+    }
 
     public function boost_profile_data_post($params = '') {
         if ($params == 'add') {
@@ -492,6 +522,39 @@ class Regular_user_monthly_subscription extends REST_Controller {
             }
         }
     }
+
+ public function boost_profile_data_list_post() {
+        $input_data = file_get_contents('php://input');
+        $request_data = json_decode($input_data, true);
+    
+        $id = $this->input->get('id') ? $this->input->get('id') : 0;
+    
+        $page = isset($request_data['page']) ? $request_data['page'] : 1; // Default to page 1 if not provided
+        $limit = isset($request_data['limit']) ? $request_data['limit'] : 10; // Default limit to 10 if not provided
+        $filterData = isset($request_data['filterData']) ? $request_data['filterData'] : [];
+    
+        $getTokenData = $this->is_authorized('superadmin');
+        $offset = ($page - 1) * $limit;
+    
+        $totalRecords =  $this->user_purchasing_model->get_boost_profile_data('yes', $id, $limit, $offset, $filterData);
+        $data =  $this->user_purchasing_model->get_boost_profile_data('no', $id, $limit, $offset, $filterData);
+    
+        $totalPages = ceil($totalRecords / $limit);
+    
+        $response = [
+            'status' => true,
+            'data' => $data,
+            'pagination' => [
+                'page' => $page,
+                'totalPages' => $totalPages,
+                'totalRecords' => $totalRecords
+            ],
+            'message' => 'Boost profile data fetched successfully.'
+        ];
+        $this->response($response, REST_Controller::HTTP_OK); 
+    }
+
+
     
     public function cv_resume_data_post($params = '') {
         if ($params == 'add') {
@@ -530,14 +593,13 @@ class Regular_user_monthly_subscription extends REST_Controller {
                    'status' => 'Pending',
                     'added' => date('Y-m-d H:i:s'),
                     'addedBy' => $session_id
-];
-    
+                    ];
                 // Insert the data using model
                 if ($res = $this->user_purchasing_model->create_cv_resume_data($data)) {
                     $final = [
                         'status' => true,
                         'data' => $this->user_purchasing_model->get_cv_resume_data($res),
-                        'message' => 'User purchasing record created successfully.'
+                        'message' => 'Cv resume data record created successfully.'
                     ];
                     $this->response($final, REST_Controller::HTTP_OK);
                 } else {
@@ -549,6 +611,37 @@ class Regular_user_monthly_subscription extends REST_Controller {
                 }
             }
         }
+    }
+
+    public function cv_resume_data_list_post() {
+        $input_data = file_get_contents('php://input');
+        $request_data = json_decode($input_data, true);
+    
+        $id = $this->input->get('id') ? $this->input->get('id') : 0;
+    
+        $page = isset($request_data['page']) ? $request_data['page'] : 1; // Default to page 1 if not provided
+        $limit = isset($request_data['limit']) ? $request_data['limit'] : 10; // Default limit to 10 if not provided
+        $filterData = isset($request_data['filterData']) ? $request_data['filterData'] : [];
+    
+        $getTokenData = $this->is_authorized('superadmin');
+        $offset = ($page - 1) * $limit;
+    
+        $totalRecords =  $this->user_purchasing_model->get_cv_resume_data('yes', $id, $limit, $offset, $filterData);
+        $data =  $this->user_purchasing_model->get_cv_resume_data('no', $id, $limit, $offset, $filterData);
+    
+        $totalPages = ceil($totalRecords / $limit);
+    
+        $response = [
+            'status' => true,
+            'data' => $data,
+            'pagination' => [
+                'page' => $page,
+                'totalPages' => $totalPages,
+                'totalRecords' => $totalRecords
+            ],
+            'message' => 'Cv resume data fetched successfully.'
+        ];
+        $this->response($response, REST_Controller::HTTP_OK); 
     }
 
 
@@ -603,6 +696,35 @@ class Regular_user_monthly_subscription extends REST_Controller {
     }
     
     
+    public function multiple_service_data_list_post() {
+        $input_data = file_get_contents('php://input');
+        $request_data = json_decode($input_data, true);
     
+        $id = $this->input->get('id') ? $this->input->get('id') : 0;
+    
+        $page = isset($request_data['page']) ? $request_data['page'] : 1; // Default to page 1 if not provided
+        $limit = isset($request_data['limit']) ? $request_data['limit'] : 10; // Default limit to 10 if not provided
+        $filterData = isset($request_data['filterData']) ? $request_data['filterData'] : [];
+    
+        $getTokenData = $this->is_authorized('superadmin');
+        $offset = ($page - 1) * $limit;
+    
+        $totalRecords =  $this->user_purchasing_model->get_multiple_sevice_data('yes', $id, $limit, $offset, $filterData);
+        $data =  $this->user_purchasing_model->get_multiple_sevice_data('no', $id, $limit, $offset, $filterData);
+    
+        $totalPages = ceil($totalRecords / $limit);
+    
+        $response = [
+            'status' => true,
+            'data' => $data,
+            'pagination' => [
+                'page' => $page,
+                'totalPages' => $totalPages,
+                'totalRecords' => $totalRecords
+            ],
+            'message' => 'Multiple service data fetched successfully.'
+        ];
+        $this->response($response, REST_Controller::HTTP_OK); 
+    }
        
 }
