@@ -51,48 +51,137 @@ class User_purchasing_model extends CI_Model {
         }
     }
 
+    public function create_multiple_service_data($data) {
+        // Insert data into the `user_purchasing` table
+        $this->db->insert('multiple_service_data', $data);
+        
+        // Return the inserted record's ID
+        if ($this->db->affected_rows() > 0) {
+            return $this->db->insert_id();
+        } else {
+            return false;
+        }
+    }
+
     /**
      * Get a user purchasing record by ID
      *
      * @param int $id The record ID
      * @return array|null The record data or null if not found
      */
-    public function get($id) {
-        // Fetch the record from `user_purchasing` table by ID
-        $query = $this->db->get_where('advertisment_banner_data', ['id' => $id]);
+    
+    public function get($count, $id = 0, $limit = 10, $offset = 0, $filterData = []) {
+        // Debugging: Log the inputs to check if they're correct
+        log_message('debug', 'id: ' . $id . ' limit: ' . $limit . ' offset: ' . $offset);
         
-        // Return the row data if found, otherwise null
-        if ($query->num_rows() > 0) {
-            return $query->row_array();
+        // Your query logic here, ensure that it's correct
+        $this->db->select('*');
+        $this->db->from('advertisment_banner_data');
+        if ($id > 0) {
+            $this->db->where('id', $id);
+        }
+        // Add any filters from $filterData
+        if (!empty($filterData)) {
+            foreach ($filterData as $key => $value) {
+                $this->db->where($key, $value);
+            }
+        }
+        // Apply limit and offset
+        $this->db->limit($limit, $offset);
+        
+        if ($count == 'yes') {
+            $query = $this->db->get();
+            return $query->num_rows(); // Return the total count of records
         } else {
-            return null;
+            $query = $this->db->get();
+            return $query->result_array(); // Return the actual data
+        }
+    }
+    
+
+    public function get_boost_profile_data($count, $id = 0, $limit = 10, $offset = 0, $filterData = []) {
+        // Debugging: Log the inputs to check if they're correct
+        log_message('debug', 'id: ' . $id . ' limit: ' . $limit . ' offset: ' . $offset);
+        
+        // Your query logic here, ensure that it's correct
+        $this->db->select('*');
+        $this->db->from('boost_profile_data');
+        if ($id > 0) {
+            $this->db->where('id', $id);
+        }
+        // Add any filters from $filterData
+        if (!empty($filterData)) {
+            foreach ($filterData as $key => $value) {
+                $this->db->where($key, $value);
+            }
+        }
+        // Apply limit and offset
+        $this->db->limit($limit, $offset);
+        
+        if ($count == 'yes') {
+            $query = $this->db->get();
+            return $query->num_rows(); // Return the total count of records
+        } else {
+            $query = $this->db->get();
+            return $query->result_array(); // Return the actual data
         }
     }
 
-    public function get_boost_profile_data($id) {
-        // Fetch the record from `user_purchasing` table by ID
-        $query = $this->db->get_where('boost_profile_data', ['id' => $id]);
+   public function get_cv_resume_data($count, $id = 0, $limit = 10, $offset = 0, $filterData = []) {
+        // Debugging: Log the inputs to check if they're correct
+        log_message('debug', 'id: ' . $id . ' limit: ' . $limit . ' offset: ' . $offset);
         
-        // Return the row data if found, otherwise null
-        if ($query->num_rows() > 0) {
-            return $query->row_array();
+        // Your query logic here, ensure that it's correct
+        $this->db->select('*');
+        $this->db->from('cv_resume_data');
+        if ($id > 0) {
+            $this->db->where('id', $id);
+        }
+        // Add any filters from $filterData
+        if (!empty($filterData)) {
+            foreach ($filterData as $key => $value) {
+                $this->db->where($key, $value);
+            }
+        }
+        // Apply limit and offset
+        $this->db->limit($limit, $offset);
+        
+        if ($count == 'yes') {
+            $query = $this->db->get();
+            return $query->num_rows(); // Return the total count of records
         } else {
-            return null;
+            $query = $this->db->get();
+            return $query->result_array(); // Return the actual data
         }
     }
 
-    public function get_cv_resume_data($id) {
-        // Fetch the record from `user_purchasing` table by ID
-        $query = $this->db->get_where('cv_resume_data', ['id' => $id]);
+    public function get_multiple_sevice_data($count, $id = 0, $limit = 10, $offset = 0, $filterData = []) {
+        // Debugging: Log the inputs to check if they're correct
+        log_message('debug', 'id: ' . $id . ' limit: ' . $limit . ' offset: ' . $offset);
         
-        // Return the row data if found, otherwise null
-        if ($query->num_rows() > 0) {
-            return $query->row_array();
+        // Your query logic here, ensure that it's correct
+        $this->db->select('*');
+        $this->db->from('multiple_service_data');
+        if ($id > 0) {
+            $this->db->where('id', $id);
+        }
+        // Add any filters from $filterData
+        if (!empty($filterData)) {
+            foreach ($filterData as $key => $value) {
+                $this->db->where($key, $value);
+            }
+        }
+        // Apply limit and offset
+        $this->db->limit($limit, $offset);
+        
+        if ($count == 'yes') {
+            $query = $this->db->get();
+            return $query->num_rows(); // Return the total count of records
         } else {
-            return null;
+            $query = $this->db->get();
+            return $query->result_array(); // Return the actual data
         }
     }
-
 
     /**
      * Update an existing user purchasing record
