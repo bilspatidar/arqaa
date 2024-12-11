@@ -58,15 +58,9 @@
             </div>
 
            
-            <div class="col-md-4">
-              <div class="form-group row">
-                <div class="col-sm-12">
-                  <label class="col-form-label"><?php echo $this->lang->line('tax');?></label>
-                  <input type="text" class="form-control" name="tax" />
-                </div>
-              </div>
-            </div>
-           
+       
+                  <input type="hidden" class="form-control" name="tax" />
+             
    <div class="col-md-12">
     <div class="form-group row">
         <div class="col-sm-12">
