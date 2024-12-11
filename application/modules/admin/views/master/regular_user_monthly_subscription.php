@@ -115,14 +115,54 @@
             <option value="Deactive"><?php echo $this->lang->line('inactive');?></option>
             </select>
             </div>
+
             <div class="col-md-3 form-group">
             <?php $this->load->view('includes/filter_form_btn'); ?>
             </div>
-           </div>
+          
+            <div class="col-md-3">
+            
+        </div>
+        
+    </div>   
+
        </form> 
        </div>
 
         <div class="table-responsive">
+        <form id="filterForm">
+        <div class="row">
+        <div class="col-md-3">
+            <input class="form-check-input d-none" type="radio" name="sub_type" onclick="submitFilterForm()" id="filterboostProfile1" value="Boost Your Profile" >
+            <label class="form-check-label btn btn-outline-primary w-100 text-center" id="submitBtn"  for="filterboostProfile1">
+                Boost Your Profile
+            </label>
+        </div>
+
+        <div class="col-md-3">
+            <input class="form-check-input  d-none" type="radio" name="sub_type" onclick="submitFilterForm()" id="filterboostProfile2" value="Extra Service">
+            <label class="form-check-label btn btn-outline-primary w-100 text-center" id="submitBtn" for="filterboostProfile2">
+                Extra Service
+            </label>
+        </div>
+
+        <div class="col-md-3">
+            <input class="form-check-input d-none" type="radio" name="sub_type" onclick="submitFilterForm()" id="filterboostProfile3" value="Advertising Banner">
+            <label class="form-check-label btn btn-outline-primary w-100 text-center" id="submitBtn"  for="filterboostProfile3">
+                Advertising Banner
+            </label>
+        </div>
+
+        <div class="col-md-3">
+            <input class="form-check-input d-none" type="radio" name="sub_type" onclick="submitFilterForm()" id="filterboostProfile4" value="CV / Resume">
+            <label class="form-check-label btn btn-outline-primary w-100 text-center" id="submitBtn"  for="filterboostProfile4">
+                CV / Resume
+            </label>
+        </div>
+
+        </div>   
+
+</form> 
         <table class="table table-hover js-basic-example dataTable table-custom spacing5" id="api_response_table">
 
             <thead>
@@ -132,6 +172,7 @@
                 <th><?php echo $this->lang->line('prices');?></th>
                 <th><?php echo $this->lang->line('currency');?></th>
                 <th><?php echo $this->lang->line('taxes');?></th>
+                <th><?php echo $this->lang->line('sub_type');?></th>
                 <th><?php echo $this->lang->line('status');?></th>
                 <th><?php echo $this->lang->line('Action');?></th>
               </tr>
@@ -159,6 +200,7 @@
       { "data": "price", "orderable": true },
       { "data": "currency", "orderable": true },
       { "data": "tax", "orderable": true },
+      { "data": "sub_type", "orderable": true },
       {
         "data": "status",
         "orderable": true,
@@ -175,38 +217,15 @@
     ];
   }
 </script>
-
 <script>
-/*
-  function renderTableData(){
-    return [
-                { "data": null, "render": function(data, type, row, meta) {
-                    return meta.row + 1; // Adding 1 to meta.row to start from 1 instead of 0
-                }},
-                { "data": "name", "orderable": true  },
-                { 
-                    "data": "image",
-                  //  "render": function(data, type, row) {
-                  //      return '<img src="' + data + '" alt="Image" style="height: 60px; width: 80px;">';
-                  //  }
-					"render": function(data, type, row) {
-					  var imageUrl = data ? data : 'uploads/no_file.jpg';
-					  return '<img src="' + imageUrl + '" alt="Image" style="height: 60px; width: 80px;">';
-					}
-                },
-                { 
-                    "data": "status", "orderable": true,
-                    "render": function(data, type, row) {
-                        return renderStatusBtn(data, type, row)
-                    }
-                },
-                { 
-                    "data": null, 
-                    "render": function(data, type, row) {
-                      return renderOptionBtn(data, type, row)
-                    }
-                }
-            ]
-  }
-  */
-  </script>
+    function submitFilterForm() {
+        // Disable the button to prevent multiple clicks
+        $('#submitBtn').prop('disabled', true);
+
+        // Manually trigger form submit using jQuery
+        $('#filterForm').submit();
+    }
+
+    // jQuery code for handling the form submission event
+   
+</script>

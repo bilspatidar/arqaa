@@ -194,20 +194,19 @@ function initializeDataTable() {
             
           
              // Include additional parameters for filtering
-              var filterData = {
-                  name: $('#filterName').val(),
-                  status: $('#filterStatus').val(),
-                  from_date: $('#filterFromDate').val(),
-                  to_date: $('#filterToDate').val(),
-                  added_by: $('#filterAddedBy').val(),
-                  category: $('#filterCategory').val(),
-                  project: $('#filterProject').val(),
-                  billing_type: $('#filterBilling').val(),
-                  manager_id: $('#filterManager').val(),
-                  agent_id: $('#filterAgent').val()
-
-                 
-              };
+             var filterData = {
+    name: $('#filterName').val(),
+    status: $('#filterStatus').val(),
+    from_date: $('#filterFromDate').val(),
+    to_date: $('#filterToDate').val(),
+    added_by: $('#filterAddedBy').val(),
+    category: $('#filterCategory').val(),
+    project: $('#filterProject').val(),
+    billing_type: $('#filterBilling').val(),
+    manager_id: $('#filterManager').val(),
+    agent_id: $('#filterAgent').val(),
+    sub_type: $('input[name="sub_type"]:checked').val() // Missing comma above was causing error
+};
             // var filterData = {  filterFirst: $('#filterFirst').val()  };
              
              // Calculate page number and limit
