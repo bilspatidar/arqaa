@@ -4,27 +4,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Business_hrs_model extends CI_Model {
 
     // Table name
-    private $table = 'business_hours';  // Adjust this to your actual table name
+    private $table = 'business_hrs';  // Adjust this to your actual table name
 
     // Add business hours to the database
     public function add($data) {
-        // Insert data into the table
-        return $this->db->insert($this->table, $data);
-    }
-
-    // Update business hours
-    public function update($id, $data) {
-        // Update the record where the id matches
-        $this->db->where('id', $id);
+        $existing_data = $this->db->get_where($this->table,array('user_id'=>$data['user_id'],'day'=>$data['day']));
+        if($existing_data->num_rows()>0){
+        $this->db->where('id',$existing_data->row()->id);
         return $this->db->update($this->table, $data);
+        }
+        else{
+         return $this->db->insert($this->table, $data);
+        }
     }
 
-    // Get business hours by id
-    public function get_by_id($id) {
-        // Get a single record by id
-        $query = $this->db->get_where($this->table, ['id' => $id]);
-        return $query->row();
-    }
+
 
     // Get business hours for a user with pagination
     public function get_business_hours($user_id, $limit, $offset) {

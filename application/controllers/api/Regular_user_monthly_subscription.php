@@ -276,94 +276,59 @@ class Regular_user_monthly_subscription extends REST_Controller {
     
      // Add Business Hours for Regular User
     public function business_hours_add_post() {
-        $tokenData = $this->is_authorized();  // Get user details from token
-        $user_id = $tokenData['data']['id'];
+        $getTokenData = $this->is_authorized(array('superadmin','admin','company','freelancer'));  // Get user details from token
+        $usersData = json_decode(json_encode($getTokenData), true);
+        $user_id = $usersData['data']['id'];
+        $_POST = json_decode($this->input->raw_input_stream, true);
 
-        $days = $this->input->post('days');  // Array of days
-        $from_time = $this->input->post('from_time');
-        $to_time = $this->input->post('to_time');
-        $status = $this->input->post('status') ? $this->input->post('status') : 'Active';  // Default to 'Active'
+
+        $days = $_POST['days'];  // Array of days
+        $from_time = $_POST['from_time'];
+        $to_time = $_POST['to_time'];
+        $status = $_POST['status'] ? $_POST['status'] : 'Active';  // Default to 'Active'
 
         if (!is_array($days)) {
             $this->response(['status' => FALSE, 'message' => 'Days must be an array'], REST_Controller::HTTP_BAD_REQUEST);
         }
-
         foreach ($days as $day) {
             $data = [
                 'user_id' => $user_id,
-                'day' => $day,
-                'from_time' => $from_time,
-                'to_time' => $to_time,
-                'status' => $status
+                'day' => $day['day'],
+                'from_time' => $day['from_time'],
+                'to_time' => $day['to_time'],
+                'status' => $day['status']
             ];
+            
+            //$this->db->insert('business_hrs',$data);
 
             // Add business hour for each day
-            $this->business_hrs_model->add($data);
+           $this->business_hrs_model->add($data);
         }
 
-        $this->response(['status' => TRUE, 'message' => 'Business hours added successfully.'], REST_Controller::HTTP_OK);
+                    $final = array();
+                    $final['status'] = true;
+                    $final['data'] = $days;//$this->category_model->get($res);
+                    $final['message'] = 'Business hours added successfully.';
+                    $this->response($final, REST_Controller::HTTP_OK);
     }
 
-    // Update Business Hours for Regular User
-    public function business_hours_update_post() {
-        $tokenData = $this->is_authorized();  // Get user details from token
-        $user_id = $tokenData['data']['id'];
-
-        $id = $this->input->post('id');
-        $day = $this->input->post('day');
-        $from_time = $this->input->post('from_time');
-        $to_time = $this->input->post('to_time');
-        $status = $this->input->post('status') ? $this->input->post('status') : 'Active';
-
-        // Check if the record exists
-        $existing_data = $this->business_hrs_model->get_by_id($id);
-        if (!$existing_data || $existing_data->user_id != $user_id) {
-            $this->response(['status' => FALSE, 'message' => 'Business hour not found or unauthorized access'], REST_Controller::HTTP_BAD_REQUEST);
-        }
-
-        $data = [
-            'day' => $day,
-            'from_time' => $from_time,
-            'to_time' => $to_time,
-            'status' => $status
-        ];
-
-        // Update the business hours
-        $this->business_hrs_model->update($id, $data);
-
-        $this->response(['status' => TRUE, 'message' => 'Business hours updated successfully.'], REST_Controller::HTTP_OK);
-    }
+   
 
     public function business_hours_get() {
-        // Load the Business Hours model if you haven't already
-        $this->load->model('business_hrs_model');
-        
-        // Get pagination parameters from the query string
-        $page = $this->get('page') ? $this->get('page') : 1; // Default to page 1
-        $limit = $this->get('limit') ? $this->get('limit') : 10; // Default limit to 10
-        $offset = ($page - 1) * $limit;
-        
-        // Get business hours for the logged-in user (you may need to adjust this based on your use case)
-        $tokenData = $this->is_authorized(); // Get user details from token
-        $user_id = $tokenData['data']['id'];
+        $getTokenData = $this->is_authorized(array('superadmin','admin','company','freelancer')); // Get user details from token
+        $usersData = json_decode(json_encode($getTokenData), true);
+        $user_id = $usersData['data']['id'];
     
-        // Get all business hours for the user with pagination
         $businessHoursData = $this->business_hrs_model->get_business_hours($user_id, $limit, $offset);
         
         // Prepare response
         $data = $businessHoursData['data'];
-        $totalRecords = $businessHoursData['totalRecords'];
-        $totalPages = ceil($totalRecords / $limit);
+       
         
         if ($data) {
             $response = [
                 'status' => true,
                 'data' => $data,
-                'pagination' => [
-                    'page' => $page,
-                    'totalPages' => $totalPages,
-                    'totalRecords' => $totalRecords
-                ],
                 'message' => 'Business hours fetched successfully.'
             ];
             $this->response($response, REST_Controller::HTTP_OK);
