@@ -63,6 +63,18 @@ class User_purchasing_model extends CI_Model {
         }
     }
 
+    public function create_review_rating($data) {
+        // Insert data into the `user_purchasing` table
+        $this->db->insert('review_rating', $data);
+        
+        // Return the inserted record's ID
+        if ($this->db->affected_rows() > 0) {
+            return $this->db->insert_id();
+        } else {
+            return false;
+        }
+    }
+
     /**
      * Get a user purchasing record by ID
      *
@@ -210,6 +222,35 @@ class User_purchasing_model extends CI_Model {
             return $query->result_array(); // Return the actual data
         }
     }
+
+    public function get_review_rating($count, $id = 0, $limit = 10, $offset = 0, $filterData = []) {
+        // Debugging: Log the inputs to check if they're correct
+        log_message('debug', 'id: ' . $id . ' limit: ' . $limit . ' offset: ' . $offset);
+        
+        // Your query logic here, ensure that it's correct
+        $this->db->select('*');
+        $this->db->from('review_rating');
+        if ($id > 0) {
+            $this->db->where('id', $id);
+        }
+        // Add any filters from $filterData
+        if (!empty($filterData)) {
+            foreach ($filterData as $key => $value) {
+                $this->db->where($key, $value);
+            }
+        }
+        // Apply limit and offset
+        $this->db->limit($limit, $offset);
+        
+        if ($count == 'yes') {
+            $query = $this->db->get();
+            return $query->num_rows(); // Return the total count of records
+        } else {
+            $query = $this->db->get();
+            return $query->result_array(); // Return the actual data
+        }
+    }
+
 
     /**
      * Update an existing user purchasing record
