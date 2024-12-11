@@ -133,29 +133,29 @@
         <form id="filterForm">
         <div class="row">
         <div class="col-md-3">
-            <input class="form-check-input d-none" type="radio" name="sub_type" id="filterboostProfile1" value="Boost Your Profile" >
-            <label class="form-check-label btn btn-outline-primary w-100 text-center" id="submitBtn" onclick="submitFilterForm()" for="filterboostProfile1">
+            <input class="form-check-input d-none" type="radio" name="sub_type" onclick="submitFilterForm()" id="filterboostProfile1" value="Boost Your Profile" >
+            <label class="form-check-label btn btn-outline-primary w-100 text-center" id="submitBtn"  for="filterboostProfile1">
                 Boost Your Profile
             </label>
         </div>
 
         <div class="col-md-3">
-            <input class="form-check-input  d-none" type="radio" name="sub_type" id="filterboostProfile2" value="Extra Service">
-            <label class="form-check-label btn btn-outline-primary w-100 text-center" id="submitBtn" onclick="submitFilterForm()"for="filterboostProfile2">
+            <input class="form-check-input  d-none" type="radio" name="sub_type" onclick="submitFilterForm()" id="filterboostProfile2" value="Extra Service">
+            <label class="form-check-label btn btn-outline-primary w-100 text-center" id="submitBtn" for="filterboostProfile2">
                 Extra Service
             </label>
         </div>
 
         <div class="col-md-3">
-            <input class="form-check-input d-none" type="radio" name="sub_type" id="filterboostProfile3" value="Advertising Banner">
-            <label class="form-check-label btn btn-outline-primary w-100 text-center" id="submitBtn" onclick="submitFilterForm()" for="filterboostProfile3">
+            <input class="form-check-input d-none" type="radio" name="sub_type" onclick="submitFilterForm()" id="filterboostProfile3" value="Advertising Banner">
+            <label class="form-check-label btn btn-outline-primary w-100 text-center" id="submitBtn"  for="filterboostProfile3">
                 Advertising Banner
             </label>
         </div>
 
         <div class="col-md-3">
-            <input class="form-check-input d-none" type="radio" name="sub_type" id="filterboostProfile4" value="CV / Resume">
-            <label class="form-check-label btn btn-outline-primary w-100 text-center" id="submitBtn" onclick="submitFilterForm()" for="filterboostProfile4">
+            <input class="form-check-input d-none" type="radio" name="sub_type" onclick="submitFilterForm()" id="filterboostProfile4" value="CV / Resume">
+            <label class="form-check-label btn btn-outline-primary w-100 text-center" id="submitBtn"  for="filterboostProfile4">
                 CV / Resume
             </label>
         </div>
