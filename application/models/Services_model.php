@@ -102,7 +102,7 @@ class Services_model extends CI_Model {
 
         // Filter by sub_category_id
         if (isset($filterData['sub_category_id']) && !empty($filterData['sub_category_id'])) {
-            $this->db->where('subcategory_id', $filterData['sub_category_id']);
+            $this->db->where('sub_category_id', $filterData['sub_category_id']);
         }
 
         // Order by primary key in descending order
