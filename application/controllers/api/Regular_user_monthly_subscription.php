@@ -707,4 +707,93 @@ class Regular_user_monthly_subscription extends REST_Controller {
         $this->response($response, REST_Controller::HTTP_OK); 
     }
        
+    public function review_rating_post($params = '') {
+        if ($params == 'add') {
+            // Authorize the user
+            $getTokenData = $this->is_authorized(array('superadmin', 'admin', 'company', 'freelancer'));
+            $usersData = json_decode(json_encode($getTokenData), true);
+            $session_id = $usersData['data']['id'];
+    
+            // Get input data
+            $_POST = json_decode($this->input->raw_input_stream, true);
+    
+            // Form validation rules
+            $this->form_validation->set_rules('user_id', 'User ID', 'trim|required|numeric');
+            $this->form_validation->set_rules('service_id', 'Service ID', 'trim|required|numeric');
+            $this->form_validation->set_rules('service_rating', 'Service Rating', 'trim|required|numeric|greater_than[0]|less_than_equal_to[5]');
+            $this->form_validation->set_rules('time_rating', 'Time Rating', 'trim|required|numeric|greater_than[0]|less_than_equal_to[5]');
+            $this->form_validation->set_rules('payment_rating', 'Payment Rating', 'trim|required|numeric|greater_than[0]|less_than_equal_to[5]');
+            $this->form_validation->set_rules('review', 'Review', 'trim|required');
+    
+            if ($this->form_validation->run() === false) {
+                // Validation errors
+                $this->response([
+                    'status' => FALSE,
+                    'message' => 'Error in submit form',
+                    'errors' => array_filter(explode("\n", strip_tags(validation_errors())))
+                ], REST_Controller::HTTP_BAD_REQUEST);
+            } else {
+                // Prepare data for insertion
+                $data = [
+                    'user_id' => $this->input->post('user_id', TRUE),
+                    'service_id' => $this->input->post('service_id', TRUE),
+                    'service_rating' => $this->input->post('service_rating', TRUE),
+                    'time_rating' => $this->input->post('time_rating', TRUE),
+                    'payment_rating' => $this->input->post('payment_rating', TRUE),
+                    'review' => $this->input->post('review', TRUE),
+                    'added' => date('Y-m-d H:i:s'),
+                    'addedBy' => $session_id
+                ];
+    
+                // Insert data
+                if ($res = $this->user_purchasing_model->create_review_rating($data)) {
+                    $this->response([
+                        'status' => TRUE,
+                        'data' => $this->user_purchasing_model->get_review_rating($res),
+                        'message' => 'Review and rating added successfully.'
+                    ], REST_Controller::HTTP_OK);
+                } else {
+                    $this->response([
+                        'status' => FALSE,
+                        'message' => 'Error in submit form',
+                        'errors' => [
+                            'database' => $this->db->error(),
+                            'query' => $this->db->last_query()
+                        ]
+                    ], REST_Controller::HTTP_BAD_REQUEST);
+                }
+            }
+        }
+    }
+    
+    public function review_rating_list_post() {
+        $input_data = file_get_contents('php://input');
+        $request_data = json_decode($input_data, true);
+    
+        $id = $this->input->get('id') ? $this->input->get('id') : 0;
+    
+        $page = isset($request_data['page']) ? $request_data['page'] : 1; // Default to page 1 if not provided
+        $limit = isset($request_data['limit']) ? $request_data['limit'] : 10; // Default limit to 10 if not provided
+        $filterData = isset($request_data['filterData']) ? $request_data['filterData'] : [];
+    
+        $getTokenData = $this->is_authorized(array('superadmin','admin','company','freelancer'));
+        $offset = ($page - 1) * $limit;
+    
+        $totalRecords =  $this->user_purchasing_model->get_review_rating('yes', $id, $limit, $offset, $filterData);
+        $data =  $this->user_purchasing_model->get_review_rating('no', $id, $limit, $offset, $filterData);
+    
+        $totalPages = ceil($totalRecords / $limit);
+    
+        $response = [
+            'status' => true,
+            'data' => $data,
+            'pagination' => [
+                'page' => $page,
+                'totalPages' => $totalPages,
+                'totalRecords' => $totalRecords
+            ],
+            'message' => 'Review rating fetched successfully.'
+        ];
+        $this->response($response, REST_Controller::HTTP_OK); 
+    }
 }

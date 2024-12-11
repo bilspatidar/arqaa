@@ -70,7 +70,6 @@ class Services extends REST_Controller {
             $_POST = json_decode($this->input->raw_input_stream, true);
 
             // set validation rules
-            $this->form_validation->set_rules('title', 'Services Title','trim|required|xss_clean|alpha_numeric_spaces|is_unique[services.title]');
             $this->form_validation->set_rules('category_id', 'Category', 'trim|required|integer');
             $this->form_validation->set_rules('subcategory_id', 'SubCategory', 'trim|required|integer');
 
@@ -85,27 +84,16 @@ class Services extends REST_Controller {
                     'errors' =>$array_error
                 ], REST_Controller::HTTP_BAD_REQUEST,'','error');
             } else {
-                
+                $image_base64 = (empty($_POST['image_base64']) || !is_array($_POST['image_base64'])) 
+                ? '[]' 
+                : json_encode($_POST['image_base64']); // Save the array as JSON              
                 $data['description'] = $this->input->post('description',TRUE);
-                $data['title'] = $this->input->post('title',TRUE);
+                $data['amount'] = $this->input->post('amount',TRUE);
                 $data['category_id'] = $this->input->post('category_id', TRUE);
                 $data['subcategory_id'] = $this->input->post('subcategory_id', TRUE);
-
-                if(!empty($_POST['image'])){
-					$base64_image = $_POST['image'];
-					$quality = 90;
-					$radioConfig = [
-						'resize' => [
-						'width' => 500,
-						'height' => 300
-						]
-					 ];
-					$uploadFolder = 'service'; 
-
-					$data['image'] = $this->upload_media->upload_and_save($base64_image, $quality, $radioConfig, $uploadFolder);
-					
-				}
-					
+                $data['currency'] = $this->input->post('currency', TRUE);
+                $data['image_base64'] = $image_base64;
+                $data['country_id'] = $session_id;	
 				$data['status'] = 'Active';
                 $data['added'] = date('Y-m-d H:i:s');
                 $data['addedBy'] = $session_id;
