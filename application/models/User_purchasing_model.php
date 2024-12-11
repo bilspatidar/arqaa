@@ -98,6 +98,34 @@ class User_purchasing_model extends CI_Model {
         }
     }
     
+     public function get_multiple_service_data($count, $id = 0, $limit = 10, $offset = 0, $filterData = []) {
+        // Debugging: Log the inputs to check if they're correct
+        log_message('debug', 'id: ' . $id . ' limit: ' . $limit . ' offset: ' . $offset);
+        
+        // Your query logic here, ensure that it's correct
+        $this->db->select('*');
+        $this->db->from('multiple_service_data');
+        if ($id > 0) {
+            $this->db->where('id', $id);
+        }
+        // Add any filters from $filterData
+        if (!empty($filterData)) {
+            foreach ($filterData as $key => $value) {
+                $this->db->where($key, $value);
+            }
+        }
+        // Apply limit and offset
+        $this->db->limit($limit, $offset);
+        
+        if ($count == 'yes') {
+            $query = $this->db->get();
+            return $query->num_rows(); // Return the total count of records
+        } else {
+            $query = $this->db->get();
+            return $query->result_array(); // Return the actual data
+        }
+    }
+
 
     public function get_boost_profile_data($count, $id = 0, $limit = 10, $offset = 0, $filterData = []) {
         // Debugging: Log the inputs to check if they're correct

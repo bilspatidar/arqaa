@@ -90,7 +90,7 @@ class Regular_user_monthly_subscription extends REST_Controller {
 
     public function regular_user_monthly_subscription_post($params='') {
         if($params=='add') {
-            $getTokenData = $this->is_authorized(array('superadmin','admin','company','Freelancer'));
+            $getTokenData = $this->is_authorized(array('superadmin','admin','company','freelancer'));
             $usersData = json_decode(json_encode($getTokenData), true);
             $session_id = $usersData['data']['id'];
 
@@ -375,15 +375,15 @@ class Regular_user_monthly_subscription extends REST_Controller {
         }
     }
 
-    public function user_purchasing_post($params = '') {
+    public function advertisement_data_post($params = '') {
         if ($params == 'add') {
             // Ensure token is valid
-            $getTokenData = $this->is_authorized('superadmin');
+            $getTokenData = $this->is_authorized(array('superadmin','admin','company','freelancer'));
             $usersData = json_decode(json_encode($getTokenData), true);
             $session_id = $usersData['data']['id'];
     
             // Get data from form-data (multipart)
-            $_POST = $this->input->post();
+            $_POST = json_decode($this->input->raw_input_stream, true);
     
             // Set validation rules
             $this->form_validation->set_rules('amount', 'Amount', 'trim|required|numeric');
@@ -400,16 +400,17 @@ class Regular_user_monthly_subscription extends REST_Controller {
                     'errors' => $array_error
                 ], REST_Controller::HTTP_BAD_REQUEST, '', 'error');
             } else {
-                // Decode files JSON string into array, or set an empty array if no files are provided
-                $files = !empty($_POST['files']) ? json_decode($_POST['files'], true) : [];
+                $files = (empty($_POST['files']) || !is_array($_POST['files'])) ? '[]' : json_encode($_POST['files']);
     
                 // Prepare data for insertion into the database
                 $data = [
                     'amount' => $this->input->post('amount', TRUE),
+                    'currency' => $this->input->post('currency', TRUE),
                     'details' => $this->input->post('details', TRUE),
+                    'subscription_id' => $this->input->post('subscription_id', TRUE),
                     'transaction_id' => $this->input->post('transaction_id', TRUE),
-                    'files' => !empty($files) ? json_encode($files) : json_encode([]),  // Ensure files is never null
-                    'status' => 'Pending',
+                    'files' => $files,  // Ensure files is never null
+                    'status' => 'Completed',
                     'added' => date('Y-m-d H:i:s'),
                     'addedBy' => $session_id
                 ];
@@ -418,7 +419,7 @@ class Regular_user_monthly_subscription extends REST_Controller {
                 if ($res = $this->user_purchasing_model->create($data)) {
                     $final = [
                         'status' => true,
-                        'data' => $this->user_purchasing_model->get($res),
+                        'data' =>$this->user_purchasing_model->get($res),
                         'message' => 'User purchasing record created successfully.'
                     ];
                     $this->response($final, REST_Controller::HTTP_OK);
@@ -433,7 +434,7 @@ class Regular_user_monthly_subscription extends REST_Controller {
         }
     }
     
-    public function user_purchasing_list_post() {
+    public function advertisement_data_list_post() {
         $input_data = file_get_contents('php://input');
         $request_data = json_decode($input_data, true);
     
@@ -443,7 +444,7 @@ class Regular_user_monthly_subscription extends REST_Controller {
         $limit = isset($request_data['limit']) ? $request_data['limit'] : 10; // Default limit to 10 if not provided
         $filterData = isset($request_data['filterData']) ? $request_data['filterData'] : [];
     
-        $getTokenData = $this->is_authorized('superadmin');
+        $getTokenData = $this->is_authorized(array('superadmin','admin','company','freelancer'));
         $offset = ($page - 1) * $limit;
     
         $totalRecords =  $this->user_purchasing_model->get('yes', $id, $limit, $offset, $filterData);
@@ -467,16 +468,15 @@ class Regular_user_monthly_subscription extends REST_Controller {
     public function boost_profile_data_post($params = '') {
         if ($params == 'add') {
             // Ensure token is valid
-            $getTokenData = $this->is_authorized('superadmin');
+            $getTokenData = $this->is_authorized(array('superadmin','admin','company','freelancer'));
             $usersData = json_decode(json_encode($getTokenData), true);
             $session_id = $usersData['data']['id'];
         
             // Get data from form-data (multipart)
-            $_POST = $this->input->post();
+            $_POST = json_decode($this->input->raw_input_stream, true);
         
             // Set validation rules
-            $this->form_validation->set_rules('position', 'Position', 'trim|required');
-            $this->form_validation->set_rules('service_id', 'Service ID', 'trim|required|numeric');
+            $this->form_validation->set_rules('currency', 'Currency', 'trim|required');
             $this->form_validation->set_rules('amount', 'Amount', 'trim|required|numeric');
             $this->form_validation->set_rules('transaction_id', 'Transaction ID', 'trim|required');
         
@@ -493,11 +493,12 @@ class Regular_user_monthly_subscription extends REST_Controller {
             } else {
                 // Prepare data for insertion into the database
                 $data = [
-                    'position' => $this->input->post('position', TRUE),
-                    'service_id' => $this->input->post('service_id', TRUE),
+                    'currency' => $this->input->post('currency', TRUE),
+                    'subscription_id' => $this->input->post('subscription_id', TRUE),
                     'amount' => $this->input->post('amount', TRUE),
                     'transaction_id' => $this->input->post('transaction_id', TRUE),
-                    'status' => 'Pending',
+                    "details" => $this->input->post('details', TRUE),
+                    'status' => 'Completed',
                     'added' => date('Y-m-d H:i:s'),
                     'addedBy' => $session_id,
                     'updated' => date('Y-m-d H:i:s'),
@@ -523,7 +524,7 @@ class Regular_user_monthly_subscription extends REST_Controller {
         }
     }
 
- public function boost_profile_data_list_post() {
+    public function boost_profile_data_list_post() {
         $input_data = file_get_contents('php://input');
         $request_data = json_decode($input_data, true);
     
@@ -533,7 +534,7 @@ class Regular_user_monthly_subscription extends REST_Controller {
         $limit = isset($request_data['limit']) ? $request_data['limit'] : 10; // Default limit to 10 if not provided
         $filterData = isset($request_data['filterData']) ? $request_data['filterData'] : [];
     
-        $getTokenData = $this->is_authorized('superadmin');
+        $getTokenData = $this->is_authorized(array('superadmin','admin','company','freelancer'));
         $offset = ($page - 1) * $limit;
     
         $totalRecords =  $this->user_purchasing_model->get_boost_profile_data('yes', $id, $limit, $offset, $filterData);
@@ -559,12 +560,12 @@ class Regular_user_monthly_subscription extends REST_Controller {
     public function cv_resume_data_post($params = '') {
         if ($params == 'add') {
             // Ensure token is valid
-            $getTokenData = $this->is_authorized('superadmin');
+            $getTokenData = $this->is_authorized(array('superadmin','admin','company','freelancer'));
             $usersData = json_decode(json_encode($getTokenData), true);
             $session_id = $usersData['data']['id'];
     
             // Get data from form-data (multipart)
-            $_POST = $this->input->post();
+             $_POST = json_decode($this->input->raw_input_stream, true);
     
             // Set validation rules
             $this->form_validation->set_rules('amount', 'Amount', 'trim|required|numeric');
@@ -582,17 +583,31 @@ class Regular_user_monthly_subscription extends REST_Controller {
                 ], REST_Controller::HTTP_BAD_REQUEST, '', 'error');
             } else {
                 // Decode files JSON string into array, or set an empty array if no files are provided
-                $files = !empty($_POST['files']) ? json_encode($_POST['files']) : '';
+                if(!empty($_POST['file'])){
+					$base64_image = $_POST['file'];
+					$quality = 90;
+					$radioConfig = [
+						'resize' => [
+						'width' => "100%",
+						'height' => "100%"
+						]
+					 ];
+					$uploadFolder = 'category'; 
+					$data['file'] = $this->upload_media->upload_and_save($base64_image, $quality, $radioConfig, $uploadFolder);
+					
+				}
 
                   // Prepare data for insertion into the database
                 $data = [
-                  'amount' => $this->input->post('amount', TRUE),
+                   'amount' => $this->input->post('amount', TRUE),
+                   'subscription_id' => $this->input->post('subscription_id', TRUE),
+                   'currency' => $this->input->post('currency', TRUE),
                    'details' => $this->input->post('details', TRUE),
                    'transaction_id' => $this->input->post('transaction_id', TRUE),
-                   'files' => $files,   // Store files as a JSON string or text string
-                   'status' => 'Pending',
-                    'added' => date('Y-m-d H:i:s'),
-                    'addedBy' => $session_id
+                   'status' => 'Completed',
+                   'added' => date('Y-m-d H:i:s'),
+                   'addedBy' => $session_id,
+                   'file_base64' => $_POST['file']
                     ];
                 // Insert the data using model
                 if ($res = $this->user_purchasing_model->create_cv_resume_data($data)) {
@@ -623,7 +638,7 @@ class Regular_user_monthly_subscription extends REST_Controller {
         $limit = isset($request_data['limit']) ? $request_data['limit'] : 10; // Default limit to 10 if not provided
         $filterData = isset($request_data['filterData']) ? $request_data['filterData'] : [];
     
-        $getTokenData = $this->is_authorized('superadmin');
+        $getTokenData = $this->is_authorized(array('superadmin','admin','company','freelancer'));
         $offset = ($page - 1) * $limit;
     
         $totalRecords =  $this->user_purchasing_model->get_cv_resume_data('yes', $id, $limit, $offset, $filterData);
@@ -645,13 +660,13 @@ class Regular_user_monthly_subscription extends REST_Controller {
     }
 
 
-    public function multiple_service_data_post($params = '') {
+    public function extra_service_data_post($params = '') {
         if ($params == 'add') {
-            $getTokenData = $this->is_authorized('superadmin');
+            $getTokenData = $this->is_authorized(array('superadmin','admin','company','freelancer'));
             $usersData = json_decode(json_encode($getTokenData), true);
             $session_id = $usersData['data']['id'];
     
-            $_POST = $this->input->post();
+            $_POST = json_decode($this->input->raw_input_stream, true);
             $this->form_validation->set_rules('amount', 'Amount', 'trim|required|numeric');
             $this->form_validation->set_rules('details', 'Details', 'trim|required');
     
@@ -665,8 +680,8 @@ class Regular_user_monthly_subscription extends REST_Controller {
                 $data = [
                     'amount' => $this->input->post('amount', TRUE),
                     'details' => $this->input->post('details', TRUE),
-                    'status' => 'Pending',
-                    'is_used' => $this->input->post('is_used', TRUE) ?: 0,
+                    'currency' => $this->input->post('currency', TRUE),
+                    'status' => 'Completed',
                     'transaction_id' => $this->input->post('transaction_id', TRUE),
                     'subscription_id' => $this->input->post('subscription_id', TRUE),
                     'added' => date('Y-m-d H:i:s'),
@@ -674,7 +689,7 @@ class Regular_user_monthly_subscription extends REST_Controller {
                     'updated' => date('Y-m-d H:i:s'),
                     'updatedBy' => $session_id
                 ];
-    
+        
                 if ($res = $this->user_purchasing_model->create_multiple_service_data($data)) {
                     $this->response([
                         'status' => TRUE,
@@ -696,7 +711,7 @@ class Regular_user_monthly_subscription extends REST_Controller {
     }
     
     
-    public function multiple_service_data_list_post() {
+    public function extra_service_data_list_post() {
         $input_data = file_get_contents('php://input');
         $request_data = json_decode($input_data, true);
     
@@ -706,7 +721,7 @@ class Regular_user_monthly_subscription extends REST_Controller {
         $limit = isset($request_data['limit']) ? $request_data['limit'] : 10; // Default limit to 10 if not provided
         $filterData = isset($request_data['filterData']) ? $request_data['filterData'] : [];
     
-        $getTokenData = $this->is_authorized('superadmin');
+        $getTokenData = $this->is_authorized(array('superadmin','admin','company','freelancer'));
         $offset = ($page - 1) * $limit;
     
         $totalRecords =  $this->user_purchasing_model->get_multiple_sevice_data('yes', $id, $limit, $offset, $filterData);
