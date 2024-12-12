@@ -50,17 +50,7 @@ class Regular_user_monthly_subscription extends REST_Controller {
         $this->response($response, REST_Controller::HTTP_OK); 
     }
     
-    // public function regular_user_monthly_subscription_details_get(){
-    //     $id = $this->input->get('id') ? $this->input->get('id') : 0;
-    //     $getTokenData = $this->is_authorized('superadmin');
-    //     $data =  $this->regular_user_monthly_subscription_model->show($id);
-    //     $response = [
-    //         'status' => true,
-    //         'data' => $data,
-    //         'message' => 'Suscripción Mensual Usuarios Regular fetched successfully.'
-    //     ];
-    //     $this->response($response, REST_Controller::HTTP_OK); 
-    // }
+    
 
     public function regular_user_monthly_subscription_details_get() {
         $id = $this->input->get('id') ? $this->input->get('id') : 0;
@@ -113,7 +103,7 @@ class Regular_user_monthly_subscription extends REST_Controller {
                 // set variables from the form
                 $data['concept'] = $this->input->post('concept',TRUE);
                 $data['price'] = $this->input->post('price',TRUE);
-                $data['currency'] = $this->input->post('currency',TRUE);
+                $data['currency'] = $this->Common->get_user_currency($session_id);
                 $data['sub_type'] = $this->input->post('sub_type',TRUE);
                 $data['tax'] = $this->input->post('tax',TRUE);
                 $data['country'] = $this->Common->get_user_country($session_id);
