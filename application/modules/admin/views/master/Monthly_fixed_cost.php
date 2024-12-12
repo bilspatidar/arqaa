@@ -365,9 +365,9 @@ background-color:#383b3f;
         </tr>
 
         <!-- Spacing Row (for dropdown) -->
-        <tr class="mt-2">
+        <tr class="">
           <td>
-            <div class="d-flex align-items-center mt-3">
+            <div class="d-flex align-items-center ">
               <b class="texth2">Boost Profile</b>
               <svg onclick="toggleDropdown()" width="21" height="8" viewBox="0 0 21 13" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M17.9305 2.88886C17.9305 2.88886 12.2023 10.6666 10.1528 10.6666C8.10307 10.6666 2.375 2.88879 2.375 2.88879"
@@ -424,9 +424,9 @@ background-color:#383b3f;
         </tr>
 
         <!-- Spacing Row (for dropdown) -->
-        <tr class="mt-2">
+        <tr class="mt-3">
           <td>
-            <div class="d-flex align-items-center mt-3">
+            <div class="d-flex align-items-center ">
               <b class="texth2">Extra Services</b>
               <svg onclick="toggleDropdown()" width="21" height="8" viewBox="0 0 21 13" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M17.9305 2.88886C17.9305 2.88886 12.2023 10.6666 10.1528 10.6666C8.10307 10.6666 2.375 2.88879 2.375 2.88879"

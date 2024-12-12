@@ -12,7 +12,7 @@
               <div class="form-group row">
                 <div class="col-sm-12">
                   <label class="col-form-label"><?php echo $this->lang->line('categorias');?></label>
-				  <select name="category_id" class="form-control" >
+				  <select name="category_id" class="form-control select2" >
 				  <option value=""><?php echo $this->lang->line('select_option');?></option>
 				  <?php $get_categories = $this->Internal_model->get_categories();
 				  foreach($get_categories as $category) { ?>
@@ -25,7 +25,7 @@
             <div class="col-md-4">
               <div class="form-group row">
                 <div class="col-sm-12">
-                  <label class="col-form-label"><?php echo $this->lang->line('name');?></label>
+                  <label class="col-form-label"><?php echo $this->lang->line('sname');?></label>
                   <input type="text" class="form-control" name="name" />
                 </div>
               </div>
@@ -90,7 +90,7 @@
             <thead>
               <tr>
                 <th>#</th>
-                <th><?php echo $this->lang->line('name');?></th>
+                <th><?php echo $this->lang->line('sname');?></th>
             
                 <th><?php echo $this->lang->line('banner');?></th>
                 <th><?php echo $this->lang->line('services');?></th>
