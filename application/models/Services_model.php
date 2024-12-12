@@ -76,9 +76,35 @@ class Services_model extends CI_Model {
      * @param array $filterData
      * @return mixed
      */
-    public function get($isCount = '', $id = '', $limit = '', $page = '', $filterData = '') {
-        $this->db->select("*");
+    public function get($isCount = '', $id = '', $limit = 10, $page = 1, $filterData = '') {
+        $this->db->select("
+        {$this->table}.*, 
+        users.name as added_by_name, 
+        users.profile_pic as added_by_image, 
+        category.name as category_name, 
+        sub_category.name as subcategory_name
+    ");
+
         $this->db->from($this->table);
+
+        // Join with users table on the addedBy field
+        $this->db->join('users', "{$this->table}.addedBy = users.id", 'left');
+
+       // Join with category table on category_id field
+       $this->db->join('category', "{$this->table}.category_id = category.id", 'left');
+
+       // Join with sub_category table on subcategory_id field
+      $this->db->join('sub_category', "{$this->table}.subcategory_id = sub_category.id", 'left');
+
+      // Add any necessary WHERE conditions or ORDER BY clauses
+    if ($id > 0) {
+      $this->db->where("{$this->table}.id", $id);
+    }
+
+
+
+    
+    
 
         // Filter by ID if provided
         if (!empty($id)) {
