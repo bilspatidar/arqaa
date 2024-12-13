@@ -42,8 +42,14 @@ class Sub_category_model extends CI_Model {
     }
 
     public function get($isCount = '', $id = '', $limit = '', $page = '', $filterData = '') {
-        $this->db->select("*");
+        $this->db->select("
+          {$this->table}.*, 
+          category.name as category_name
+        ");
         $this->db->from($this->table);
+
+         // Join with the category table to fetch category_name
+        $this->db->join('category', "{$this->table}.category_id = category.id", 'left');
         if(!empty($id)) {
             $this->db->where($this->primaryKey, $id);
         }

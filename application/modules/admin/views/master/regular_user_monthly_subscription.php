@@ -26,6 +26,8 @@
                 <option value="Extra Service">Extra Service</option>
                 <option value="Advertising Banner">Advertising Banner</option>
                 <option value="CV / Resume">CV / Resume</option>
+                <option value="Company User">Company User </option>
+                <option value="Regular User">Regular User</option>
         
             </select>
         </div>
@@ -42,7 +44,7 @@
               </div>
             </div>
            
-            <div class="col-md-4">
+            <!-- <div class="col-md-4">
               <div class="form-group row">
                 <div class="col-sm-12">
                   <label class="col-form-label"><?php echo $this->lang->line('currency');?></label>
@@ -55,7 +57,7 @@
 				  </select>
                 </div>
               </div>
-            </div>
+            </div> -->
 
            
        
@@ -114,7 +116,7 @@
             <?php $this->load->view('includes/filter_form_btn'); ?>
             </div>
           
-            <div class="col-md-3">
+            <div class="col-md-2">
             
         </div>
         
@@ -126,34 +128,47 @@
         <div class="table-responsive">
         <form id="filterForm">
         <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-2">
             <input class="form-check-input d-none" type="radio" name="sub_type" onclick="submitFilterForm()" id="filterboostProfile1" value="Boost Your Profile" >
             <label class="form-check-label btn btn-outline-primary w-100 text-center" id="submitBtn"  for="filterboostProfile1">
                 Boost Your Profile
             </label>
         </div>
 
-        <div class="col-md-3">
+        <div class="col-md-2">
             <input class="form-check-input  d-none" type="radio" name="sub_type" onclick="submitFilterForm()" id="filterboostProfile2" value="Extra Service">
             <label class="form-check-label btn btn-outline-primary w-100 text-center" id="submitBtn" for="filterboostProfile2">
                 Extra Service
             </label>
         </div>
 
-        <div class="col-md-3">
+        <div class="col-md-2">
             <input class="form-check-input d-none" type="radio" name="sub_type" onclick="submitFilterForm()" id="filterboostProfile3" value="Advertising Banner">
             <label class="form-check-label btn btn-outline-primary w-100 text-center" id="submitBtn"  for="filterboostProfile3">
                 Advertising Banner
             </label>
         </div>
 
-        <div class="col-md-3">
+        <div class="col-md-2">
             <input class="form-check-input d-none" type="radio" name="sub_type" onclick="submitFilterForm()" id="filterboostProfile4" value="CV / Resume">
             <label class="form-check-label btn btn-outline-primary w-100 text-center" id="submitBtn"  for="filterboostProfile4">
                 CV / Resume
             </label>
         </div>
 
+        <div class="col-md-2">
+            <input class="form-check-input d-none" type="radio" name="sub_type" onclick="submitFilterForm()" id="filterboostProfile5" value="Company User">
+            <label class="form-check-label btn btn-outline-primary w-100 text-center" id="submitBtn"  for="filterboostProfile5">
+            Company User
+            </label>
+        </div>
+
+        <div class="col-md-2">
+            <input class="form-check-input d-none" type="radio" name="sub_type" onclick="submitFilterForm()" id="filterboostProfile6" value="Regular User">
+            <label class="form-check-label btn btn-outline-primary w-100 text-center" id="submitBtn"  for="filterboostProfile6">
+            Regular User
+            </label>
+        </div>
         </div>   
 
 </form> 
@@ -165,7 +180,7 @@
                 <th><?php echo $this->lang->line('description');?></th>
                 <th><?php echo $this->lang->line('prices');?></th>
                 <th><?php echo $this->lang->line('currency');?></th>
-                <th><?php echo $this->lang->line('taxes');?></th>
+                <!-- <th><?php echo $this->lang->line('taxes');?></th> -->
                 <th><?php echo $this->lang->line('sub_type');?></th>
                 <th><?php echo $this->lang->line('status');?></th>
                 <th><?php echo $this->lang->line('Action');?></th>
@@ -191,9 +206,10 @@
         }
       },
       { "data": "concept", "orderable": true },
+      
       { "data": "price", "orderable": true },
       { "data": "currency", "orderable": true },
-      { "data": "tax", "orderable": true },
+      // { "data": "tax", "orderable": true },
       { "data": "sub_type", "orderable": true },
       {
         "data": "status",

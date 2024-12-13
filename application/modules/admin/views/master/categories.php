@@ -78,9 +78,8 @@
             <thead>
               <tr>
                 <th>#</th>
-                <th><?php echo $this->lang->line('name');?></th>
+                <th><?php echo $this->lang->line('category_name');?></th>
                 <th><?php echo $this->lang->line('image');?></th>
-                <th><?php echo $this->lang->line('servicer_provider');?></th>
                 <th><?php echo $this->lang->line('status');?></th>
                 <th><?php echo $this->lang->line('Action');?></th>
               </tr>
@@ -113,7 +112,6 @@
           return '<img src="' + imageUrl + '" alt="Image" style="height: 60px; width: 80px;">';
         }
       },
-      { "data": "servicer_provider", "orderable": true },
       {
         "data": "status",
         "orderable": true,

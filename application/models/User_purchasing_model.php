@@ -224,14 +224,29 @@ class User_purchasing_model extends CI_Model {
     }
 
     public function get_review_rating($count, $id = 0, $limit = 10, $offset = 0, $filterData = []) {
-        // Debugging: Log the inputs to check if they're correct
-        log_message('debug', 'id: ' . $id . ' limit: ' . $limit . ' offset: ' . $offset);
         
-        // Your query logic here, ensure that it's correct
-        $this->db->select('*');
+       // Select columns, including users' full name and profile picture
+       $this->db->select("
+         review_rating.*, 
+         users.name as added_by_name, 
+         users.profile_pic as added_by_image, 
+         user.name as user_name, 
+         user.profile_pic as user_image
+        ");
+
+        // From the review_rating table
         $this->db->from('review_rating');
+
+        // Join with users table based on addedBy field
+        $this->db->join('users', 'review_rating.addedBy = users.id', 'left');
+
+        // Add another join with users table based on user_id field
+        $this->db->join('users as user', 'review_rating.user_id = user.id', 'left');
+
+        
+        // If a specific review rating ID is provided, filter by it
         if ($id > 0) {
-            $this->db->where('id', $id);
+            $this->db->where('review_rating.id', $id);
         }
         // Add any filters from $filterData
         if (!empty($filterData)) {
@@ -239,9 +254,11 @@ class User_purchasing_model extends CI_Model {
                 $this->db->where($key, $value);
             }
         }
-        // Apply limit and offset
-        $this->db->limit($limit, $offset);
         
+        // Apply limit and offset for pagination
+        $this->db->limit($limit, $offset);
+    
+        // Execute the query based on count or actual data
         if ($count == 'yes') {
             $query = $this->db->get();
             return $query->num_rows(); // Return the total count of records
@@ -250,7 +267,7 @@ class User_purchasing_model extends CI_Model {
             return $query->result_array(); // Return the actual data
         }
     }
-
+    
 
     /**
      * Update an existing user purchasing record

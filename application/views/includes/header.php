@@ -298,7 +298,7 @@ h1, h2, h3, h4, h5, h6,
 </li>
 
                       
-                        <li class="dropdown">
+                        <!-- <li class="dropdown">
                             <a href="javascript:void(0);" class="dropdown-toggle icon-menu" data-toggle="dropdown">
                                 <i class="icon-bell"></i>
                                 <span class="notification-dot bg-azura">4</span>
@@ -342,7 +342,7 @@ h1, h2, h3, h4, h5, h6,
                                     </a>
                                 </li>
                             </ul>
-                        </li>
+                        </li> -->
                         <li><a href="javascript:void(0);" class="right_toggle icon-menu" title="Right Menu"><i class="icon-bubbles"></i></a></li>
                         <li><a href="<?php echo base_url();?>admin/admin/logout" class="icon-menu"><i class="icon-power"></i></a></li>
                     </ul>
