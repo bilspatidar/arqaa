@@ -60,6 +60,7 @@ class User extends REST_Controller {
                 $response = [
                     'status' => true,
                     'data' => 'Otp sent',
+					'email' => $email,
                     'message' => 'A verification code has been sent to your registered email.'
                 ];
                 $this->response($response, REST_Controller::HTTP_OK); 
@@ -1182,7 +1183,7 @@ class User extends REST_Controller {
 		}
 		
 	}
-	
+
 	public function update_password_post($params=''){
 		if(!empty($params)){
 			$getTokenData = $this->is_authorized($params);
