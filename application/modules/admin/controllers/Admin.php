@@ -31,7 +31,16 @@ class Admin extends CI_Controller {
       }
       
     }
-
+    public function forgot_password(){
+     
+      $this->load->view('forgot_password');
+   
+    }
+    public function otp_send(){
+     
+      $this->load->view('otp_send');
+   
+    }
 
     public function change_password(){
       is_login(array('superadmin','admin','agent','employee','manager'));

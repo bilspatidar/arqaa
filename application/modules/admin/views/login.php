@@ -93,7 +93,7 @@ opacity: 0px;
                         </div>
                       
                         <div class="form-group clearfix"> 
-    <a href="page-forgot-password.html" style="float: left; margin-right: 10px;"><i class="fa fa-lock"></i> Forgot password?</a>
+    <a href="<?php echo base_url(); ?>admin/forgot_password" style="float: left; margin-right: 10px;"><i class="fa fa-lock"></i> Forgot password?</a>
    
     <label class="fancy-checkbox element-left" style="float: right;">
     <input type="checkbox" style="transform: scale(0.8); width: 16px; height: 16px;">

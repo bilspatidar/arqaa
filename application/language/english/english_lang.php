@@ -103,6 +103,7 @@ $lang['add_new_plan'] = 'Add New Plan';
 $lang['apply_filter'] = 'Apply Filter';
 $lang['login'] = 'Login';
 $lang['submit'] = 'Submit';
+
 $lang['cancel'] = 'Cancel';
 $lang['maximize'] = 'Maximize';
 $lang['minimize'] = 'Minimize';
