@@ -15,7 +15,7 @@ class Blog_category extends REST_Controller {
         $this->load->model('blog_category_model');
         $this->load->helper('security');
     }
-
+ 
     
     public function blog_category_list_post() {
         $input_data = file_get_contents('php://input');
@@ -27,7 +27,7 @@ class Blog_category extends REST_Controller {
         $limit = isset($request_data['limit']) ? $request_data['limit'] : 10; // Default limit to 10 if not provided
         $filterData = isset($request_data['filterData']) ? $request_data['filterData'] : [];
     
-        $getTokenData = $this->is_authorized('superadmin');
+        $getTokenData = $this->is_authorized(array('superadmin','admin','company','freelancer'));
         $offset = ($page - 1) * $limit;
     
         $totalRecords =  $this->blog_category_model->get('yes', $id, $limit, $offset, $filterData);
@@ -50,7 +50,7 @@ class Blog_category extends REST_Controller {
     
     public function blog_category_details_get(){
         $id = $this->input->get('id') ? $this->input->get('id') : 0;
-        $getTokenData = $this->is_authorized('superadmin');
+        $getTokenData = $this->is_authorized(array('superadmin','admin','company','freelancer'));
         $data =  $this->blog_category_model->show($id);
         $response = [
             'status' => true,
@@ -63,7 +63,7 @@ class Blog_category extends REST_Controller {
 
     public function blog_category_post($params='') {
         if($params=='add') {
-            $getTokenData = $this->is_authorized('superadmin');
+            $getTokenData = $this->is_authorized(array('superadmin','admin','company','freelancer'));
             $usersData = json_decode(json_encode($getTokenData), true);
             $session_id = $usersData['data']['id'];
 
@@ -123,7 +123,7 @@ class Blog_category extends REST_Controller {
         }
 
         if ($params == 'update') {
-            $getTokenData = $this->is_authorized('superadmin');
+            $getTokenData = $this->is_authorized(array('superadmin','admin','company','freelancer'));
             $usersData = json_decode(json_encode($getTokenData), true);
             $session_id = $usersData['data']['id'];
         
@@ -205,7 +205,7 @@ class Blog_category extends REST_Controller {
     }
 
     public function blog_category_delete($id) {
-        $this->is_authorized('superadmin');
+        $this->is_authorized(array('superadmin','admin','company','freelancer'));
         $response = $this->blog_category_model->delete($id);
 
         if ($response) {
