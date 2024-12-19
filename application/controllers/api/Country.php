@@ -50,7 +50,7 @@ class Country extends REST_Controller {
     
     public function country_details_get(){
         $id = $this->input->get('id') ? $this->input->get('id') : 0;
-        $getTokenData = $this->is_authorized('superadmin');
+        $getTokenData = $this->is_authorized(array('superadmin','admin','company','freelancer'));
         $data =  $this->country_model->show($id);
         $response = [
             'status' => true,
@@ -61,7 +61,7 @@ class Country extends REST_Controller {
     }
     public function country_post($params='') {
         if($params=='add') {
-            $getTokenData = $this->is_authorized('superadmin');
+            $getTokenData = $this->is_authorized(array('superadmin','admin','company','freelancer'));
             $usersData = json_decode(json_encode($getTokenData), true);
             $session_id = $usersData['data']['users_id'];
 
@@ -116,7 +116,7 @@ class Country extends REST_Controller {
         }
 
         if ($params == 'update') {
-            $getTokenData = $this->is_authorized('superadmin');
+            $getTokenData = $this->is_authorized(array('superadmin','admin','company','freelancer'));
             $usersData = json_decode(json_encode($getTokenData), true);
             $session_id = $usersData['data']['users_id'];
         
@@ -179,7 +179,7 @@ class Country extends REST_Controller {
     }
 
     public function country_delete($id) {
-        $this->is_authorized('superadmin');
+        $this->is_authorized(array('superadmin','admin','company','freelancer'));
         $response = $this->country_model->delete($id);
 
         if ($response) {

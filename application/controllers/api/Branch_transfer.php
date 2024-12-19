@@ -30,7 +30,7 @@ class Branch_transfer extends REST_Controller {
         $filterData = isset($request_data['filterData']) ? $request_data['filterData'] : [];
 
 
-        $getTokenData = $this->is_authorized('superadmin');
+        $getTokenData = $this->is_authorized(array('superadmin','admin','company','freelancer'));
         $offset = ($page - 1) * $limit;
         
         $totalRecords         =  $this->branch_transfer_model->get('yes',$id,$limit,$offset,$filterData);
@@ -54,7 +54,7 @@ class Branch_transfer extends REST_Controller {
   
     public function branch_transfer_details_get(){
         $id = $this->input->get('id') ? $this->input->get('id') : 0;
-        $getTokenData = $this->is_authorized('superadmin');
+        $getTokenData = $this->is_authorized(array('superadmin','admin','company','freelancer'));
         $data    =  $this->branch_transfer_model->show($id);
         $response = [
             'status' => true,
@@ -67,7 +67,7 @@ class Branch_transfer extends REST_Controller {
 
     public function branch_transfer_post($params='') {
         if($params=='add') {
-            $getTokenData = $this->is_authorized('superadmin');
+            $getTokenData = $this->is_authorized(array('superadmin','admin','company','freelancer'));
             $usersData = json_decode(json_encode($getTokenData), true);
             $session_id = $usersData['data']['users_id'];
 
@@ -115,7 +115,7 @@ class Branch_transfer extends REST_Controller {
         if ($params == 'update') {
     
 
-            $getTokenData = $this->is_authorized('superadmin');
+            $getTokenData = $this->is_authorized(array('superadmin','admin','company','freelancer'));
             $usersData = json_decode(json_encode($getTokenData), true);
             $session_id = $usersData['data']['users_id'];
         

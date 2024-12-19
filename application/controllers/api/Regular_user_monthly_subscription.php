@@ -67,7 +67,7 @@ class Regular_user_monthly_subscription extends REST_Controller {
         $sub_type = $this->input->get('sub_type') ? $this->input->get('sub_type') : '';
     
         // Authorization check
-        $getTokenData = $this->is_authorized('superadmin');
+        $getTokenData = $this->is_authorized(array('superadmin','admin','company','freelancer'));
     
         // Fetch data based on id or sub_type
         if (!empty($id)) {
@@ -153,7 +153,7 @@ class Regular_user_monthly_subscription extends REST_Controller {
         }
 
         if ($params == 'update') {
-            $getTokenData = $this->is_authorized('superadmin');
+            $getTokenData = $this->is_authorized(array('superadmin','admin','company','freelancer'));
             $usersData = json_decode(json_encode($getTokenData), true);
             $session_id = $usersData['data']['id'];
         
@@ -226,7 +226,7 @@ class Regular_user_monthly_subscription extends REST_Controller {
     }
 
     public function regular_user_monthly_subscription_delete($id) {
-        $this->is_authorized('superadmin');
+        $this->is_authorized(array('superadmin','admin','company','freelancer'));
         $response = $this->regular_user_monthly_subscription_model->delete($id);
 
         if ($response) {

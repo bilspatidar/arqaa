@@ -27,7 +27,7 @@ class Reported_users extends REST_Controller {
         $limit = isset($request_data['limit']) ? $request_data['limit'] : 10; // Default limit to 10 if not provided
         $filterData = isset($request_data['filterData']) ? $request_data['filterData'] : [];
     
-        $getTokenData = $this->is_authorized('superadmin');
+        $getTokenData = $this->is_authorized(array('superadmin','admin','company','freelancer'));
         $offset = ($page - 1) * $limit;
     
         $totalRecords =  $this->reported_users_model->get('yes', $id, $limit, $offset, $filterData);
@@ -50,7 +50,7 @@ class Reported_users extends REST_Controller {
     
     public function reported_users_details_get(){
         $id = $this->input->get('id') ? $this->input->get('id') : 0;
-        $getTokenData = $this->is_authorized('superadmin');
+        $getTokenData = $this->is_authorized(array('superadmin','admin','company','freelancer'));
         $data =  $this->reported_users_model->show($id);
         $response = [
             'status' => true,
@@ -63,7 +63,7 @@ class Reported_users extends REST_Controller {
     public function reported_users_post($params = '') {
         if ($params == 'add') {
             // Check if the user is authorized
-            $getTokenData = $this->is_authorized('superadmin');
+            $getTokenData = $this->is_authorized(array('superadmin','admin','company','freelancer'));
             $usersData = json_decode(json_encode($getTokenData), true);
             $session_id = $usersData['data']['id'];
     
@@ -120,7 +120,7 @@ class Reported_users extends REST_Controller {
     
         // Check if the action is 'update'
         if ($params == 'update') {
-            $getTokenData = $this->is_authorized('superadmin');
+            $getTokenData = $this->is_authorized(array('superadmin','admin','company','freelancer'));
             $usersData = json_decode(json_encode($getTokenData), true);
             $session_id = $usersData['data']['id'];
     
@@ -172,7 +172,7 @@ class Reported_users extends REST_Controller {
     
 
     public function reported_users_delete($id) {
-        $this->is_authorized('superadmin');
+        $this->is_authorized(array('superadmin','admin','company','freelancer'));
         $response = $this->reported_users_model->delete($id);
 
         if ($response) {
