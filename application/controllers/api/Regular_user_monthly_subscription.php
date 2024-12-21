@@ -24,10 +24,13 @@ class Regular_user_monthly_subscription extends REST_Controller {
         $request_data = json_decode($input_data, true);
     
         $id = $this->input->get('id') ? $this->input->get('id') : 0;
+        $country_id =  $usersData['data']['country_id'];
     
         $page = isset($request_data['page']) ? $request_data['page'] : 1; // Default to page 1 if not provided
         $limit = isset($request_data['limit']) ? $request_data['limit'] : 10; // Default limit to 10 if not provided
         $filterData = isset($request_data['filterData']) ? $request_data['filterData'] : [];
+        $filterData['country_id'] = $country_id;
+        
     
         $getTokenData = $this->is_authorized(array('superadmin','admin','company','freelancer'));
         $offset = ($page - 1) * $limit;

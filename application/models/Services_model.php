@@ -97,9 +97,9 @@ class Services_model extends CI_Model {
       $this->db->join('sub_category', "{$this->table}.subcategory_id = sub_category.id", 'left');
 
       // Add any necessary WHERE conditions or ORDER BY clauses
-    if ($id > 0) {
-      $this->db->where("{$this->table}.id", $id);
-    }
+        if ($id > 0) {
+          $this->db->where("{$this->table}.id", $id);
+        }
 
 
 
@@ -123,12 +123,12 @@ class Services_model extends CI_Model {
 
         // Filter by category_id
         if (isset($filterData['category_id']) && !empty($filterData['category_id'])) {
-            $this->db->where('category_id', $filterData['category_id']);
+            $this->db->where("{$this->table}.category_id", $filterData['category_id']);
         }
 
         // Filter by sub_category_id
         if (isset($filterData['sub_category_id']) && !empty($filterData['sub_category_id'])) {
-            $this->db->where('sub_category_id', $filterData['sub_category_id']);
+            $this->db->where("{$this->table}.sub_category_id", $filterData['sub_category_id']);
         }
 
         // Order by primary key in descending order
