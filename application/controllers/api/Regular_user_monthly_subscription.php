@@ -60,7 +60,7 @@ class Regular_user_monthly_subscription extends REST_Controller {
         $sub_type = $this->input->get('sub_type') ? $this->input->get('sub_type') : '';
     
         // Authorization check
-        $getTokenData = $this->is_authorized('superadmin');
+        $getTokenData = $this->is_authorized(array('superadmin','admin','company','freelancer'));
     
         // Fetch data based on id or sub_type
         if (!empty($id)) {
@@ -146,7 +146,7 @@ class Regular_user_monthly_subscription extends REST_Controller {
         }
 
         if ($params == 'update') {
-            $getTokenData = $this->is_authorized('superadmin');
+            $getTokenData = $this->is_authorized(array('superadmin','admin','company','freelancer'));
             $usersData = json_decode(json_encode($getTokenData), true);
             $session_id = $usersData['data']['id'];
         
@@ -219,7 +219,7 @@ class Regular_user_monthly_subscription extends REST_Controller {
     }
 
     public function regular_user_monthly_subscription_delete($id) {
-        $this->is_authorized('superadmin');
+        $this->is_authorized(array('superadmin','admin','company','freelancer'));
         $response = $this->regular_user_monthly_subscription_model->delete($id);
 
         if ($response) {
@@ -616,6 +616,62 @@ class Regular_user_monthly_subscription extends REST_Controller {
         ];
         $this->response($response, REST_Controller::HTTP_OK); 
     }
+
+    public function check_cv_post() {
+        // Validate token to ensure the user is authorized
+        $getTokenData = $this->is_authorized(array('superadmin','admin','company','freelancer'));
+        $usersData = json_decode(json_encode($getTokenData), true);
+        
+        // Get user ID from the POST data
+        $_POST = json_decode($this->input->raw_input_stream, true);
+        $this->form_validation->set_rules('user_id', 'User ID', 'trim|required|numeric');
+        
+        if ($this->form_validation->run() === false) {
+            $array_error = array_map(function ($val) {
+                return str_replace(array("\r", "\n"), '', strip_tags($val));
+            }, array_filter(explode(".", trim(strip_tags(validation_errors())))));
+        
+            $this->response([
+                'status' => false,
+                'message' => 'Validation failed',
+                'errors' => $array_error
+            ], REST_Controller::HTTP_BAD_REQUEST);
+        } else {
+            $user_id = $this->input->post('user_id', true);
+            
+            // Query the database to check for the CV
+            $cv_record = $this->user_purchasing_model->get_cv_resume_data('no', $user_id);
+            
+            if ($cv_record) {
+                // Log the cv_record data to see the structure and values
+                log_message('debug', 'CV record found: ' . json_encode($cv_record));
+                
+                // Check if 'file_base64' is set
+                if (!empty($cv_record['file_base64'])) {
+                    $this->response([
+                        'status' => true,
+                        'message' => 'CV found for the user',
+                        'data' => [
+                            'user_id' => $user_id,
+                            'cv_base64' => $cv_record['file_base64']
+                        ]
+                    ], REST_Controller::HTTP_OK);
+                } else {
+                    $this->response([
+                        'status' => false,
+                        'message' => 'CV found but base64 data is missing'
+                    ], REST_Controller::HTTP_NOT_FOUND);
+                }
+            } else {
+                $this->response([
+                    'status' => false,
+                    'message' => 'No CV found for the given user ID'
+                ], REST_Controller::HTTP_NOT_FOUND);
+            }
+        }
+    }
+    
+    
 
 
     public function extra_service_data_post($params = '') {

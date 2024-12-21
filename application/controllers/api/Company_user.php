@@ -28,7 +28,7 @@ class Company_user extends REST_Controller {
         $limit = isset($request_data['limit']) ? $request_data['limit'] : 10; // Default limit to 10 if not provided
         $filterData = isset($request_data['filterData']) ? $request_data['filterData'] : [];
     
-        $getTokenData = $this->is_authorized('superadmin');
+        $getTokenData = $this->is_authorized(array('superadmin','admin','company','freelancer'));
         $offset = ($page - 1) * $limit;
     
         $totalRecords =  $this->user_model->get('yes', $id, $limit, $offset, $filterData,$role);
@@ -51,7 +51,7 @@ class Company_user extends REST_Controller {
     
     public function company_user_details_get(){
         $id = $this->input->get('id') ? $this->input->get('id') : 0;
-        $getTokenData = $this->is_authorized('superadmin');
+        $getTokenData = $this->is_authorized(array('superadmin','admin','company','freelancer'));
         $data =  $this->company_user_model->show($id);
         $response = [
             'status' => true,
@@ -64,7 +64,7 @@ class Company_user extends REST_Controller {
 
     public function company_user_post($params='') {
         if($params=='add') {
-            $getTokenData = $this->is_authorized('superadmin');
+            $getTokenData = $this->is_authorized(array('superadmin','admin','company','freelancer'));
             $usersData = json_decode(json_encode($getTokenData), true);
             $session_id = $usersData['data']['id'];
 
@@ -138,7 +138,7 @@ class Company_user extends REST_Controller {
         }
 
         if ($params == 'update') {
-            $getTokenData = $this->is_authorized('superadmin');
+            $getTokenData = $this->is_authorized(array('superadmin','admin','company','freelancer'));
             $usersData = json_decode(json_encode($getTokenData), true);
             $session_id = $usersData['data']['id'];
         
@@ -232,7 +232,7 @@ class Company_user extends REST_Controller {
     }
 
     public function company_user_delete($id) {
-        $this->is_authorized('superadmin');
+        $this->is_authorized(array('superadmin','admin','company','freelancer'));
         $response = $this->company_user_model->delete($id);
 
         if ($response) {

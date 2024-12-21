@@ -97,16 +97,10 @@ class Services_model extends CI_Model {
       $this->db->join('sub_category', "{$this->table}.subcategory_id = sub_category.id", 'left');
 
       // Add any necessary WHERE conditions or ORDER BY clauses
-        if ($id > 0) {
-          $this->db->where("{$this->table}.id", $id);
-        }
-
-
-
-    
-    
-
-        // Filter by ID if provided
+    if ($id > 0) {
+      $this->db->where("{$this->table}.id", $id);
+    }
+       // Filter by ID if provided
         if (!empty($id)) {
             $this->db->where($this->primaryKey, $id);
         }
@@ -114,6 +108,10 @@ class Services_model extends CI_Model {
         // Filter by title
         if (isset($filterData['name']) && !empty($filterData['name'])) {
             $this->db->where('title', $filterData['name']);
+        }
+
+        if (isset($filterData['user_id']) && !empty($filterData['user_id'])) {
+            $this->db->where("{$this->table}.addedBy", $filterData['user_id']);
         }
 
         // Filter by status
@@ -142,5 +140,5 @@ class Services_model extends CI_Model {
             $this->db->limit($limit, $page);
             return $this->db->get()->result();
         }
-    }
+    }   
 }

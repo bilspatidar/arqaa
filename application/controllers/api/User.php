@@ -60,6 +60,7 @@ class User extends REST_Controller {
                 $response = [
                     'status' => true,
                     'data' => 'Otp sent',
+					'email' => $email,
                     'message' => 'A verification code has been sent to your registered email.'
                 ];
                 $this->response($response, REST_Controller::HTTP_OK); 
@@ -1183,7 +1184,7 @@ class User extends REST_Controller {
 		}
 		
 	}
-	
+
 	public function update_password_post($params=''){
 		if(!empty($params)){
 			$getTokenData = $this->is_authorized($params);
@@ -2169,6 +2170,57 @@ public function portfolio_post() {
     }
 }
 
+public function update_location_post() {
+    // Get token data and extract user ID
+    $getTokenData = $this->is_authorized();
+    $usersData = json_decode(json_encode($getTokenData), true);
+    $session_id = $usersData['data']['id']; // Extracted user ID from the token
+
+    // Parse the raw input stream for POST data
+    $_POST = json_decode($this->input->raw_input_stream, true);
+
+    // Validate lang and latt fields
+    $this->form_validation->set_rules('lang', 'Longitude', 'required|numeric');
+    $this->form_validation->set_rules('latt', 'Latitude', 'required|numeric');
+
+    if ($this->form_validation->run() === false) {
+        // Return validation errors
+        $array_error = array_map(function ($val) {
+            return str_replace(array("\r", "\n"), '', strip_tags($val));
+        }, array_filter(explode(".", trim(strip_tags(validation_errors())))));
+
+        $this->response([
+            'status' => FALSE,
+            'errors' => $array_error,
+            'message' => 'Error in submit form'
+        ], REST_Controller::HTTP_BAD_REQUEST, '', 'error');
+    } else {
+        // Prepare data for updating
+        $data['lang'] = $this->input->post('lang');
+        $data['latt'] = $this->input->post('latt');
+        $data['updatedBy'] = $session_id; // User ID from token
+        $data['updated'] = date('Y-m-d H:i:s');
+
+        // Update the user's location in the users table
+        $this->load->model('user_model');
+        $res = $this->user_model->update($data, $session_id);
+
+        if ($res) {
+            // Update successful
+            $this->response([
+                'status' => TRUE,
+                'message' => 'Location updated successfully.'
+            ], REST_Controller::HTTP_OK);
+        } else {
+            // Update failed
+            $this->response([
+                'status' => FALSE,
+                'message' => 'Failed to update location. Please try again.',
+                'errors' => [$this->db->error()]
+            ], REST_Controller::HTTP_BAD_REQUEST, '', 'error');
+        }
+    }
+}
 
 
 

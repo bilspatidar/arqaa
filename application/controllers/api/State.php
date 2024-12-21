@@ -18,7 +18,7 @@ class State extends REST_Controller {
 
     // state start
 	public function parent_state_get($id='') {
-        $getTokenData = $this->is_authorized('superadmin');
+        $getTokenData = $this->is_authorized(array('superadmin','admin','company','freelancer'));
         $final = array();
         $final['status'] = true;
         $final['data'] = $this->state_model->parent_state($id);
@@ -59,7 +59,7 @@ class State extends REST_Controller {
     
     public function state_details_get(){
         $id = $this->input->get('id') ? $this->input->get('id') : 0;
-        $getTokenData = $this->is_authorized('superadmin');
+        $getTokenData = $this->is_authorized(array('superadmin','admin','company','freelancer'));
         $data =  $this->state_model->show($id);
         $response = [
             'status' => true,
@@ -71,7 +71,7 @@ class State extends REST_Controller {
 
     public function state_post($params='') {
         if($params=='add') {
-            $getTokenData = $this->is_authorized('superadmin');
+            $getTokenData = $this->is_authorized(array('superadmin','admin','company','freelancer'));
             $usersData = json_decode(json_encode($getTokenData), true);
             $session_id = $usersData['data']['users_id'];
 
@@ -124,7 +124,7 @@ class State extends REST_Controller {
         }
 
         if ($params == 'update') {
-            $getTokenData = $this->is_authorized('superadmin');
+            $getTokenData = $this->is_authorized(array('superadmin','admin','company','freelancer'));
             $usersData = json_decode(json_encode($getTokenData), true);
             $session_id = $usersData['data']['users_id'];
         
@@ -187,7 +187,7 @@ class State extends REST_Controller {
     }
 
     public function state_delete($id) {
-        $this->is_authorized('superadmin');
+        $this->is_authorized(array('superadmin','admin','company','freelancer'));
         $response = $this->state_model->delete($id);
 
         if ($response) {
