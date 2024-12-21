@@ -195,6 +195,26 @@ class User_purchasing_model extends CI_Model {
         }
     }
 
+    // public function get_cv_resume_data($user_id) {
+    //     // Debugging: Log the user ID
+    //     log_message('debug', 'Fetching CV data for user_id: ' . $user_id);
+    
+    //     // Build the query
+    //     $this->db->select('file_base64'); // Select only the necessary column
+    //     $this->db->from('cv_resume_data');
+    //     $this->db->where('user_id', $user_id); // Filter by user_id
+    
+    //     $query = $this->db->get();
+    //     $result = $query->row_array(); // Fetch a single record
+    
+    //     // Log the query result for debugging
+    //     log_message('debug', 'Query result: ' . json_encode($result));
+    
+    //     return $result; // Return the record or null if not found
+    // }
+    
+    
+
     public function get_multiple_sevice_data($count, $id = 0, $limit = 10, $offset = 0, $filterData = []) {
         // Debugging: Log the inputs to check if they're correct
         log_message('debug', 'id: ' . $id . ' limit: ' . $limit . ' offset: ' . $offset);

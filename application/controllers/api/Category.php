@@ -214,5 +214,37 @@ class Category extends REST_Controller {
             $this->response(['status' => false, 'message' => 'Not deleted'], REST_Controller::HTTP_BAD_REQUEST);
         }
     }
+
+    public function trandind_category_list_post() {
+        $input_data = file_get_contents('php://input');
+        $request_data = json_decode($input_data, true);
+    
+        $id = $this->input->get('id') ? $this->input->get('id') : 0;
+    
+        $page = isset($request_data['page']) ? $request_data['page'] : 1; // Default to page 1 if not provided
+        $limit = isset($request_data['limit']) ? $request_data['limit'] : 10; // Default limit to 10 if not provided
+        $filterData = isset($request_data['filterData']) ? $request_data['filterData'] : [];
+    
+        $getTokenData = $this->is_authorized(array('superadmin','admin','company','freelancer'));
+        $offset = ($page - 1) * $limit;
+    
+        $totalRecords =  $this->category_model->get('yes', $id, $limit, $offset, $filterData);
+        $data =  $this->category_model->get('no', $id, $limit, $offset, $filterData);
+    
+        $totalPages = ceil($totalRecords / $limit);
+    
+        $response = [
+            'status' => true,
+            'data' => $data,
+            'pagination' => [
+                'page' => $page,
+                'totalPages' => $totalPages,
+                'totalRecords' => $totalRecords
+            ],
+            'message' => 'trandind_category fetched successfully.'
+        ];
+        $this->response($response, REST_Controller::HTTP_OK); 
+    }
+    
     // Category end
 }
