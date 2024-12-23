@@ -28,6 +28,18 @@ class Services_model extends CI_Model {
         return $this->db->insert_id(); 
     }
 
+    public function create_service_status($data) {
+        // Insert data into the `user_purchasing` table
+        $this->db->insert('service_status', $data);
+        
+        // Return the inserted record's ID
+        if ($this->db->affected_rows() > 0) {
+            return $this->db->insert_id();
+        } else {
+            return false;
+        }
+    }
+
     /**
      * Show service details by ID.
      *
@@ -121,12 +133,12 @@ class Services_model extends CI_Model {
 
         // Filter by category_id
         if (isset($filterData['category_id']) && !empty($filterData['category_id'])) {
-            $this->db->where('category_id', $filterData['category_id']);
+            $this->db->where("{$this->table}.category_id", $filterData['category_id']);
         }
 
         // Filter by sub_category_id
         if (isset($filterData['sub_category_id']) && !empty($filterData['sub_category_id'])) {
-            $this->db->where('sub_category_id', $filterData['sub_category_id']);
+            $this->db->where("{$this->table}.sub_category_id", $filterData['sub_category_id']);
         }
 
         // Order by primary key in descending order
@@ -140,5 +152,63 @@ class Services_model extends CI_Model {
             $this->db->limit($limit, $page);
             return $this->db->get()->result();
         }
-    }   
+    }
+    
+    public function get_service_status($count, $id = 0, $service_id = 0, $limit = 10, $offset = 0, $filterData = []) {
+        $this->db->select('*');
+        $this->db->from('service_status');
+    
+        // Filter by 'id' if provided
+        if ($id > 0) {
+            $this->db->where('id', $id);
+        }
+    
+        // Filter by 'service_id' if provided
+        if ($service_id > 0) {
+            $this->db->where('service_id', $service_id);
+        }
+    
+        // Add any additional filters from $filterData
+        if (!empty($filterData)) {
+            foreach ($filterData as $key => $value) {
+                $this->db->where($key, $value);
+            }
+        }
+    
+        // Apply limit and offset
+        $this->db->limit($limit, $offset);
+    
+        if ($count == 'yes') {
+            $query = $this->db->get();
+            return $query->num_rows(); // Return the total count of records
+        } else {
+            $query = $this->db->get();
+            return $query->result_array(); // Return the actual data
+        }
+    }
+    
+
+    public function get_all_services($count, $id = 0, $limit = 10, $offset = 0, $filterData = []) {
+        $this->db->select('*');
+        $this->db->from('services'); // Ensure the table name is correct
+    
+        if ($id > 0) {
+            $this->db->where('id', $id);
+        }
+    
+        if (!empty($filterData)) {
+            foreach ($filterData as $key => $value) {
+                $this->db->where($key, $value); // Ensure filter data keys match the database column names
+            }
+        }
+    
+        if ($count === 'yes') {
+            return $this->db->count_all_results(); // Return total count
+        } else {
+            $this->db->limit($limit, $offset);
+            $query = $this->db->get();
+            return $query->result_array(); // Return data as an array
+        }
+    }
 }
+
