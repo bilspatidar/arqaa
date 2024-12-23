@@ -9,6 +9,21 @@ class Common extends CI_Model {
        parent::__construct();
     }
     
+    function get_user_currency($user_id){
+	    $this->db->select('users.country_id, countries.currency_code');
+        $this->db->from('users');
+        $this->db->join('countries', 'countries.id = users.country_id');
+        $this->db->where('users.id', $user_id);
+        $u_c = $this->db->get(); 
+        if ($u_c->num_rows() > 0) {
+            return $u_c->row()->currency_code;
+        } else {
+            return "USD";
+        }
+
+	   
+	 }
+    
 	 function get_user_country($user_id){
 	     $this->db->select('country_id');
 	     $this->db->from('users');

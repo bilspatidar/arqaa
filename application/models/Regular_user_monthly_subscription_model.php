@@ -63,6 +63,10 @@ class Regular_user_monthly_subscription_model extends CI_Model {
             $this->db->like('name', $filterData['name']);
         }
         
+        if(isset($filterData['country_id']) && !empty($filterData['country_id'])) {
+            $this->db->like('country_id', $filterData['country_id']);
+        }
+        
         if(isset($filterData['sub_type']) && !empty($filterData['sub_type'])) {
             $this->db->like('sub_type', $filterData['sub_type']);
         }

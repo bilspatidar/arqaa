@@ -103,6 +103,7 @@ $lang['add_new_plan'] = 'Add New Plan';
 $lang['apply_filter'] = 'Apply Filter';
 $lang['login'] = 'Login';
 $lang['submit'] = 'Submit';
+
 $lang['cancel'] = 'Cancel';
 $lang['maximize'] = 'Maximize';
 $lang['minimize'] = 'Minimize';
@@ -113,13 +114,13 @@ $lang['status'] = 'Status';
 $lang['Action'] = 'Actions';
 $lang['permision'] = 'Permision';
 
-$lang['nombre'] = 'Name';
+$lang['sname'] = 'Name';
 $lang['category_name'] = 'Category Name';
 $lang['subcategory_name'] = 'Sub Category Name';
 
 $lang['servicer_provider'] = 'Servicer Provider';
 
-$lang['name'] = 'First Name';
+// $lang['sname'] = 'Name';
 $lang['image'] = 'Image';
 $lang['select_status'] = 'Select Status';
 $lang['option'] = 'Option';

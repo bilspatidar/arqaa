@@ -195,18 +195,18 @@ function initializeDataTable() {
           
              // Include additional parameters for filtering
              var filterData = {
-    name: $('#filterName').val(),
-    status: $('#filterStatus').val(),
-    from_date: $('#filterFromDate').val(),
-    to_date: $('#filterToDate').val(),
-    added_by: $('#filterAddedBy').val(),
-    category: $('#filterCategory').val(),
-    project: $('#filterProject').val(),
-    billing_type: $('#filterBilling').val(),
-    manager_id: $('#filterManager').val(),
-    agent_id: $('#filterAgent').val(),
-    sub_type: $('input[name="sub_type"]:checked').val() // Missing comma above was causing error
-};
+                    name: $('#filterName').val(),
+                    status: $('#filterStatus').val(),
+                    from_date: $('#filterFromDate').val(),
+                    to_date: $('#filterToDate').val(),
+                    added_by: $('#filterAddedBy').val(),
+                    category: $('#filterCategory').val(),
+                    project: $('#filterProject').val(),
+                    billing_type: $('#filterBilling').val(),
+                    manager_id: $('#filterManager').val(),
+                    agent_id: $('#filterAgent').val(),
+                    sub_type: $('input[name="sub_type"]:checked').val() // Missing comma above was causing error
+                };
             // var filterData = {  filterFirst: $('#filterFirst').val()  };
              
              // Calculate page number and limit
@@ -287,20 +287,20 @@ function renderviewBtn(data, type, row) {
 
 
 
-    // Add edit button with icon
-  // Dynamically generate "View" button for each row in the table
-buttonsHtml += `
-    <button 
-    style="${buttonStyle}"
-    
-        type="button" 
-        class="btn btn-info mb-2 view-btn text-align-center" 
-        data-id="${row.id}" 
-        title="View" 
-        aria-label="View">
-        View
-    </button>
-`;
+            // Add edit button with icon
+        // Dynamically generate "View" button for each row in the table
+        buttonsHtml += `
+            <button 
+            style="${buttonStyle}"
+            
+                type="button" 
+                class="btn btn-info mb-2 view-btn text-align-center" 
+                data-id="${row.id}" 
+                title="View" 
+                aria-label="View">
+                View
+            </button>
+        `;
 
 
     return buttonsHtml;
