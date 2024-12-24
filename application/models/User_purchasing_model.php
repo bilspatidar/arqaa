@@ -167,51 +167,45 @@ class User_purchasing_model extends CI_Model {
         }
     }
 
-   public function get_cv_resume_data($count, $id = 0, $limit = 10, $offset = 0, $filterData = []) {
-        // Debugging: Log the inputs to check if they're correct
-        log_message('debug', 'id: ' . $id . ' limit: ' . $limit . ' offset: ' . $offset);
+    public function get_cv_resume_data($count, $id = 0, $limit = 10, $offset = 0, $filterData = []) {
+        // Debugging: Log the inputs
+        log_message('debug', 'get_cv_resume_data inputs: count=' . $count . ', id=' . $id . ', limit=' . $limit . ', offset=' . $offset . ', filterData=' . json_encode($filterData));
         
-        // Your query logic here, ensure that it's correct
+        // Initialize the query
         $this->db->select('*');
         $this->db->from('cv_resume_data');
+        
+        // Apply conditions
         if ($id > 0) {
             $this->db->where('id', $id);
         }
-        // Add any filters from $filterData
         if (!empty($filterData)) {
             foreach ($filterData as $key => $value) {
-                $this->db->where($key, $value);
+                if (is_array($value)) {
+                    $this->db->where_in($key, $value); // Handle array filters
+                } else {
+                    $this->db->where($key, $value); // Standard where clause
+                }
             }
         }
-        // Apply limit and offset
-        $this->db->limit($limit, $offset);
-        
+    
+        // Return row count if $count is 'yes'
         if ($count == 'yes') {
-            $query = $this->db->get();
-            return $query->num_rows(); // Return the total count of records
+            return $this->db->count_all_results();
+        }
+    
+        // Apply limit and offset for data retrieval
+        $this->db->limit($limit, $offset);
+        $query = $this->db->get();
+        
+        // Return a single record if $id > 0, else return multiple
+        if ($id > 0) {
+            return $query->row_array();
         } else {
-            $query = $this->db->get();
-            return $query->result_array(); // Return the actual data
+            return $query->result_array();
         }
     }
-
-    // public function get_cv_resume_data($user_id) {
-    //     // Debugging: Log the user ID
-    //     log_message('debug', 'Fetching CV data for user_id: ' . $user_id);
     
-    //     // Build the query
-    //     $this->db->select('file_base64'); // Select only the necessary column
-    //     $this->db->from('cv_resume_data');
-    //     $this->db->where('user_id', $user_id); // Filter by user_id
-    
-    //     $query = $this->db->get();
-    //     $result = $query->row_array(); // Fetch a single record
-    
-    //     // Log the query result for debugging
-    //     log_message('debug', 'Query result: ' . json_encode($result));
-    
-    //     return $result; // Return the record or null if not found
-    // }
     
     
 

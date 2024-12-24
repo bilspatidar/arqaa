@@ -619,34 +619,40 @@ class Regular_user_monthly_subscription extends REST_Controller {
 
     public function check_cv_post() {
         // Validate token to ensure the user is authorized
-        $getTokenData = $this->is_authorized(array('superadmin','admin','company','freelancer'));
+        $getTokenData = $this->is_authorized(array('superadmin', 'admin', 'company', 'freelancer'));
         $usersData = json_decode(json_encode($getTokenData), true);
-        
+    
         // Get user ID from the POST data
         $_POST = json_decode($this->input->raw_input_stream, true);
         $this->form_validation->set_rules('user_id', 'User ID', 'trim|required|numeric');
-        
+    
         if ($this->form_validation->run() === false) {
+            // Capture validation errors
             $array_error = array_map(function ($val) {
                 return str_replace(array("\r", "\n"), '', strip_tags($val));
             }, array_filter(explode(".", trim(strip_tags(validation_errors())))));
-        
+    
+            // Respond with validation errors
             $this->response([
                 'status' => false,
                 'message' => 'Validation failed',
                 'errors' => $array_error
             ], REST_Controller::HTTP_BAD_REQUEST);
-        } else {
-            $user_id = $this->input->post('user_id', true);
-            
+            return;
+        }
+    
+        // Get the user ID from the request
+        $user_id = $this->input->post('user_id', true);
+    
+        try {
             // Query the database to check for the CV
             $cv_record = $this->user_purchasing_model->get_cv_resume_data('no', $user_id);
-            
+    
             if ($cv_record) {
-                // Log the cv_record data to see the structure and values
+                // Log the cv_record data for debugging
                 log_message('debug', 'CV record found: ' . json_encode($cv_record));
-                
-                // Check if 'file_base64' is set
+    
+                // Check if 'file_base64' exists and is not empty
                 if (!empty($cv_record['file_base64'])) {
                     $this->response([
                         'status' => true,
@@ -659,17 +665,32 @@ class Regular_user_monthly_subscription extends REST_Controller {
                 } else {
                     $this->response([
                         'status' => false,
-                        'message' => 'CV found but base64 data is missing'
+                        'message' => 'CV record found, but base64 data is missing.',
+                        'data' => [
+                            'user_id' => $user_id,
+                            'cv_base64' => null
+                        ]
                     ], REST_Controller::HTTP_NOT_FOUND);
                 }
             } else {
+                // No CV record found for the given user ID
                 $this->response([
                     'status' => false,
-                    'message' => 'No CV found for the given user ID'
+                    'message' => 'No CV record found for the given user ID.'
                 ], REST_Controller::HTTP_NOT_FOUND);
             }
+        } catch (Exception $e) {
+            // Handle unexpected errors
+            log_message('error', 'Error in check_cv_post: ' . $e->getMessage());
+    
+            $this->response([
+                'status' => false,
+                'message' => 'An unexpected error occurred while processing the request.',
+                'error' => $e->getMessage()
+            ], REST_Controller::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
+    
     
     
 

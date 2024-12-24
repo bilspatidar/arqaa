@@ -203,7 +203,7 @@ class Services extends REST_Controller {
     }
     
     
-    public function all_services_post() {
+    public function all_services_list_post() {
         $input_data = file_get_contents('php://input');
         $request_data = json_decode($input_data, true);
     
@@ -212,23 +212,11 @@ class Services extends REST_Controller {
         $page = isset($request_data['page']) ? $request_data['page'] : 1; // Default to page 1 if not provided
         $limit = isset($request_data['limit']) ? $request_data['limit'] : 10; // Default limit to 10 if not provided
         $filterData = isset($request_data['filterData']) ? $request_data['filterData'] : [];
-    
-        $getTokenData = $this>is_authorized(array('superadmin','admin','company','freelancer'));
-        if (!$getTokenData) {
-            // Token not valid or missing
-            $this->response([
-                'status' => false,
-                'message' => 'Unauthorized access.'
-            ], REST_Controller::HTTP_UNAUTHORIZED);
-            return;
-        }
-        $usersData = json_decode(json_encode($getTokenData), true);
-        $session_id = $usersData['data']['id'];
-        $filterData['user_id']= $session_id;       
+        
         $offset = ($page - 1) * $limit;
     
-        $totalRecords =  $this->services_model->get('yes', $id, $limit, $offset, $filterData);
-        $data =  $this->services_model->get('no', $id, $limit, $offset, $filterData);
+        $totalRecords =  $this->services_model->get_all_services('yes', $id, $limit, $offset, $filterData);
+        $data =  $this->services_model->get_all_services('no', $id, $limit, $offset, $filterData);
     
         $totalPages = ceil($totalRecords / $limit);
     
@@ -240,11 +228,98 @@ class Services extends REST_Controller {
                 'totalPages' => $totalPages,
                 'totalRecords' => $totalRecords
             ],
-            'message' => 'Services fetched successfully.'
+            'message' => 'All Services fetched successfully.'
         ];
         $this->response($response, REST_Controller::HTTP_OK); 
     }
     
     
     //  services end
+
+    public function service_status_post($params = '') {
+        if ($params == 'add') {
+            $getTokenData = $this->is_authorized(array('superadmin', 'admin', 'company', 'freelancer'));
+            $usersData = json_decode(json_encode($getTokenData), true);
+            $session_id = $usersData['data']['id'];
+    
+            $_POST = json_decode($this->input->raw_input_stream, true);
+    
+            // Set validation rules
+            $this->form_validation->set_rules('service_id', 'Service ID', 'trim|required|integer');
+            $this->form_validation->set_rules('status', 'Status', 'trim|required|in_list[Accepted,Ongoing,Rejected,Finished]');
+    
+            if ($this->form_validation->run() === false) {
+                $array_error = array_map(function ($val) {
+                    return str_replace(array("\r", "\n"), '', strip_tags($val));
+                }, array_filter(explode(".", trim(strip_tags(validation_errors())))));
+    
+                $this->response([
+                    'status' => FALSE,
+                    'message' => 'Error in submit form',
+                    'errors' => $array_error
+                ], REST_Controller::HTTP_BAD_REQUEST, '', 'error');
+            } else {
+                $data['service_id'] = $this->input->post('service_id', TRUE);
+                $data['status'] = $this->input->post('status', TRUE);
+                // $data['remarks'] = $this->input->post('remarks', TRUE);
+                $data['added_by'] = $session_id;
+                $data['added'] = date('Y-m-d H:i:s');
+    
+                if ($res = $this->services_model->create_service_status($data)) {
+                    $final = array();
+                    $final['status'] = true;
+                    $final['data'] = $this->services_model->get_service_status($res);
+                    $final['message'] = 'Service status created successfully.';
+                    $this->response($final, REST_Controller::HTTP_OK);
+                } else {
+                    $this->response([
+                        'status' => FALSE,
+                        'message' => 'Error in submit form',
+                        'errors' => [$this->db->error()]
+                    ], REST_Controller::HTTP_BAD_REQUEST, '', 'error');
+                }
+            }
+        }
+    }
+    
+    public function service_status_list_post() {
+        $input_data = file_get_contents('php://input');
+        $request_data = json_decode($input_data, true);
+    
+        // Extract 'service_id' from request body
+        $service_id = isset($request_data['service_id']) ? $request_data['service_id'] : 0;
+    
+        $page = isset($request_data['page']) ? $request_data['page'] : 1; // Default to page 1 if not provided
+        $limit = isset($request_data['limit']) ? $request_data['limit'] : 10; // Default limit to 10 if not provided
+        $filterData = isset($request_data['filterData']) ? $request_data['filterData'] : [];
+    
+        // Verify the token and check authorization
+        $getTokenData = $this->is_authorized(array('superadmin', 'admin', 'company', 'freelancer'));
+        $offset = ($page - 1) * $limit;
+    
+        // Fetch total records count
+        $totalRecords = $this->services_model->get_service_status('yes', 0, $service_id, $limit, $offset, $filterData);
+    
+        // Fetch the actual data
+        $data = $this->services_model->get_service_status('no', 0, $service_id, $limit, $offset, $filterData);
+    
+        // Calculate total pages
+        $totalPages = ceil($totalRecords / $limit);
+    
+        // Prepare the response
+        $response = [
+            'status' => true,
+            'data' => $data,
+            'pagination' => [
+                'page' => $page,
+                'totalPages' => $totalPages,
+                'totalRecords' => $totalRecords
+            ],
+            'message' => 'Service status fetched successfully.'
+        ];
+    
+        // Send the response
+        $this->response($response, REST_Controller::HTTP_OK);
+    }
+    
 }
