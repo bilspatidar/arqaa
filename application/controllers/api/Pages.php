@@ -61,7 +61,7 @@ class Pages extends REST_Controller {
         if($params=='add') {	
             $getTokenData = $this->is_authorized('superadmin');
             $usersData = json_decode(json_encode($getTokenData), true);
-            $session_id = $usersData['data']['users_id'];
+            $session_id = $usersData['data']['id'];
 
             $_POST = json_decode($this->input->raw_input_stream, true);
 
@@ -79,7 +79,10 @@ class Pages extends REST_Controller {
                 ], REST_Controller::HTTP_BAD_REQUEST,'','error');
             } else {
                 // set variables from the form
-            
+                $page_name = $this->input->post('page_name',TRUE);
+                if (!empty($page_name)) {
+                    $data['page_name'] = $page_name;
+                }
 				$title = $this->input->post('title',TRUE);
                 if (!empty($title)) {
                     $data['title'] = $title;
@@ -125,16 +128,16 @@ class Pages extends REST_Controller {
         if ($params == 'update') {
             $getTokenData = $this->is_authorized('superadmin');
             $usersData = json_decode(json_encode($getTokenData), true);
-            $session_id = $usersData['data']['users_id'];
+            $session_id = $usersData['data']['id'];
         
             $_POST = json_decode($this->input->raw_input_stream, true);
         
             // set validation rules
 			$this->form_validation->set_rules('title', 'Title', 'trim|required|xss_clean');
             $this->form_validation->set_rules('status', 'Status', 'trim|alpha');
-            $this->form_validation->set_rules('contact_no', 'Contact no', 'trim|numeric');
-            $this->form_validation->set_rules('alt_contact_no', 'Alternative Contact no', 'trim|numeric');
-            $this->form_validation->set_rules('email', 'Email', 'trim|valid_email');
+            // $this->form_validation->set_rules('contact_no', 'Contact no', 'trim|numeric');
+            // $this->form_validation->set_rules('alt_contact_no', 'Alternative Contact no', 'trim|numeric');
+            // $this->form_validation->set_rules('email', 'Email', 'trim|valid_email');
         
             if ($this->form_validation->run() === false) {
                 $array_error = array_map(function ($val) {
@@ -149,29 +152,33 @@ class Pages extends REST_Controller {
             } else {
                 // set variables from the form
 				$id = $this->input->post('id',TRUE);
-                $contact_no = $this->input->post('contact_no',TRUE);
-                if (!empty($contact_no)) {
-                    $data['contact_no'] = $contact_no;
-                }
-				$alt_contact_no = $this->input->post('alt_contact_no',TRUE);
-                if (!empty($alt_contact_no)) {
-                    $data['alt_contact_no'] = $alt_contact_no;
-                }
-				$email = $this->input->post('email',TRUE);
-                if (!empty($email)) {
-                    $data['email'] = $email;
-                }
-				$address1 = $this->input->post('address1',TRUE);
-                if (!empty($address1)) {
-                    $data['address1'] = $address1;
-                }
-				$address2 = $this->input->post('address2',TRUE);
-                if (!empty($address2)) {
-                    $data['address2'] = $address2;
-                }
-				$map_link = $this->input->post('map_link',TRUE);
-                if (!empty($map_link)) {
-                    $data['map_link'] = $map_link;
+                // $contact_no = $this->input->post('contact_no',TRUE);
+                // if (!empty($contact_no)) {
+                //     $data['contact_no'] = $contact_no;
+                // }
+				// $alt_contact_no = $this->input->post('alt_contact_no',TRUE);
+                // if (!empty($alt_contact_no)) {
+                //     $data['alt_contact_no'] = $alt_contact_no;
+                // }
+				// $email = $this->input->post('email',TRUE);
+                // if (!empty($email)) {
+                //     $data['email'] = $email;
+                // }
+				// $address1 = $this->input->post('address1',TRUE);
+                // if (!empty($address1)) {
+                //     $data['address1'] = $address1;
+                // }
+				// $address2 = $this->input->post('address2',TRUE);
+                // if (!empty($address2)) {
+                //     $data['address2'] = $address2;
+                // }
+				// $map_link = $this->input->post('map_link',TRUE);
+                // if (!empty($map_link)) {
+                //     $data['map_link'] = $map_link;
+                // }
+                $page_name = $this->input->post('page_name',TRUE);
+                if (!empty($page_name)) {
+                    $data['page_name'] = $page_name;
                 }
 				$title = $this->input->post('title',TRUE);
                 if (!empty($title)) {

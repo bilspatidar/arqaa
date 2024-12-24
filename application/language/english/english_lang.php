@@ -93,8 +93,14 @@ $lang['news_categories_id'] = 'News Categories';
 $lang['subscriptionCompany'] = 'Company Subscription';
 $lang['ragistered_services'] = 'REGISTERED SERVICES';
 $lang['map'] = 'Map';
-
 $lang['subcategorys'] = 'Sub Categories';
+$lang['pages_name'] = 'Pages Name';
+
+$lang['contact_no'] = 'Contact Number';
+$lang['alt_contact_no'] = 'Alt Contact Number';
+$lang['address1'] = 'Address 1';
+$lang['address2'] = 'Address 2';
+
 
 ///// Button ///////
 $lang['add_new'] = 'Add New';

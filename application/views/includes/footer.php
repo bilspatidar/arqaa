@@ -465,7 +465,7 @@ $('#api_response_table').on('click', '.view-btn', function() {
 
 <div class="modal fade" id="ExtralargeEditModal">
   <div class="modal-dialog modal-xl">
-    <div class="modal-content">
+    <div class="modal-content"style="width: 1000px; margin-left: -221px;">
 
       <!-- Modal Header -->
       <!-- <div class="modal-header">
