@@ -20,11 +20,13 @@ class Pages extends REST_Controller {
         $input_data = file_get_contents('php://input');
         $request_data = json_decode($input_data, true);
     
+        $id = $this->input->get('id') ? $this->input->get('id') : 0;
+
         $page = isset($request_data['page']) ? $request_data['page'] : 1; // Default to page 1 if not provided
         $limit = isset($request_data['limit']) ? $request_data['limit'] : 10; // Default limit to 10 if not provided
         $filterData = isset($request_data['filterData']) ? $request_data['filterData'] : [];
     
-        $getTokenData = $this->is_authorized('superadmin');
+        $getTokenData = $this->is_authorized(array('superadmin','admin','company','freelancer'));
         $offset = ($page - 1) * $limit;
     
         $totalRecords =  $this->pages_model->get('yes', $id, $limit, $offset, $filterData);
@@ -47,7 +49,7 @@ class Pages extends REST_Controller {
 
     public function pages_details_get(){
         $id = $this->input->get('id') ? $this->input->get('id') : 0;
-        $getTokenData = $this->is_authorized('superadmin');
+        $getTokenData = $this->is_authorized(array('superadmin','admin','company','freelancer'));
         $data =  $this->pages_model->show($id);
         $response = [
             'status' => true,
@@ -59,7 +61,7 @@ class Pages extends REST_Controller {
 
     public function pages_post($params='') {
         if($params=='add') {	
-            $getTokenData = $this->is_authorized('superadmin');
+            $getTokenData = $this->is_authorized(array('superadmin','admin','company','freelancer'));
             $usersData = json_decode(json_encode($getTokenData), true);
             $session_id = $usersData['data']['users_id'];
 
@@ -123,7 +125,7 @@ class Pages extends REST_Controller {
         }
 
         if ($params == 'update') {
-            $getTokenData = $this->is_authorized('superadmin');
+            $getTokenData = $this->is_authorized(array('superadmin','admin','company','freelancer'));
             $usersData = json_decode(json_encode($getTokenData), true);
             $session_id = $usersData['data']['users_id'];
         
