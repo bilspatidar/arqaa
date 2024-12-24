@@ -256,7 +256,7 @@ opacity: 0px;
                     </li>
                    
                     <li>
-                        <a href="#" class=""></a>
+                    <a href="<?php echo base_url();?>admin/master/pages_name" class=""><i class=" icon-settings"></i><span><?php echo $this->lang->line('pages_name');?></span></a>
                     </li>
                     <li>
                         <a href="#" class=""></a>

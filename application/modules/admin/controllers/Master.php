@@ -403,6 +403,14 @@ public function Monthly_fixed_cost(){
   $this->load->view('master/Monthly_fixed_cost');
   $this->load->view('includes/footer');
 }
+public function pages_name(){
+    
+  is_login(array('superadmin','admin'));
+  $header_data['page_title'] = $this->lang->line('pages_name');
+  $this->load->view('includes/header',$header_data);
+  $this->load->view('master/pages_name');
+  $this->load->view('includes/footer');
+}
 } 
 ?>
 
