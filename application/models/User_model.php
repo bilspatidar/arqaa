@@ -450,6 +450,56 @@ class User_model extends CI_Model {
     }
 
 	
+	public function get_user_details($user_id) {
+		$this->db->select('*'); // Adjust the fields to fetch only necessary ones.
+		$this->db->from('users'); // Replace 'users' with your actual table name.
+		$this->db->where('id', $user_id);
+		$query = $this->db->get();
 	
+		if ($query->num_rows() > 0) {
+			return $query->row_array(); // Return user details as an associative array.
+		} else {
+			return false; // No user found for the given user_id.
+		}
+	}
+	
+	public function chat_create($data) {
+        $this->db->insert('chat', $data);
+        if ($this->db->affected_rows() > 0) {
+            return $this->db->insert_id();
+        }
+        return false;
+    }
 
+	public function chat_get($count = 'no', $id = 0, $limit = 10, $offset = 0, $filterData = []) {
+        $this->db->select('*')->from('chat');
+        if ($id > 0) {
+            $this->db->where('id', $id);
+        }
+        if (!empty($filterData)) {
+            foreach ($filterData as $key => $value) {
+                $this->db->where($key, $value);
+            }
+        }
+        if ($count === 'yes') {
+            return $this->db->count_all_results();
+        }
+        $this->db->limit($limit, $offset);
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+
+	public function chat_update($data, $id) {
+        $this->db->where('id', $id);
+        $this->db->update('chat', $data);
+        return $this->db->affected_rows() > 0;
+    }
+
+	public function chat_delete($id) {
+        $this->db->where('id', $id);
+        if ($this->db->delete('chat')) {
+            return true;
+        }
+        return false;
+    }
 }
