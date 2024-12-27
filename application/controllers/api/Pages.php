@@ -69,6 +69,7 @@ class Pages extends REST_Controller {
 
             // set validation rules
             $this->form_validation->set_rules('title', 'Title', 'trim|required|xss_clean|alpha_numeric_spaces');
+            $this->form_validation->set_rules('page_name', 'Page name', 'trim|required|xss_clean');
             if ($this->form_validation->run() === false) {
                 $array_error = array_map(function ($val) {
                     return str_replace(array("\r", "\n"), '', strip_tags($val));
@@ -103,7 +104,7 @@ class Pages extends REST_Controller {
 						]
 					 ];
 					$uploadFolder = 'pages'; 
-
+                    $data['image_base64'] = $base64_image;
 					$data['image'] = $this->upload_media->upload_and_save($base64_image, $quality, $radioConfig, $uploadFolder);
 				
 				}

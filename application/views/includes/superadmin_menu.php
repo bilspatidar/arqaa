@@ -66,19 +66,7 @@ opacity: 0px;
                 <ul id="main-menu" class="metismenu">
              
                 <?php
-           $country = $this->input->get('country_id');
-
-            if (!empty($country)) {
-                 $user_details = $this->session->userdata('user_details');
-
-                   if (empty($user_details)) {
-                    $user_details = [];
-                        }
-
-                     $user_details['country_id'] = $country;
-
-                   $this->session->set_userdata('user_details', $user_details);
-                      }
+           
 
                     $user_details = $this->session->userdata('user_details');
 
@@ -89,7 +77,7 @@ opacity: 0px;
                         </p>';
                     } else {
                         // If country is not set, display "Country not available" with a clickable button
-                        echo '<p class="header1" style="display: flex; align-items: center;">Country not available
+                        echo '<p class="header1" style="display: flex; align-items: center;">Global details
                             <a href="' . base_url() . 'admin/master/open_a_country" class=" btn-danger btn-sm ml-2" style="height: 5px; line-height: 0px;width:55px;padding-left: 0px;">' . $this->lang->line('switch') . '</a>
                         </p>';
                     }

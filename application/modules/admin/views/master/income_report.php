@@ -154,7 +154,7 @@ border-radius: 10px !important;
 
       
          
-        <form class="form-sample " id="crudFormAddApiData" action="<?php echo API_DOMAIN; ?>api/regular_user_monthly_subscription/regular_user_monthly_subscription/add" method="POST">
+      
 
         <div class="card1">
         <div class="tax d-flex justify-content-between align-items-center">
@@ -167,17 +167,16 @@ border-radius: 10px !important;
                 <path d="M17.9305 2.88886C17.9305 2.88886 12.2023 10.6666 10.1528 10.6666C8.10307 10.6666 2.375 2.88879 2.375 2.88879" 
                       stroke="white" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
+            
+             <?php $app_years = $this->Common->get_app_years(); 
+                   $current_year  = date('Y');
+                  ?>
+                  
+                  
             <div class="dropdownMenu position-absolute" id="dropdownMenu">
-                <p onclick="selectYear(2024)">2024</p>
-                <p onclick="selectYear(2023)">2023</p>
-                <p onclick="selectYear(2022)">2022</p>
-                <p onclick="selectYear(2021)">2021</p>
-                <p onclick="selectYear(2020)">2020</p>
-                <p onclick="selectYear(2019)">2019</p>
-                <p onclick="selectYear(2018)">2018</p>
-                <p onclick="selectYear(2017)">2017</p>
-                <p onclick="selectYear(2016)">2016</p>
-                <p onclick="selectYear(2015)">2015</p>
+                <?php foreach($app_years as $year){  ?>
+                <p onclick="selectYear(<?php echo $year->year; ?>)"><?php echo $year->year; ?></p>
+                <?php } ?>
             </div>
         </div>
     </div>
@@ -186,7 +185,7 @@ border-radius: 10px !important;
     <div class="text-right">
         <h3 class="texth2 mb-0">Tax</h3>
         <div class="taxbtn1">
-            <button class="btn btn-primary taxbtn">21</button>
+            <button class="btn btn-primary taxbtn"><?php echo $this->Common->get_tax_by_country($usersData['data']['id'],'user'); ?></button>
             <button class="btn btn-primary taxbtn">%</button>
         </div>
     </div>
@@ -319,18 +318,18 @@ border-radius: 10px !important;
                 <path d="M17.9305 2.88886C17.9305 2.88886 12.2023 10.6666 10.1528 10.6666C8.10307 10.6666 2.375 2.88879 2.375 2.88879" stroke="white" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
             <div class="dropdownMenu1" id="dropdownMenu1">
-            <p onclick="selectMonth('January')">January</p>
-            <p onclick="selectMonth('February')">February</p>
-            <p onclick="selectMonth('March')">March</p>
-            <p onclick="selectMonth('April')">April</p>
-            <p onclick="selectMonth('May')">May</p>
-            <p onclick="selectMonth('June')">June</p>
-            <p onclick="selectMonth('July')">July</p>
-            <p onclick="selectMonth('August')">August</p>
-            <p onclick="selectMonth('September')">September</p>
-            <p onclick="selectMonth('October')">October</p>
-            <p onclick="selectMonth('November')">November</p>
-            <p onclick="selectMonth('December')">December</p>
+            <p onclick="selectMonth('01')">January</p>
+            <p onclick="selectMonth('02')">February</p>
+            <p onclick="selectMonth('03')">March&nbsp;&nbsp;</p>
+            <p onclick="selectMonth('04')">April&nbsp;&nbsp;</p>
+            <p onclick="selectMonth('05')">May&nbsp;&nbsp;</p>
+            <p onclick="selectMonth('06')">June&nbsp;&nbsp;</p>
+            <p onclick="selectMonth('07')">July&nbsp;&nbsp;</p>
+            <p onclick="selectMonth('08')">August</p>
+            <p onclick="selectMonth('09')">September</p>
+            <p onclick="selectMonth('10')">October</p>
+            <p onclick="selectMonth('11')">November</p>
+            <p onclick="selectMonth('12')">December</p>
         </div>
             </div>
 
@@ -387,7 +386,6 @@ border-radius: 10px !important;
                 </div> 
             </div>
             </div>
-        </form>
       </div>
     </div>
   </div>

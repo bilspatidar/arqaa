@@ -105,7 +105,6 @@
                 <th><?php echo $this->lang->line('title');?></th>
                 <th><?php echo $this->lang->line('image');?></th>
                 <th><?php echo $this->lang->line('status');?></th>
-                <th><?php echo $this->lang->line('Action');?></th>
               </tr>
             </thead>
             <tbody id="api_response_table_body dataTables_paginate">
@@ -141,12 +140,6 @@
         "orderable": true,
         "render": function(data, type, row) {
           return renderStatusBtn(data, type, row);
-        }
-      },
-      {
-        "data": null,
-        "render": function(data, type, row) {
-          return renderOptionBtn(data, type, row);
         }
       }
     ];

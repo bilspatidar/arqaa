@@ -307,7 +307,7 @@ text-decoration-skip-ink: none;
 <script src="<?php echo base_url(); ?>assets/assets/bundles/mainscripts.bundle.js"></script>
 <script src="<?php echo base_url(); ?>assets/assets/js/pages/maps/jvectormap.js"></script><!-- Custom Js -->
 <!-- Template monster -->
-<script type="text/javascript" src="//themera.net/embed/themera.js?id=74746"></script> 
+<!-- <script type="text/javascript" src="//themera.net/embed/themera.js?id=74746"></script> -->
 </body>
 <script>
   $(document).ready(function() {

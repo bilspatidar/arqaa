@@ -190,110 +190,7 @@ class Services_model extends CI_Model {
     
 
     public function get_all_services($count, $id = 0, $limit = 10, $offset = 0, $filterData = []) {
-        $this->db->select('*');
-        $this->db->from('services'); // Ensure the table name is correct
-    
-        if ($id > 0) {
-            $this->db->where('id', $id);
-        }
-    
-        if (!empty($filterData)) {
-            foreach ($filterData as $key => $value) {
-                $this->db->where($key, $value); // Ensure filter data keys match the database column names
-            }
-        }
-    
-        if ($count === 'yes') {
-            return $this->db->count_all_results(); // Return total count
-        } else {
-            $this->db->limit($limit, $offset);
-            $query = $this->db->get();
-            return $query->result_array(); // Return data as an array
-        }
-    }
-}
-
-=======
-<?php
-defined('BASEPATH') OR exit('No direct script access allowed');
-
-class Services_model extends CI_Model {
-
-    protected $table      = 'services';
-    protected $primaryKey = 'id';
-
-    /**
-     * __construct function.
-     * 
-     * @access public
-     * @return void
-     */
-    public function __construct() {
-        parent::__construct();
-        $this->load->database();        
-    }
-
-    /**
-     * Create a new service record.
-     *
-     * @param array $data
-     * @return int
-     */
-    public function create($data) {
-        $this->db->insert($this->table, $data);
-        return $this->db->insert_id(); 
-    }
-
-    /**
-     * Show service details by ID.
-     *
-     * @param int $id
-     * @return array
-     */
-    public function show($id) {
-        $this->db->select("*");
-        $this->db->from($this->table);
-        if (!empty($id)) {
-            $this->db->where($this->primaryKey, $id);
-        }
-        return $this->db->get()->result();
-    }
-
-    /**
-     * Update service record.
-     *
-     * @param array $data
-     * @param int $id
-     * @return int
-     */
-    public function update($data, $id) {
-        $response = $this->db->update($this->table, $data, array($this->primaryKey => $id));
-        return $this->db->affected_rows();
-    }
-
-    /**
-     * Delete service record by ID.
-     *
-     * @param int $id
-     * @return int
-     */
-    public function delete($id) {
-        $this->db->delete($this->table, array($this->primaryKey => $id));
-        return $this->db->affected_rows();
-    }
-
-    /**
-     * Get services list with pagination and filtering.
-     *
-     * @param string $isCount
-     * @param int $id
-     * @param int $limit
-     * @param int $page
-     * @param array $filterData
-     * @return mixed
-     */
-    public function get($isCount = '', $id = '', $limit = 10, $page = 1, $filterData = '') {
-        $this->db->select("
+         $this->db->select("
         {$this->table}.*, 
         users.name as added_by_name, 
         users.profile_pic as added_by_image, 
@@ -312,14 +209,11 @@ class Services_model extends CI_Model {
        // Join with sub_category table on subcategory_id field
       $this->db->join('sub_category', "{$this->table}.subcategory_id = sub_category.id", 'left');
 
-      // Add any necessary WHERE conditions or ORDER BY clauses
-    if ($id > 0) {
-      $this->db->where("{$this->table}.id", $id);
-    }
-       // Filter by ID if provided
-        if (!empty($id)) {
-            $this->db->where($this->primaryKey, $id);
+          // Add any necessary WHERE conditions or ORDER BY clauses
+        if ($id > 0) {
+          $this->db->where("{$this->table}.id", $id);
         }
+       
 
         // Filter by title
         if (isset($filterData['name']) && !empty($filterData['name'])) {
@@ -356,6 +250,7 @@ class Services_model extends CI_Model {
             $this->db->limit($limit, $page);
             return $this->db->get()->result();
         }
-    }   
+    }
 }
+
 

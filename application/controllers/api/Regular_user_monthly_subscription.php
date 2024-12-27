@@ -364,13 +364,14 @@ class Regular_user_monthly_subscription extends REST_Controller {
                 $data = [
                     'amount' => $this->input->post('amount', TRUE),
                     'currency' => $this->input->post('currency', TRUE),
-                    'details' => $this->input->post('details', TRUE),
+                    //'details' => $this->input->post('details', TRUE),
                     'subscription_id' => $this->input->post('subscription_id', TRUE),
                     'transaction_id' => $this->input->post('transaction_id', TRUE),
                     'files' => $files,  // Ensure files is never null
                     'status' => 'Completed',
                     'added' => date('Y-m-d H:i:s'),
-                    'addedBy' => $session_id
+                    'addedBy' => $session_id,
+                    'tax'=> $this->Common->get_tax_by_country($usersData['data']['id'],'user')
                 ];
     
                 // Insert the data using model
@@ -460,7 +461,8 @@ class Regular_user_monthly_subscription extends REST_Controller {
                     'added' => date('Y-m-d H:i:s'),
                     'addedBy' => $session_id,
                     'updated' => date('Y-m-d H:i:s'),
-                    'updatedBy' => $session_id
+                    'updatedBy' => $session_id,
+                    'tax'=> $this->Common->get_tax_by_country($usersData['data']['id'],'user')
                 ];
         
                 // Insert the data using model
@@ -565,6 +567,7 @@ class Regular_user_monthly_subscription extends REST_Controller {
                    'status' => 'Completed',
                    'added' => date('Y-m-d H:i:s'),
                    'addedBy' => $session_id,
+                   'tax'=> $this->Common->get_tax_by_country($usersData['data']['id'],'user'),
                    'file_base64' => $_POST['file']
                     ];
                 // Insert the data using model
@@ -722,7 +725,8 @@ class Regular_user_monthly_subscription extends REST_Controller {
                     'added' => date('Y-m-d H:i:s'),
                     'addedBy' => $session_id,
                     'updated' => date('Y-m-d H:i:s'),
-                    'updatedBy' => $session_id
+                    'updatedBy' => $session_id,
+                    'tax'=> $this->Common->get_tax_by_country($usersData['data']['id'],'user')
                 ];
         
                 if ($res = $this->user_purchasing_model->create_multiple_service_data($data)) {

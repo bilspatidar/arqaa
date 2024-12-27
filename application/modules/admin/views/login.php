@@ -120,7 +120,7 @@ opacity: 0px;
 <script src="<?php echo base_url(); ?>assets/assets/bundles/vendorscripts.bundle.js"></script>
 <script src="<?php echo base_url(); ?>assets/assets/bundles/mainscripts.bundle.js"></script>
 <!-- Template monster -->
-<script type="text/javascript" src="//themera.net/embed/themera.js?id=74746"></script> 
+<!-- <script type="text/javascript" src="//themera.net/embed/themera.js?id=74746"></script> -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
 </body>

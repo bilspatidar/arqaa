@@ -27,7 +27,7 @@
 
 
 <!-- Template monster -->
-<script type="text/javascript" src="//themera.net/embed/themera.js?id=74746"></script> 
+<!--<script type="text/javascript" src="//themera.net/embed/themera.js?id=74746"></script>  -->
 <!-- <script src="<?php echo base_url(); ?>assets/assets/js/api.js"></script> -->
 </body>
 </html>
@@ -257,16 +257,20 @@ function initializeDataTable() {
      });
  }
 
-function renderOptionBtn(data, type, row) {
+function renderOptionBtn(data, type, row, deleteBtn = 1, editBtn = 1) {
     var buttonsHtml = '';
 
-    // Add delete button with icon
-    buttonsHtml += '<button type="button" class="btn btn-danger mb-2 delete-btn" data-id="' + row.id + '" title="Delete">' +
-                   '<span class="sr-only">Delete</span> <i class="fa fa-trash-o"></i></button>';
+    // Conditionally add the delete button
+    if (deleteBtn) {
+        buttonsHtml += '<button type="button" class="btn btn-danger mb-2 delete-btn" data-id="' + row.id + '" title="Delete">' +
+                       '<span class="sr-only">Delete</span> <i class="fa fa-trash-o"></i></button>';
+    }
 
-    // Add edit button with icon
-    buttonsHtml += '&nbsp;<button type="button" class="btn btn-primary mb-2 edit-btn" data-id="' + row.id + '" title="Edit">' +
-                   '<span class="sr-only">Edit</span> <i class="fa fa-edit"></i></button>';
+    // Conditionally add the edit button
+    if (editBtn) {
+        buttonsHtml += '&nbsp;<button type="button" class="btn btn-primary mb-2 edit-btn" data-id="' + row.id + '" title="Edit">' +
+                       '<span class="sr-only">Edit</span> <i class="fa fa-edit"></i></button>';
+    }
 
     return buttonsHtml;
 }

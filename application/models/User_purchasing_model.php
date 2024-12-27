@@ -88,6 +88,7 @@ class User_purchasing_model extends CI_Model {
         
         // Your query logic here, ensure that it's correct
         $this->db->select('*');
+        $this->db->order_by('id','desc');
         $this->db->from('advertisment_banner_data');
         if ($id > 0) {
             $this->db->where('id', $id);
@@ -117,6 +118,7 @@ class User_purchasing_model extends CI_Model {
         // Your query logic here, ensure that it's correct
         $this->db->select('*');
         $this->db->from('multiple_service_data');
+         $this->db->order_by('id','desc');
         if ($id > 0) {
             $this->db->where('id', $id);
         }
@@ -146,6 +148,7 @@ class User_purchasing_model extends CI_Model {
         // Your query logic here, ensure that it's correct
         $this->db->select('*');
         $this->db->from('boost_profile_data');
+         $this->db->order_by('id','desc');
         if ($id > 0) {
             $this->db->where('id', $id);
         }
@@ -174,6 +177,7 @@ class User_purchasing_model extends CI_Model {
         // Initialize the query
         $this->db->select('*');
         $this->db->from('cv_resume_data');
+         $this->db->order_by('id','desc');
         
         // Apply conditions
         if ($id > 0) {
