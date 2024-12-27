@@ -629,5 +629,300 @@ class Office extends REST_Controller {
             $this->response(['status' => false, 'message' => 'Not deleted'], REST_Controller::HTTP_BAD_REQUEST);
         }
     }
+     
+    //Banks
+    public function banks_list_post() {
+        $input_data = file_get_contents('php://input');
+        $request_data = json_decode($input_data, true);
     
+        $id = $this->input->get('id') ? $this->input->get('id') : 0;
+        $page = isset($request_data['page']) ? $request_data['page'] : 1;
+        $limit = isset($request_data['limit']) ? $request_data['limit'] : 10;
+        $filterData = isset($request_data['filterData']) ? $request_data['filterData'] : [];
+    
+        $getTokenData = $this->is_authorized(array('superadmin', 'admin'));
+        $offset = ($page - 1) * $limit;
+    
+        $totalRecords = $this->office_model->banks_get('yes', $id, $limit, $offset, $filterData);
+        $data = $this->office_model->banks_get('no', $id, $limit, $offset, $filterData);
+    
+        $totalPages = ceil($totalRecords / $limit);
+    
+        $response = [
+            'status' => true,
+            'data' => $data,
+            'pagination' => [
+                'page' => $page,
+                'totalPages' => $totalPages,
+                'totalRecords' => $totalRecords
+            ],
+            'message' => 'Banks data fetched successfully.'
+        ];
+        $this->response($response, REST_Controller::HTTP_OK);
+    }
+    
+    public function banks_post($params = '') {
+        if ($params == 'add') {
+            $getTokenData = $this->is_authorized(array('superadmin', 'admin'));
+            $usersData = json_decode(json_encode($getTokenData), true);
+            $session_id = $usersData['data']['id'];
+    
+            $_POST = json_decode($this->input->raw_input_stream, true);
+    
+            // Validation rules
+            $this->form_validation->set_rules('bank_name', 'Bank Name', 'trim|required|min_length[3]|max_length[255]|xss_clean|alpha_numeric_spaces');
+            $this->form_validation->set_rules('acc_no', 'Account Number', 'trim|required|numeric|xss_clean');
+            $this->form_validation->set_rules('ifsc_code', 'IFSC Code', 'trim|required|max_length[15]|xss_clean|alpha_numeric');
+            $this->form_validation->set_rules('branch_name', 'Branch Name', 'trim|required|max_length[255]|xss_clean|alpha_numeric_spaces');
+            $this->form_validation->set_rules('bank_address', 'Bank Address', 'trim|required|xss_clean');
+    
+            if ($this->form_validation->run() === false) {
+                $array_error = array_map(function ($val) {
+                    return str_replace(array("\r", "\n"), '', strip_tags($val));
+                }, array_filter(explode(".", trim(strip_tags(validation_errors())))));
+    
+                $this->response([
+                    'status' => FALSE,
+                    'message' => 'Error in form submission',
+                    'errors' => $array_error
+                ], REST_Controller::HTTP_BAD_REQUEST, '', 'error');
+            } else {
+                $data = [
+                    'bank_name' => $this->input->post('bank_name', TRUE),
+                    'acc_no' => $this->input->post('acc_no', TRUE),
+                    'ifsc_code' => $this->input->post('ifsc_code', TRUE),
+                    'branch_name' => $this->input->post('branch_name', TRUE),
+                    'bank_address' => $this->input->post('bank_address', TRUE),
+                    'status' => 'Active',
+                    'added' => date('Y-m-d H:i:s'),
+                    'addedBy' => $session_id
+                ];
+    
+                if ($res = $this->office_model->banks_create($data)) {
+                    $final = [
+                        'status' => true,
+                        'data' => $this->office_model->banks_get($res),
+                        'message' => 'Banks created successfully.'
+                    ];
+                    $this->response($final, REST_Controller::HTTP_OK);
+                } else {
+                    $this->response([
+                        'status' => FALSE,
+                        'message' => 'Error in form submission',
+                        'errors' => [$this->db->error()]
+                    ], REST_Controller::HTTP_BAD_REQUEST, '', 'error');
+                }
+            }
+        }
+    
+        if ($params == 'update') {
+            $getTokenData = $this->is_authorized(array('superadmin', 'admin'));
+            $usersData = json_decode(json_encode($getTokenData), true);
+            $session_id = $usersData['data']['id'];
+    
+            $_POST = json_decode($this->input->raw_input_stream, true);
+    
+            $this->form_validation->set_rules('bank_name', 'Bank Name', 'trim|required|xss_clean|alpha_numeric_spaces');
+            $this->form_validation->set_rules('branch_name', 'Branch Name', 'trim|required|xss_clean|alpha_numeric_spaces');
+            $this->form_validation->set_rules('acc_no', 'Account Number', 'trim|required|numeric|xss_clean');
+    
+            if ($this->form_validation->run() === false) {
+                $array_error = array_map(function ($val) {
+                    return str_replace(array("\r", "\n"), '', strip_tags($val));
+                }, array_filter(explode(".", trim(strip_tags(validation_errors())))));
+    
+                $this->response([
+                    'status' => FALSE,
+                    'message' => 'Error in submit form',
+                    'errors' => $array_error
+                ], REST_Controller::HTTP_BAD_REQUEST, '', 'error');
+            } else {
+                $id = $this->input->post('id', TRUE);
+                $data = [
+                    'bank_name' => $this->input->post('bank_name', TRUE),
+                    'branch_name' => $this->input->post('branch_name', TRUE),
+                    'acc_no' => $this->input->post('acc_no', TRUE),
+                    'ifsc_code' => $this->input->post('ifsc_code', TRUE),
+                    'bank_address' => $this->input->post('bank_address', TRUE),
+                    'status' => $this->input->post('status', TRUE),
+                    'updated' => date('Y-m-d H:i:s'),
+                    'updatedBy' => $session_id
+                ];
+    
+                if ($this->office_model->banks_update($data, $id)) {
+                    $final = [
+                        'status' => true,
+                        'data' => $this->office_model->banks_get($id),
+                        'message' => 'Banks updated successfully.'
+                    ];
+                    $this->response($final, REST_Controller::HTTP_OK);
+                } else {
+                    $this->response([
+                        'status' => FALSE,
+                        'message' => 'There was a problem updating bank. Please try again.',
+                        'errors' => [$this->db->error()]
+                    ], REST_Controller::HTTP_BAD_REQUEST, '', 'error');
+                }
+            }
+        }
+    }
+    
+    public function banks_delete($id) {
+        $this->is_authorized(array('superadmin', 'admin'));
+        $response = $this->office_model->banks_delete($id);
+    
+        if ($response) {
+            $this->response(['status' => true, 'message' => 'Banks deleted successfully.'], REST_Controller::HTTP_OK);
+        } else {
+            $this->response(['status' => false, 'message' => 'Not deleted'], REST_Controller::HTTP_BAD_REQUEST);
+        }
+    }
+    
+    //Client_services
+    public function client_services_list_post() {
+        $input_data = file_get_contents('php://input');
+        $request_data = json_decode($input_data, true);
+
+        $id = $this->input->get('id') ? $this->input->get('id') : 0;
+        $page = isset($request_data['page']) ? $request_data['page'] : 1;
+        $limit = isset($request_data['limit']) ? $request_data['limit'] : 10;
+        $filterData = isset($request_data['filterData']) ? $request_data['filterData'] : [];
+
+        $getTokenData = $this->is_authorized(array('superadmin', 'admin'));
+        $offset = ($page - 1) * $limit;
+
+        $totalRecords = $this->office_model->client_services_get('yes', $id, $limit, $offset, $filterData);
+        $data = $this->office_model->client_services_get('no', $id, $limit, $offset, $filterData);
+
+        $totalPages = ceil($totalRecords / $limit);
+
+        $response = [
+            'status' => true,
+            'data' => $data,
+            'pagination' => [
+                'page' => $page,
+                'totalPages' => $totalPages,
+                'totalRecords' => $totalRecords
+            ],
+            'message' => 'Client_services fetched successfully.'
+        ];
+        $this->response($response, REST_Controller::HTTP_OK); 
+    }
+
+    public function client_services_details_get() {
+        $id = $this->input->get('id') ? $this->input->client_services_get('id') : 0;
+        $getTokenData = $this->is_authorized(array('superadmin', 'admin'));
+        $data = $this->office_model->show($id);
+
+        $response = [
+            'status' => true,
+            'data' => $data,
+            'message' => 'Client_services fetched successfully.'
+        ];
+        $this->response($response, REST_Controller::HTTP_OK); 
+    }
+
+    public function client_services_post($params = '') {
+        if ($params == 'add') {
+            $getTokenData = $this->is_authorized(array('superadmin', 'admin'));
+            $usersData = json_decode(json_encode($getTokenData), true);
+            $session_id = $usersData['data']['id'];
+
+            $_POST = json_decode($this->input->raw_input_stream, true);
+
+            $this->form_validation->set_rules('name', 'Name', 'trim|required|xss_clean|alpha_numeric_spaces');
+
+            if ($this->form_validation->run() === false) {
+                $array_error = array_map(function ($val) {
+                    return str_replace(array("\r", "\n"), '', strip_tags($val));
+                }, array_filter(explode(".", trim(strip_tags(validation_errors())))));
+
+                $this->response([
+                    'status' => FALSE,
+                    'message' => 'Error in submit form',
+                    'errors' => $array_error
+                ], REST_Controller::HTTP_BAD_REQUEST, '', 'error');
+            } else {
+                $data = [
+                    'name' => $this->input->post('name', TRUE),
+                    'status' => 'Active',
+                    'added' => date('Y-m-d H:i:s'),
+                    'addedBy' => $session_id
+                ];
+
+                if ($res = $this->office_model->client_services_create($data)) {
+                    $final = [
+                        'status' => true,
+                        'data' => $this->office_model->client_services_get($res),
+                        'message' => 'Client_services created successfully.'
+                    ];
+                    $this->response($final, REST_Controller::HTTP_OK); 
+                } else {
+                    $this->response([
+                        'status' => FALSE,
+                        'message' => 'Error in submit form',
+                        'errors' => [$this->db->error()]
+                    ], REST_Controller::HTTP_BAD_REQUEST, '', 'error');
+                }
+            }
+        }
+
+        if ($params == 'update') {
+            $getTokenData = $this->is_authorized(array('superadmin', 'admin'));
+            $usersData = json_decode(json_encode($getTokenData), true);
+            $session_id = $usersData['data']['id'];
+
+            $_POST = json_decode($this->input->raw_input_stream, true);
+
+            $this->form_validation->set_rules('name', 'Name', 'trim|required|xss_clean|alpha_numeric_spaces');
+
+
+            if ($this->form_validation->run() === false) {
+                $array_error = array_map(function ($val) {
+                    return str_replace(array("\r", "\n"), '', strip_tags($val));
+                }, array_filter(explode(".", trim(strip_tags(validation_errors())))));
+        
+
+                $this->response([
+                    'status' => FALSE,
+                    'message' => 'Error in submit form',
+                    'errors' => $array_error
+                ], REST_Controller::HTTP_BAD_REQUEST, '', 'error');
+            } else {
+                $id = $this->input->post('id', TRUE);
+                $data = [
+                    'name' => $this->input->post('name', TRUE),
+                    'status' => $this->input->post('status', TRUE),
+                    'updated' => date('Y-m-d H:i:s'),
+                    'updatedBy' => $session_id
+                ];
+
+                if ($this->office_model->client_services_update($data, $id)) {
+                    $final = [
+                        'status' => true,
+                        'data' => $this->office_model->client_services_get($id),
+                        'message' => 'Client_services updated successfully.'
+                    ];
+                    $this->response($final, REST_Controller::HTTP_OK);
+                } else {
+                    $this->response([
+                        'status' => FALSE,
+                        'message' => 'There was a problem updating Client_services. Please try again.',
+                        'errors' => [$this->db->error()]
+                    ], REST_Controller::HTTP_BAD_REQUEST, '', 'error');
+                }
+            }
+        }
+    }
+
+    public function client_services_delete($id) {
+        $this->is_authorized(array('superadmin', 'admin'));
+        $response = $this->office_model->client_services_delete($id);
+
+        if ($response) {
+            $this->response(['status' => true, 'message' => 'Client_services deleted successfully.'], REST_Controller::HTTP_OK);
+        } else {
+            $this->response(['status' => false, 'message' => 'Not deleted'], REST_Controller::HTTP_BAD_REQUEST);
+        }
+    }
 }
