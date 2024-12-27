@@ -351,10 +351,10 @@
           <th><?php echo $this->lang->line('revenue'); ?></th>
         </tr>
       </thead>
-      <tbody style="background-color: #4c4f52; border-top: 5px solid #22252a;">
+     
      
       <!-- First Row -->
-      <tr>
+      <tr style="background-color: #4c4f52; border-top: 5px solid #22252a;">
         <td><div class="d-flex align-items-center">
             <b class="texth2">Overall</b>
             <svg onclick="toggleDropdown()" width="21" height="8" viewBox="0 0 21 13" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -370,11 +370,11 @@
         <td>$ 445,179.13</td>
         <td>$ 445,179.13</td>
       </tr>
-    </tbody>
+   
 <!-- Spacing Row (for dropdown) -->
 
-<tbody style="background-color: #4c4f52; border-top: 5px solid #22252a;">
-<tr class="mt-2">
+
+<tr class="mt-2"style="background-color: #4c4f52; border-top: 5px solid #22252a;">
         <td>
           <div class="d-flex align-items-center">
             <b class="texth2">H. A. P.</b>
@@ -398,11 +398,10 @@
         <td></td>
         <td></td>
       </tr>
-</tbody>
-<tbody style="background-color: #4c4f52; border-top: 5px solid #22252a;">
+
 
       <!-- Spacing Row (for dropdown) -->
-      <tr class="mt-2">
+      <tr class="mt-2"style="background-color: #4c4f52; border-top: 5px solid #22252a;">
         <td>
           <div class="d-flex align-items-center">
             <b class="texth2">C. Profile</b>
@@ -460,11 +459,10 @@
         <td></td>
       </tr>
 
-</tbody>
-        <!-- Spacing Row (for dropdown) -->
-        <tbody style="background-color: #4c4f52; border-top: 5px solid #22252a;">
 
-        <tr class="">
+        <!-- Spacing Row (for dropdown) -->
+
+        <tr class=""style="background-color: #4c4f52; border-top: 5px solid #22252a;">
           <td>
             <div class="d-flex align-items-center ">
               <b class="texth2">Boost P.</b>
@@ -521,11 +519,10 @@
           <td></td>
           <td></td>
         </tr>
-        </tbody>
-        <tbody style="background-color: #4c4f52; border-top: 5px solid #22252a;">
+        
 
         <!-- Spacing Row (for dropdown) -->
-        <tr class="mt-3">
+        <tr class="mt-3"style="background-color: #4c4f52; border-top: 5px solid #22252a;">
           <td>
             <div class="d-flex align-items-center ">
               <b class="texth2">Ext. Serv.</b>
@@ -560,10 +557,8 @@
           <td></td>
           <td></td>
         </tr>
-        </tbody>
-        <tbody style="background-color: #4c4f52; border-top: 5px solid #22252a;">
 
-        <tr>
+        <tr style="background-color: #4c4f52; border-top: 5px solid #22252a;">
           <td>Banners</td>
           <td>$2.50</td>
           <td>2,356</td>
@@ -573,10 +568,9 @@
           <td></td>
           <td></td>
         </tr>
-        </tbody>
-        <tbody style="background-color: #4c4f52; border-top: 5px solid #22252a;">
+       
 
-        <tr>
+        <tr style="background-color: #4c4f52; border-top: 5px solid #22252a;">
           <td>CV’s</td>
           <td>$2.50</td>
           <td>2,356</td>
