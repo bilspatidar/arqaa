@@ -614,14 +614,207 @@
   </button>
 </div>
 
-       
+</div> 
+<style>
+  .custom-bg {
+    background-color: #FFFFFF33 !important;
+}
+
+  .custom-card {
+    background-color: #0061f2;
+    color: white;
+    border-radius: 15px;
+    padding: 10px; /* Padding कम की गई */
+    text-align: center;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease-in-out;
+    height: 300px;
+  }
+
+  .custom-card:hover {
+    transform: scale(1.05);
+  }
+
+  .profile-img {
+    width: 70px; /* इमेज का साइज छोटा किया गया */
+    height: 70px;
+    object-fit: cover;
+    margin-bottom: 5px; /* इमेज के नीचे का स्पेस कम किया */
+    border: 2px solid white;
+    border-radius: 50%;
+  }
+
+  .role {
+    font-size: 14px; /* फॉन्ट साइज छोटा किया */
+    font-weight: bold;
+    margin-bottom: 5px; /* रोल के नीचे का स्पेस कम किया */
+  }
+
+  .info-section {
+    font-size: 12px; /* कंटेंट का फॉन्ट साइज छोटा किया */
+    margin: 3px 0; /* सेक्शन के बीच का स्पेस कम किया */
+  }
+
+  hr {
+    border: 1px solid white;
+    margin: 5px 0; /* लाइन के ऊपर-नीचे का स्पेस कम किया */
+  }
+
+  .create-btn {
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    padding: 6px 10px; /* बटन का साइज छोटा किया */
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .create-btn:hover {
+    background-color: #5a6268;
+  }
+</style>
+
+
+<div class="container mt-5">
+  <h3>Partners</h3>
+    <button class="btn btn-secendory ml-4"onclick="openPopup()">+ Create New</button>
+   <div class="row mt-3 ml-4">
+   <div class="col-md-11 custom-bg card-body">
+    <h2 class="ml-4 mt-3">Stack Holders</h2>
+
+   </div>
+    </div>
+    </div>
+
+</div>   
+<div class="container-fluid mt-5">
+  <div class="row justify-content-center d-flex ml-2">
+    <!-- Card 1 -->
+    <div class="col-md-3">
+      <div class="custom-card">
+        <img src="https://s3-alpha-sig.figma.com/img/ee2e/b392/11faece97f5ea3b1513a82115d92cb22?Expires=1736121600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=S25nQmiM2JS8K4YDI5pyE-ifid-P-d4AC~NQolvqMMy61SO-QpE0n4kVnkoL~kyYXlgYYb2TF4Zn7oEQUPNg7KZYF4GgCzEBRouAsXjflNYrcImXvM-z4W8NH1g1ODOQPYdvyctZUNmms76ShQH3pOt5pPrhfWKnSy1ud7ybIW1l6XTM3KJ0gRSNdOm7jCLS3sCgm3HGMmHoa7wgNqS0x5hNE3TocvYbF6MROhRr-ofZSR3P54L225xcmcV3WOh021FC3XcpqsKeB4If1NAABnT7ZOuf5yLa0rFXEXpiOrQqPYtoL6mWlKX1cY-wD2ObXIpQPVuFSFbR2Fy-9nD2~A__" alt="Profile" class="rounded-circle profile-img">
+        <h5 class="role">Director</h5>
+        <div class="info-section d-flex justify-content-between">
+          <p class="nombre"><strong>Nombre</strong></p>
+          <p class="partner text-right">M.P.</p>
+          </div>
+          <div class="info-section d-flex justify-content-between">
+           <p class="nombre"><strong>Partner</strong></p>
+          <p class="partner text-right">27 January 2025</p>
+          </div>
+          <div class="info-section d-flex justify-content-between">
+          <p class="nombre"><strong>Stake %</strong></p>
+          <p class="partner text-right">85%</p>
+        </div>
+      
+        <hr >
+        <div class="info-section d-flex justify-content-between">
+          <p class="nombre"><strong>ARQAA Revenue</strong></p>
+          <p class="partner text-right">$ 445,179.13</p>
+        </div>
+        <div class="info-section d-flex justify-content-between">
+          <p class="nombre"><strong>Stake</strong></p>
+          <p class="partner text-right">$378,402</p>
+        </div>
+      </div>
+    </div>
+    <!-- Card 2 -->
+    <div class="col-md-3">
+      <div class="custom-card">
+        <img src="https://s3-alpha-sig.figma.com/img/b8c5/ceb3/2da89aa67fd15b75afcb5207dfd0a9d7?Expires=1736121600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=UnWEgMwrtiPEKSuXKFf8OmtoeZMFZ7hqD3NmNTPdo6mLRSkG9~xzNVhEB6zvRgzTngDL8WEttMdWM2Z-3kyuxig3tR4IIxHN1vHkM5UYJ48ZRkTvXRXBfIp4j2SQHGflCX6E1DXskkcFBATUfBpfOjCS3HK~12d1oW~SO2haa8f9dD1lKYjLvPONx7dZ8xUXXbyE~tjDLUtG~FFoQPP7N1OmZRe2uG3vwpcfm~XYl9DXH-gNev~uBmI1d3O056ynzB79vZlxxSmxLOK5y8TjmPxZA7Pweah1ZR9OIZAgGyB5CQSe6HKIdP1WhTMIhx49TmFfNxKwA9VkLrDnzuzgVg__" alt="Profile" class="rounded-circle profile-img">
+        <h5 class="role">Director</h5>
+        <div class="info-section d-flex justify-content-between">
+          <p class="nombre"><strong>Nombre</strong></p>
+          <p class="partner text-right">M.P.</p>
+          </div>
+          <div class="info-section d-flex justify-content-between">
+           <p class="nombre"><strong>Partner</strong></p>
+          <p class="partner text-right">27 January 2025</p>
+          </div>
+          <div class="info-section d-flex justify-content-between">
+          <p class="nombre"><strong>Stake %</strong></p>
+          <p class="partner text-right">85%</p>
+        </div>
+      
+        <hr>
+        <div class="info-section d-flex justify-content-between">
+          <p class="nombre"><strong>ARQAA Revenue</strong></p>
+          <p class="partner text-right">$ 445,179.13</p>
+        </div>
+        <div class="info-section d-flex justify-content-between">
+          <p class="nombre"><strong>Stake</strong></p>
+          <p class="partner text-right">$378,402</p>
+        </div>
+      </div>
+    </div>
+    <!-- Card 3 -->
+    <div class="col-md-3">
+      <div class="custom-card">
+        <img src="https://s3-alpha-sig.figma.com/img/30aa/473e/e21ae3eb7e3b8c79f5ecfb8173b840a3?Expires=1736121600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=Lz2qYqVq011o245IcOhleTLjj4FyUHHugQy7a7ALbFGfgvPNy9OjB0lLR4XqXDu-dIvkg2qSe1LcgjhuuO7mYai2Ah6vfRjArrj-OdsPrOuPKMe3r3FtMAaAlvSzieEa5P7XmEc3dLuouBV4br3-Rj25YlMPlmKA2mrayKXEsBpGieJHVUZTCy9pDQECR5~OiyYeR-q9LwZ01yXpxzFNEE1s8E8uGiEXraNcYYlQi43IPle6wCrqfJATel9DWjkOYN4DGPjL-0od6HbB6o2LYKYfKX4wgmLsmDOJurIuEAeeTaYuBdm7LucA8Y4-ZzBPrak6tvx3FMZlSBiWMMKRlw__" alt="Profile" class="rounded-circle profile-img">
+        <h5 class="role">Director</h5>
+        <div class="info-section d-flex justify-content-between">
+          <p class="nombre"><strong>Nombre</strong></p>
+          <p class="partner text-right">M.P.</p>
+          </div>
+          <div class="info-section d-flex justify-content-between">
+           <p class="nombre"><strong>Partner</strong></p>
+          <p class="partner text-right">27 January 2025</p>
+          </div>
+          <div class="info-section d-flex justify-content-between">
+          <p class="nombre"><strong>Stake %</strong></p>
+          <p class="partner text-right">85%</p>
+        </div>
+      
+        <hr>
+        <div class="info-section d-flex justify-content-between">
+          <p class="nombre"><strong>ARQAA Revenue</strong></p>
+          <p class="partner text-right">$ 445,179.13</p>
+        </div>
+        <div class="info-section d-flex justify-content-between">
+          <p class="nombre"><strong>Stake</strong></p>
+          <p class="partner text-right">$378,402</p>
+        </div>
+      </div>
+    </div>
+    <!-- Card 4 -->
+    <div class="col-md-3">
+      <div class="custom-card">
+        <img src="https://s3-alpha-sig.figma.com/img/534a/ab05/852ac2546d87081b636eb52bb85b2a47?Expires=1736121600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=pWhB-GtSDirD8stGT-L5DSx5mdIwJ-ZKpvq5g6q1IotnS1SawSIKbtWg5~bZXBX1~-dV3zCn2Ki13IFtT9RaRB3nlDfC9DvnVtsZCZMEGzT7~tkQE41FRirR-VawMsxLF1PO8DVm0TtU6lK1wu8JFVQ5ldDsioJidPIvT4zH9JRqgHXISX5jl-CXoOLy~AGT9pSXqRhbvzd-XnYj4n747HtUwmk4tkFuFveGBf~qv6~dlFWqDbIMowtE8nT4~3fXyaS97tMqeqowvezAlTZieQjNunL9Vy0XCWoaCW7FR~x6N64UzzGzPf--iK4hxVSoS4igexMgKnocOEX21cMcpQ__" alt="Profile" class="rounded-circle profile-img">
+        <h5 class="role">Director</h5>
+       <div class="info-section d-flex justify-content-between">
+          <p class="nombre"><strong>Nombre</strong></p>
+          <p class="partner text-right">M.P.</p>
+          </div>
+          <div class="info-section d-flex justify-content-between">
+           <p class="nombre"><strong>Partner</strong></p>
+          <p class="partner text-right">27 January 2025</p>
+          </div>
+          <div class="info-section d-flex justify-content-between">
+          <p class="nombre"><strong>Stake %</strong></p>
+          <p class="partner text-right">85%</p>
+        </div>
+      
+        <hr>
+        <div class="info-section d-flex justify-content-between">
+          <p class="nombre"><strong>ARQAA Revenue</strong></p>
+          <p class="partner text-right">$ 445,179.13</p>
+        </div>
+        <div class="info-section d-flex justify-content-between">
+          <p class="nombre"><strong>Stake</strong></p>
+          <p class="partner text-right">$378,402</p>
+        </div>
+      </div>
+    </div>
+
 </div>
-</div>      
-  
 
 
 
 
+
+
+</div> 
 <style>
 
 /* Modal Background */
@@ -689,13 +882,6 @@
     color: #333;
 }
 
-
-
-
-
-
-
-
 </style>
 
 
@@ -724,7 +910,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label class="col-form-label"><?php echo $this->lang->line('cost');?></label>
-                        <input type="text" class="form-control" name="Cost" />
+                        <input type="text" class="form-control" name="cost" />
                     </div>
                 </div>
                 <div class="col-md-6">
