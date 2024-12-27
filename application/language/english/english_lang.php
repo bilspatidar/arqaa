@@ -95,6 +95,7 @@ $lang['ragistered_services'] = 'REGISTERED SERVICES';
 $lang['map'] = 'Map';
 $lang['subcategorys'] = 'Sub Categories';
 $lang['pages_name'] = 'Pages Name';
+$lang['cost'] = 'Cost';
 
 $lang['contact_no'] = 'Contact Number';
 $lang['alt_contact_no'] = 'Alt Contact Number';

@@ -156,7 +156,7 @@
             <div class="table-responsive">
             <h4>Monthly Fixed Cost</h4>
 
-              <table class="table table-hover js-basic-example dataTable table-custom spacing5">
+              <table  style="border-collapse: collapse !important;" class="table table-hover js-basic-example dataTable table-custom spacing5">
                 <thead>
                   <tr>
                     <th><?php echo $this->lang->line('concept1'); ?></th>
@@ -167,10 +167,23 @@
                   </tr>
                 </thead>
                 <tbody id="api_response_table_body dataTables_paginate">
-                  <!-- Data will be dynamically inserted here -->
+                <tr>
+                  <th>Rent</th>
+                    <th>$1,500</th>
+                    <th>21</th>
+                    <th>Non food</th>
+                    <th>$315</th>
+                    </tr>
+                    <tr>
+                    <th>Rent</th>
+                    <th>$1,500</th>
+                    <th>21</th>
+                    <th>Non food</th>
+                    <th>$315</th>
+                    </tr>
                 </tbody>
               </table>
-              <button class="btn btn-secendory">+ Add New</button>
+              <button class="btn btn-secendory"onclick="openPopup()">+ Add New</button>
             </div>
           </div>
 
@@ -179,7 +192,7 @@
             <!-- Empty or other content can go here -->
           </div>
           <!-- Third Column (Currency Dropdown) -->
-          <div class="col-md-2 mt-3">
+          <!-- <div class="col-md-2 mt-3">
             
                 <h5 class=""><?php echo $this->lang->line('currency'); ?></h5>
                 <select name="currency" class="form-control select2">
@@ -191,7 +204,7 @@
                   <?php } ?>
                 </select>
               
-          </div>
+          </div> -->
           <div class="col-md-1">
             <!-- Empty or other content can go here -->
           </div>
@@ -226,7 +239,7 @@
           <div class="col-md-5">
             <div class="table-responsive">
               <h4>Monthly Fixed Cost</h4>
-              <table class="table table-hover js-basic-example dataTable table-custom spacing5">
+              <table style="border-collapse: collapse !important;" class="table table-hover js-basic-example dataTable table-custom spacing5">
                 <thead>
                   <tr>
                     <th><?php echo $this->lang->line('concept1'); ?></th>
@@ -238,9 +251,23 @@
                 </thead>
                 <tbody id="api_response_table_body dataTables_paginate">
                   <!-- Data will be dynamically inserted here -->
+                   <tr>
+                  <th>Rent</th>
+                    <th>$1,500</th>
+                    <th>21</th>
+                    <th>Non food</th>
+                    <th>$315</th>
+                    </tr>
+                    <tr>
+                    <th>Rent</th>
+                    <th>$1,500</th>
+                    <th>21</th>
+                    <th>Non food</th>
+                    <th>$315</th>
+                    </tr>
                 </tbody>
               </table>
-              <button class="btn btn-secendory">+ Add New</button>
+              <button class="btn btn-secendory"onclick="openPopup1()">+ Add New</button>
             </div>
           </div>
 
@@ -249,7 +276,7 @@
             <!-- Empty or other content can go here -->
           </div>
           <!-- Third Column (Currency Dropdown) -->
-          <div class="col-md-2 mt-3">
+          <!-- <div class="col-md-2 mt-3">
             
                 <h5 class=""><?php echo $this->lang->line('currency'); ?></h5>
                 <select name="currency" class="form-control select2">
@@ -261,7 +288,7 @@
                   <?php } ?>
                 </select>
               
-          </div>
+          </div> -->
           <div class="col-md-1">
             <!-- Empty or other content can go here -->
           </div>
@@ -324,113 +351,119 @@
           <th><?php echo $this->lang->line('revenue'); ?></th>
         </tr>
       </thead>
-      <tbody style="background-color: #383b3f;">
-        <!-- First Row -->
-        <tr>
-          <td><div class="d-flex align-items-center">
-              <b class="texth2">Overall</b>
-              <svg onclick="toggleDropdown()" width="21" height="8" viewBox="0 0 21 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M17.9305 2.88886C17.9305 2.88886 12.2023 10.6666 10.1528 10.6666C8.10307 10.6666 2.375 2.88879 2.375 2.88879"
-                  stroke="white" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" />
-              </svg>
-            </div></td>
-          <td>--</td>
-          <td>41,204</td>
-          <td>$ 563,518.13</td>
-          <td>$ 118,339</td>
-          <td>$ 3,005</td>
-          <td>$ 445,179.13</td>
-          <td>$ 445,179.13</td>
-        </tr>
- <!-- Spacing Row (for dropdown) -->
- <tr class="mt-2">
-          <td>
-            <div class="d-flex align-items-center">
-              <b class="texth2">H. A. P.</b>
-              <svg onclick="toggleDropdown()" width="21" height="8" viewBox="0 0 21 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M17.9305 2.88886C17.9305 2.88886 12.2023 10.6666 10.1528 10.6666C8.10307 10.6666 2.375 2.88879 2.375 2.88879"
-                  stroke="white" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" />
-              </svg>
-            </div>
-          </td>
-          <td colspan="7"></td>
-        </tr>
+      <tbody style="background-color: #4c4f52; border-top: 5px solid #22252a;">
+     
+      <!-- First Row -->
+      <tr>
+        <td><div class="d-flex align-items-center">
+            <b class="texth2">Overall</b>
+            <svg onclick="toggleDropdown()" width="21" height="8" viewBox="0 0 21 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M17.9305 2.88886C17.9305 2.88886 12.2023 10.6666 10.1528 10.6666C8.10307 10.6666 2.375 2.88879 2.375 2.88879"
+                stroke="white" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </div></td>
+        <td>--</td>
+        <td>41,204</td>
+        <td>$ 563,518.13</td>
+        <td>$ 118,339</td>
+        <td>$ 3,005</td>
+        <td>$ 445,179.13</td>
+        <td>$ 445,179.13</td>
+      </tr>
+    </tbody>
+<!-- Spacing Row (for dropdown) -->
 
-        <!-- Data Rows -->
-        <tr>
-          <td>Handy Andy</td>
-          <td>$ 9.99</td>
-          <td>10,000</td>
-          <td>$ 99,900</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
+<tbody style="background-color: #4c4f52; border-top: 5px solid #22252a;">
+<tr class="mt-2">
+        <td>
+          <div class="d-flex align-items-center">
+            <b class="texth2">H. A. P.</b>
+            <svg onclick="toggleDropdown()" width="21" height="8" viewBox="0 0 21 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M17.9305 2.88886C17.9305 2.88886 12.2023 10.6666 10.1528 10.6666C8.10307 10.6666 2.375 2.88879 2.375 2.88879"
+                stroke="white" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </div>
+        </td>
+        <td colspan="7"></td>
+      </tr>
 
-        
-       
-        
+      <!-- Data Rows -->
+      <tr>
+        <td>Handy Andy</td>
+        <td>$ 9.99</td>
+        <td>10,000</td>
+        <td>$ 99,900</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+</tbody>
+<tbody style="background-color: #4c4f52; border-top: 5px solid #22252a;">
+
+      <!-- Spacing Row (for dropdown) -->
+      <tr class="mt-2">
+        <td>
+          <div class="d-flex align-items-center">
+            <b class="texth2">C. Profile</b>
+            <svg onclick="toggleDropdown()" width="21" height="8" viewBox="0 0 21 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M17.9305 2.88886C17.9305 2.88886 12.2023 10.6666 10.1528 10.6666C8.10307 10.6666 2.375 2.88879 2.375 2.88879"
+                stroke="white" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </div>
+        </td>
+        <td colspan="7"></td>
+      </tr>
+
+      <!-- Data Rows -->
+      <tr>
+        <td>Micro Company</td>
+        <td>$14.99</td>
+        <td>6,000</td>
+        <td>$89,940</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+
+      <tr>
+        <td>Small Profiles</td>
+        <td>$19.99</td>
+        <td>7,000</td>
+        <td>$139,930</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+
+      <tr>
+        <td>Medium Profiles</td>
+        <td>$24.99</td>
+        <td>8,000</td>
+        <td>$124,950</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+
+      <tr>
+        <td>Large Profiles</td>
+        <td>$49.99</td>
+        <td>3,237</td>
+        <td>$161,817.63</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+
+</tbody>
         <!-- Spacing Row (for dropdown) -->
-        <tr class="mt-2">
-          <td>
-            <div class="d-flex align-items-center">
-              <b class="texth2">C. Profile</b>
-              <svg onclick="toggleDropdown()" width="21" height="8" viewBox="0 0 21 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M17.9305 2.88886C17.9305 2.88886 12.2023 10.6666 10.1528 10.6666C8.10307 10.6666 2.375 2.88879 2.375 2.88879"
-                  stroke="white" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" />
-              </svg>
-            </div>
-          </td>
-          <td colspan="7"></td>
-        </tr>
+        <tbody style="background-color: #4c4f52; border-top: 5px solid #22252a;">
 
-        <!-- Data Rows -->
-        <tr>
-          <td>Micro Company</td>
-          <td>$14.99</td>
-          <td>6,000</td>
-          <td>$89,940</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-
-        <tr>
-          <td>Small Profiles</td>
-          <td>$19.99</td>
-          <td>7,000</td>
-          <td>$139,930</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-
-        <tr>
-          <td>Medium Profiles</td>
-          <td>$24.99</td>
-          <td>8,000</td>
-          <td>$124,950</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-
-        <tr>
-          <td>Large Profiles</td>
-          <td>$49.99</td>
-          <td>3,237</td>
-          <td>$161,817.63</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-
-        <!-- Spacing Row (for dropdown) -->
         <tr class="">
           <td>
             <div class="d-flex align-items-center ">
@@ -488,6 +521,8 @@
           <td></td>
           <td></td>
         </tr>
+        </tbody>
+        <tbody style="background-color: #4c4f52; border-top: 5px solid #22252a;">
 
         <!-- Spacing Row (for dropdown) -->
         <tr class="mt-3">
@@ -525,6 +560,8 @@
           <td></td>
           <td></td>
         </tr>
+        </tbody>
+        <tbody style="background-color: #4c4f52; border-top: 5px solid #22252a;">
 
         <tr>
           <td>Banners</td>
@@ -536,6 +573,8 @@
           <td></td>
           <td></td>
         </tr>
+        </tbody>
+        <tbody style="background-color: #4c4f52; border-top: 5px solid #22252a;">
 
         <tr>
           <td>CV’s</td>
@@ -551,7 +590,29 @@
     </table>
   </div>
 </div>
+<style scoped>
 
+
+.normal-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.icon-eye {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 40px;  /* Adjust the icon size as needed */
+}
+.normal-button:hover {
+  background-color: #0056b3;
+}
+</style>
 <!-- Button Section -->
 <div class="" style="height: 45px;">
   <button class="normal-button text-left" style="width: 650px; position: relative;">
@@ -567,28 +628,80 @@
 
 
 
-<style scoped>
+<style>
 
+/* Modal Background */
+.modal {
+    display: none; 
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: auto;
+    overflow: auto;
+    padding-top: 60px;
+    background-color: rgba(0, 0, 0, 0.5); /* Slightly darkened background */
+}
 
-  .normal-button {
-    padding: 10px 20px;
-    font-size: 16px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  .icon-eye {
+/* Modal Content */
+.modal-content {
+    background-color: #22252a;
+    margin: 5% auto;
+    padding: 30px;
+    border: 1px solid #22252a;
+    width: 80%;
+    max-width: 600px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 0.3s ease-out;
+}
+
+/* Fade-in Animation */
+@keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+/* Close Button */
+.close {
+    color: #aaa;
+    font-size: 30px;
+    font-weight: bold;
     position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 40px;  /* Adjust the icon size as needed */
-  }
-  .normal-button:hover {
-    background-color: #0056b3;
-  }
+    top: 15px;
+    right: 20px;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    cursor: pointer;
+}
+
+/* Form Styles */
+.form-sample {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.col-form-label {
+    font-weight: 600;
+    color: #333;
+}
+
+
+
+
+
+
+
+
 </style>
 
 
@@ -598,7 +711,129 @@
   </div>
 </div>
 
+<!-- Modal Structure -->
+<div id="myModal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <span class="close" onclick="closePopup()">&times;</span>
+        <h3 class="card-title">Add New</h3>
+        <p class="texth2">Here you can fill up your monthly cost</p>
+
+        <form class="form-sample" id="crudFormAddApiData" action="<?php echo API_DOMAIN; ?>api/category/category/add" method="POST">
+            <!-- <h4 class="card-description"><?php echo $this->lang->line('add_new');?> </h4> -->
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="col-form-label"><?php echo $this->lang->line('concept');?></label>
+                        <input type="text" class="form-control" name="name" required />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="col-form-label"><?php echo $this->lang->line('cost');?></label>
+                        <input type="text" class="form-control" name="Cost" />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="col-form-label"><?php echo $this->lang->line('%');?></label>
+                        <input type="text" class="form-control" name="%" required />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="col-form-label"><?php echo $this->lang->line('tax_concept');?></label>
+                        <input type="text" class="form-control" name="tax_concept" />
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+            <button type="submit" class="btn btn-primary mr-2"><?php echo $this->lang->line('submit');?></button>
+            <button class="btn btn-danger mr-2" type="reset"onclick="closePopup()"><?php echo $this->lang->line('cancel');?></button>
+            </div>
+        </form>
+        <br>
+    </div>
+</div>
+
+<div id="myModal1" class="modal" style="display: none;">
+    <div class="modal-content">
+        <span class="close" onclick="closePopup1()">&times;</span>
+        <h3 class="card-title">Add New</h3>
+        <p class="texth2">Here you can fill up your monthly cost</p>
+
+        <form class="form-sample" id="crudFormAddApiData" action="<?php echo API_DOMAIN; ?>api/category/category/add" method="POST">
+            <!-- <h4 class="card-description"><?php echo $this->lang->line('add_new');?> </h4> -->
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="col-form-label"><?php echo $this->lang->line('concept');?></label>
+                        <input type="text" class="form-control" name="name" required />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="col-form-label"><?php echo $this->lang->line('cost');?></label>
+                        <input type="text" class="form-control" name="Cost" />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="col-form-label"><?php echo $this->lang->line('%');?></label>
+                        <input type="text" class="form-control" name="%" required />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="col-form-label"><?php echo $this->lang->line('tax_concept');?></label>
+                        <input type="text" class="form-control" name="tax_concept" />
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+            <button type="submit" class="btn btn-primary mr-2"><?php echo $this->lang->line('submit');?></button>
+            <button class="btn btn-danger mr-2" type="reset"onclick="closePopup1()"><?php echo $this->lang->line('cancel');?></button>
+            </div>
+        </form>
+        <br>
+    </div>
+</div>
+
+
+
 <script>
+  // Function to open the popup
+function openPopup() {
+    document.getElementById("myModal").style.display = "flex";
+}
+
+// Function to close the popup
+function closePopup() {
+    document.getElementById("myModal").style.display = "none";
+}
+
+// Function to handle removal confirmation
+function confirmRemoval() {
+    alert("Item removed!");
+    closePopup(); // Close the popup after confirmation
+}
+
+function openPopup1() {
+    document.getElementById("myModal1").style.display = "flex";
+}
+
+// Function to close the popup
+function closePopup1() {
+    document.getElementById("myModal1").style.display = "none";
+}
+
+// Function to handle removal confirmation
+function confirmRemoval1() {
+    alert("Item removed!1");
+    closePopup(); // Close the popup after confirmation
+}
+
     function renderTableData() {
       return [
         { "data": "concept", "orderable": true },
@@ -630,3 +865,4 @@
       }
     }
 </script>
+
