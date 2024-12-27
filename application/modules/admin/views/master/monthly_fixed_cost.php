@@ -60,6 +60,35 @@
           background-color: #2c2f33;
           border-color: #2c2f33;
         }
+   
+
+.card-section {
+  background-color: #007bff; /* Primary Blue */
+  border-radius: 10px;
+  text-align: left;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.card-section h3 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.card-section h1 {
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+
+@media (max-width: 768px) {
+  .row {
+    flex-direction: column;
+  }
+  .card-section {
+    margin-bottom: 15px;
+  }
+}
+    
 </style>
 
 <div class="row">
@@ -125,6 +154,8 @@
           <!-- First Column (Table) -->
           <div class="col-md-5">
             <div class="table-responsive">
+            <h4>Monthly Fixed Cost</h4>
+
               <table class="table table-hover js-basic-example dataTable table-custom spacing5">
                 <thead>
                   <tr>
@@ -194,6 +225,7 @@
           <!-- First Column (Table) -->
           <div class="col-md-5">
             <div class="table-responsive">
+              <h4>Monthly Fixed Cost</h4>
               <table class="table table-hover js-basic-example dataTable table-custom spacing5">
                 <thead>
                   <tr>
@@ -260,16 +292,21 @@
 </div>
 </div>
 <div class="container-fluid">
-   <div class="row mt-3">
-            <div class="col-md-5 bg-primary text-white p-3">
-              <h3>Monthly Sales</h3>
-              <h1>$563,518.13</h1>
-            </div>
-            <div class="col-md-5 offset-md-2 bg-primary text-white p-3">
-              <h3>Total Expense</h3>
-              <h1>$ 3,005</h1>
-            </div>
-          </div>
+<div class="row mt-3 ml-2">
+  <div class="col-md-4 card-section bg-primary text-white p-3">
+    <h3>Monthly Sales</h3>
+    <h1>$563,518.13</h1>
+  </div> 
+  <div class="col-md-1 "></div>
+ 
+  <div class="col-md-4 offset-md-2 card-section bg-primary text-white p-3">
+    <h3>Total Expense Tax Inc.</h3>
+    <h1>$3,005</h1>
+  </div>
+  
+  <div class="col-md-1"></div>
+</div>
+
           </div>
 
           <div class="mt-3">
@@ -290,21 +327,55 @@
       <tbody style="background-color: #383b3f;">
         <!-- First Row -->
         <tr>
-          <td>Handy Andy</td>
-          <td>$9.99</td>
-          <td>10,000</td>
-          <td>$563,518.13</td>
-          <td>Report 1</td>
-          <td>Return 1</td>
-          <td>$500</td>
-          <td>$600</td>
+          <td><div class="d-flex align-items-center">
+              <b class="texth2">Overall</b>
+              <svg onclick="toggleDropdown()" width="21" height="8" viewBox="0 0 21 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M17.9305 2.88886C17.9305 2.88886 12.2023 10.6666 10.1528 10.6666C8.10307 10.6666 2.375 2.88879 2.375 2.88879"
+                  stroke="white" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </div></td>
+          <td>--</td>
+          <td>41,204</td>
+          <td>$ 563,518.13</td>
+          <td>$ 118,339</td>
+          <td>$ 3,005</td>
+          <td>$ 445,179.13</td>
+          <td>$ 445,179.13</td>
+        </tr>
+ <!-- Spacing Row (for dropdown) -->
+ <tr class="mt-2">
+          <td>
+            <div class="d-flex align-items-center">
+              <b class="texth2">H. A. P.</b>
+              <svg onclick="toggleDropdown()" width="21" height="8" viewBox="0 0 21 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M17.9305 2.88886C17.9305 2.88886 12.2023 10.6666 10.1528 10.6666C8.10307 10.6666 2.375 2.88879 2.375 2.88879"
+                  stroke="white" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </div>
+          </td>
+          <td colspan="7"></td>
         </tr>
 
+        <!-- Data Rows -->
+        <tr>
+          <td>Handy Andy</td>
+          <td>$ 9.99</td>
+          <td>10,000</td>
+          <td>$ 99,900</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+
+        
+       
+        
         <!-- Spacing Row (for dropdown) -->
         <tr class="mt-2">
           <td>
             <div class="d-flex align-items-center">
-              <b class="texth2">Company Profiles</b>
+              <b class="texth2">C. Profile</b>
               <svg onclick="toggleDropdown()" width="21" height="8" viewBox="0 0 21 13" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M17.9305 2.88886C17.9305 2.88886 12.2023 10.6666 10.1528 10.6666C8.10307 10.6666 2.375 2.88879 2.375 2.88879"
                   stroke="white" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" />
@@ -363,7 +434,7 @@
         <tr class="">
           <td>
             <div class="d-flex align-items-center ">
-              <b class="texth2">Boost Profile</b>
+              <b class="texth2">Boost P.</b>
               <svg onclick="toggleDropdown()" width="21" height="8" viewBox="0 0 21 13" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M17.9305 2.88886C17.9305 2.88886 12.2023 10.6666 10.1528 10.6666C8.10307 10.6666 2.375 2.88879 2.375 2.88879"
                   stroke="white" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" />
@@ -422,7 +493,7 @@
         <tr class="mt-3">
           <td>
             <div class="d-flex align-items-center ">
-              <b class="texth2">Extra Services</b>
+              <b class="texth2">Ext. Serv.</b>
               <svg onclick="toggleDropdown()" width="21" height="8" viewBox="0 0 21 13" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M17.9305 2.88886C17.9305 2.88886 12.2023 10.6666 10.1528 10.6666C8.10307 10.6666 2.375 2.88879 2.375 2.88879"
                   stroke="white" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" />
