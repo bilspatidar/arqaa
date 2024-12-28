@@ -62,6 +62,38 @@ class Office_model extends CI_Model {
         return false;
     }
 
+    public function lwf_create($data) {
+        $this->db->insert('lwf', $data);
+        if ($this->db->affected_rows() > 0) {
+            return $this->db->insert_id();
+        }
+        return false;
+    }
+
+    public function master_gst_create($data) {
+        $this->db->insert('master_gst', $data);
+        if ($this->db->affected_rows() > 0) {
+            return $this->db->insert_id();
+        }
+        return false;
+    }
+
+    public function esic_code_create($data) {
+        $this->db->insert('esic_code', $data);
+        if ($this->db->affected_rows() > 0) {
+            return $this->db->insert_id();
+        }
+        return false;
+    }
+
+    public function pf_code_create($data) {
+        $this->db->insert('pf_code', $data);
+        if ($this->db->affected_rows() > 0) {
+            return $this->db->insert_id();
+        }
+        return false;
+    }
+
     /**
      * Get department(s) by ID or with filters
      *
@@ -180,6 +212,78 @@ class Office_model extends CI_Model {
         return $query->result_array();
     }
 
+    public function lwf_get($count = 'no', $id = 0, $limit = 10, $offset = 0, $filterData = []) {
+        $this->db->select('*')->from('lwf');
+        if ($id > 0) {
+            $this->db->where('id', $id);
+        }
+        if (!empty($filterData)) {
+            foreach ($filterData as $key => $value) {
+                $this->db->where($key, $value);
+            }
+        }
+        if ($count === 'yes') {
+            return $this->db->count_all_results();
+        }
+        $this->db->limit($limit, $offset);
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+
+    public function master_gst_get($count = 'no', $id = 0, $limit = 10, $offset = 0, $filterData = []) {
+        $this->db->select('*')->from('master_gst');
+        if ($id > 0) {
+            $this->db->where('id', $id);
+        }
+        if (!empty($filterData)) {
+            foreach ($filterData as $key => $value) {
+                $this->db->where($key, $value);
+            }
+        }
+        if ($count === 'yes') {
+            return $this->db->count_all_results();
+        }
+        $this->db->limit($limit, $offset);
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+
+    public function esic_code_get($count = 'no', $id = 0, $limit = 10, $offset = 0, $filterData = []) {
+        $this->db->select('*')->from('esic_code');
+        if ($id > 0) {
+            $this->db->where('id', $id);
+        }
+        if (!empty($filterData)) {
+            foreach ($filterData as $key => $value) {
+                $this->db->where($key, $value);
+            }
+        }
+        if ($count === 'yes') {
+            return $this->db->count_all_results();
+        }
+        $this->db->limit($limit, $offset);
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+
+    public function pf_code_get($count = 'no', $id = 0, $limit = 10, $offset = 0, $filterData = []) {
+        $this->db->select('*')->from('pf_code');
+        if ($id > 0) {
+            $this->db->where('id', $id);
+        }
+        if (!empty($filterData)) {
+            foreach ($filterData as $key => $value) {
+                $this->db->where($key, $value);
+            }
+        }
+        if ($count === 'yes') {
+            return $this->db->count_all_results();
+        }
+        $this->db->limit($limit, $offset);
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+
     /**
      * Update department
      *
@@ -223,7 +327,31 @@ class Office_model extends CI_Model {
         return $this->db->affected_rows() > 0;
     }
 
+    public function lwf_update($data, $id) {
+        $this->db->where('id', $id);
+        $this->db->update('lwf', $data);
+        return $this->db->affected_rows() > 0;
+    }
 
+
+    public function master_gst_update($data, $id) {
+        $this->db->where('id', $id);
+        $this->db->update('master_gst', $data);
+        return $this->db->affected_rows() > 0;
+    }
+
+    public function esic_code_update($data, $id) {
+        $this->db->where('id', $id);
+        $this->db->update('esic_code', $data);
+        return $this->db->affected_rows() > 0;
+    }
+
+    
+    public function pf_code_update($data, $id) {
+        $this->db->where('id', $id);
+        $this->db->update('pf_code', $data);
+        return $this->db->affected_rows() > 0;
+    }
     /**
      * Delete department by ID
      *
@@ -274,6 +402,38 @@ class Office_model extends CI_Model {
     public function client_services_delete($id) {
         $this->db->where('id', $id);
         if ($this->db->delete('client_services')) {
+            return true;
+        }
+        return false;
+    }
+
+    public function lwf_delete($id) {
+        $this->db->where('id', $id);
+        if ($this->db->delete('lwf')) {
+            return true;
+        }
+        return false;
+    }
+
+    public function master_gst_delete($id) {
+        $this->db->where('id', $id);
+        if ($this->db->delete('master_gst')) {
+            return true;
+        }
+        return false;
+    }
+
+    public function esic_code_delete($id) {
+        $this->db->where('id', $id);
+        if ($this->db->delete('esic_code')) {
+            return true;
+        }
+        return false;
+    }
+
+    public function pf_code_delete($id) {
+        $this->db->where('id', $id);
+        if ($this->db->delete('pf_code')) {
             return true;
         }
         return false;
