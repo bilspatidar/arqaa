@@ -2223,7 +2223,179 @@ public function update_location_post() {
 }
 
 
+public function get_user_details_get() {
+    // Validate token to ensure the user is authorized
+    $getTokenData = $this->is_authorized(array('superadmin', 'admin', 'company', 'freelancer'));
 
+    // Get user ID from the POST data
+    $_POST = json_decode($this->input->raw_input_stream, true);
+
+    // Get the user ID from the request
+    $user_id = $this->input->post('user_id', true);
+
+    try {
+        // Query the database to get user details
+        $user_details = $this->user_model->get_user_details($user_id);
+
+        if ($user_details) {
+            // Respond with user details
+            $this->response([
+                'status' => true,
+                'message' => 'User details found',
+                'data' => $user_details
+            ], REST_Controller::HTTP_OK);
+        } else {
+            // No user record found for the given user ID
+            $this->response([
+                'status' => false,
+                'message' => 'No user record found for the given user ID.'
+            ], REST_Controller::HTTP_NOT_FOUND);
+        }
+    } catch (Exception $e) {
+        // Handle unexpected errors
+        $this->response([
+            'status' => false,
+            'message' => 'An unexpected error occurred while processing the request.'
+        ], REST_Controller::HTTP_INTERNAL_SERVER_ERROR);
+    }
+}
+
+//Chat
+public function chat_list_post() {
+    $input_data = file_get_contents('php://input');
+    $request_data = json_decode($input_data, true);
+
+    $chat_id = isset($request_data['chat_id']) ? $request_data['chat_id'] : 0;
+    $page = isset($request_data['page']) ? $request_data['page'] : 1;
+    $limit = isset($request_data['limit']) ? $request_data['limit'] : 10;
+
+    $getTokenData = $this->is_authorized(array('superadmin', 'admin', 'user'));
+    $offset = ($page - 1) * $limit;
+
+    $totalRecords = $this->user_model->chat_get('yes', $chat_id, $limit, $offset);
+    $data = $this->user_model->chat_get('no', $chat_id, $limit, $offset);
+
+    $totalPages = ceil($totalRecords / $limit);
+
+    $response = [
+        'status' => true,
+        'data' => $data,
+        'pagination' => [
+            'page' => $page,
+            'totalPages' => $totalPages,
+            'totalRecords' => $totalRecords
+        ],
+        'message' => 'Chat messages fetched successfully.'
+    ];
+    $this->response($response, REST_Controller::HTTP_OK);
+}
+
+
+public function chat_post($params = '') {
+    if ($params == 'add') {
+        $getTokenData = $this->is_authorized(array('superadmin', 'admin', 'user'));
+        $usersData = json_decode(json_encode($getTokenData), true);
+        $session_id = $usersData['data']['id'];
+
+        $_POST = json_decode($this->input->raw_input_stream, true);
+
+        $this->form_validation->set_rules('receiver', 'Receiver', 'trim|required|numeric');
+        $this->form_validation->set_rules('message', 'Message', 'trim|required');
+
+        if ($this->form_validation->run() === false) {
+            $array_error = array_map(function ($val) {
+                return str_replace(array("\r", "\n"), '', strip_tags($val));
+            }, array_filter(explode(".", trim(strip_tags(validation_errors())))));
+
+            $this->response([
+                'status' => FALSE,
+                'message' => 'Error in submit form',
+                'errors' => $array_error
+            ], REST_Controller::HTTP_BAD_REQUEST);
+        } else {
+            $data = [
+                'chat_id' => $this->input->post('chat_id', TRUE),
+                'sender' => $session_id,
+                'receiver' => $this->input->post('receiver', TRUE),
+                'datetime' => date('Y-m-d H:i:s'),
+                'message' => $this->input->post('message', TRUE),
+                'attachments' => $this->input->post('attachments', TRUE),
+                'status' => 'Unread'
+            ];
+
+            if ($res = $this->user_model->chat_create($data)) {
+                $final = [
+                    'status' => true,
+                    'data' => $this->user_model->chat_get($res),
+                    'message' => 'Chat message sent successfully.'
+                ];
+                $this->response($final, REST_Controller::HTTP_OK);
+            } else {
+                $this->response([
+                    'status' => FALSE,
+                    'message' => 'Error in submit form',
+                    'errors' => [$this->db->error()]
+                ], REST_Controller::HTTP_BAD_REQUEST);
+            }
+        }
+    }
+
+    if ($params == 'update') {
+        $getTokenData = $this->is_authorized(array('superadmin', 'admin', 'user'));
+        $usersData = json_decode(json_encode($getTokenData), true);
+        $session_id = $usersData['data']['id'];
+
+        $_POST = json_decode($this->input->raw_input_stream, true);
+
+        $this->form_validation->set_rules('id', 'Message ID', 'trim|required|numeric');
+        $this->form_validation->set_rules('status', 'Status', 'trim|required|in_list[Read,Unread]');
+
+        if ($this->form_validation->run() === false) {
+            $array_error = array_map(function ($val) {
+                return str_replace(array("\r", "\n"), '', strip_tags($val));
+            }, array_filter(explode(".", trim(strip_tags(validation_errors())))));
+
+            $this->response([
+                'status' => FALSE,
+                'message' => 'Error in submit form',
+                'errors' => $array_error
+            ], REST_Controller::HTTP_BAD_REQUEST);
+        } else {
+            $id = $this->input->post('id', TRUE);
+            $data = [
+                'status' => $this->input->post('status', TRUE),
+                // 'updated' => date('Y-m-d H:i:s'),
+                // 'updatedBy' => $session_id
+            ];
+
+            if ($this->user_model->chat_update($data, $id)) {
+                $final = [
+                    'status' => true,
+                    'data' => $this->user_model->chat_get($id),
+                    'message' => 'Chat message updated successfully.'
+                ];
+                $this->response($final, REST_Controller::HTTP_OK);
+            } else {
+                $this->response([
+                    'status' => FALSE,
+                    'message' => 'There was a problem updating the chat message. Please try again.',
+                    'errors' => [$this->db->error()]
+                ], REST_Controller::HTTP_BAD_REQUEST);
+            }
+        }
+    }
+}
+
+public function chat_delete($id) {
+     $this->is_authorized(array('superadmin', 'admin'));
+    $response = $this->user_model->chat_delete($id);
+
+    if ($response) {
+        $this->response(['status' => true, 'message' => 'Chat message deleted successfully.'], REST_Controller::HTTP_OK);
+    } else {
+        $this->response(['status' => false, 'message' => 'Chat message not deleted'], REST_Controller::HTTP_BAD_REQUEST);
+    }
+}
 
 
 }
