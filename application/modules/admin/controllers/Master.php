@@ -413,6 +413,9 @@ public function Monthly_fixed_cost(){
   $this->load->view('includes/footer');
   $this->load->view('includes/monthly_fixed_cost_js');
 }
+public function get_monthly_summury(){
+  echo"ssskssj";
+}
 public function pages_name(){
     
   is_login(array('superadmin','admin'));

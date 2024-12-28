@@ -72,7 +72,7 @@ opacity: 0px;
 
                     if (!empty($user_details) && isset($user_details['country_id'])) {
                         // Display country name with a clickable button
-                        echo '<p class="header1" style="display: flex; align-items: center;">' . $user_details['country_id'] . ' 
+                        echo '<p class="header1" style="display: flex; align-items: center;">' . $this->Common->get_col_by_key('countries','id',$user_details['country_id'],'name') . ' 
                             <a href="' . base_url() . 'admin/master/open_a_country" class=" btn-danger btn-sm ml-2" style="height: 5px; line-height: 0px;width:55px;padding-left: 0px;">' . $this->lang->line('switch') . '</a>
                         </p>';
                     } else {

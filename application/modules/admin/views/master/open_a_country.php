@@ -165,7 +165,7 @@ margin-right: 6px;
                 <option value=""><?php echo $this->lang->line('select_option'); ?></option>
                 <?php $countrys = $this->Internal_model->get_country();
                 foreach ($countrys as $country) { ?>
-                    <option value="<?php echo $country->name; ?>"><?php echo $country->name; ?></option>
+                    <option value="<?php echo $country->id; ?>"><?php echo $country->name; ?></option>
                 <?php } ?>
             </select>
         </div>

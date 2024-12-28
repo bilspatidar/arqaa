@@ -66,7 +66,7 @@ $lang['marketing'] ='Marketing';
 $lang['sales_this_week'] ='Sales this week';
 
 $lang['manage_your_staff'] = 'Manage Your Staff';
-$lang['Monthly_fixed_cost'] = 'Arqaa Cost Netherlands';
+$lang['Monthly_fixed_cost'] = 'Arqaa Cost';
 
 $lang['reported_users'] = 'Reported Users';
 $lang['elite_users'] = 'Elite Users';
