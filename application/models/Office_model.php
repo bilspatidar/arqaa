@@ -133,6 +133,7 @@ class Office_model extends CI_Model {
         if ($count === 'yes') {
             return $this->db->count_all_results();
         }
+        $this->db->order_by('id', 'DESC');
         $this->db->limit($limit, $offset);
         $query = $this->db->get();
         return $query->result_array();
@@ -151,6 +152,7 @@ class Office_model extends CI_Model {
         if ($count === 'yes') {
             return $this->db->count_all_results();
         }
+        $this->db->order_by('id', 'DESC');
         $this->db->limit($limit, $offset);
         $query = $this->db->get();
         return $query->result_array();
@@ -169,6 +171,7 @@ class Office_model extends CI_Model {
         if ($count === 'yes') {
             return $this->db->count_all_results();
         }
+        $this->db->order_by('id', 'DESC');
         $this->db->limit($limit, $offset);
         $query = $this->db->get();
         return $query->result_array();
@@ -187,6 +190,7 @@ class Office_model extends CI_Model {
         if ($count === 'yes') {
             return $this->db->count_all_results();
         }
+        $this->db->order_by('id', 'DESC');
         $this->db->limit($limit, $offset);
         $query = $this->db->get();
         return $query->result_array();
@@ -205,6 +209,7 @@ class Office_model extends CI_Model {
         if ($count === 'yes') {
             return $this->db->count_all_results();
         }
+        $this->db->order_by('id', 'DESC');
         $this->db->limit($limit, $offset);
         $query = $this->db->get();
         return $query->result_array();
@@ -223,6 +228,7 @@ class Office_model extends CI_Model {
         if ($count === 'yes') {
             return $this->db->count_all_results();
         }
+        $this->db->order_by('id', 'DESC');
         $this->db->limit($limit, $offset);
         $query = $this->db->get();
         return $query->result_array();
@@ -241,6 +247,7 @@ class Office_model extends CI_Model {
         if ($count === 'yes') {
             return $this->db->count_all_results();
         }
+        $this->db->order_by('id', 'DESC');
         $this->db->limit($limit, $offset);
         $query = $this->db->get();
         return $query->result_array();
@@ -259,6 +266,7 @@ class Office_model extends CI_Model {
         if ($count === 'yes') {
             return $this->db->count_all_results();
         }
+        $this->db->order_by('id', 'DESC');
         $this->db->limit($limit, $offset);
         $query = $this->db->get();
         return $query->result_array();
@@ -277,6 +285,7 @@ class Office_model extends CI_Model {
         if ($count === 'yes') {
             return $this->db->count_all_results();
         }
+        $this->db->order_by('id', 'DESC');
         $this->db->limit($limit, $offset);
         $query = $this->db->get();
         return $query->result_array();
@@ -295,6 +304,7 @@ class Office_model extends CI_Model {
         if ($count === 'yes') {
             return $this->db->count_all_results();
         }
+        $this->db->order_by('id', 'DESC');
         $this->db->limit($limit, $offset);
         $query = $this->db->get();
         return $query->result_array();
@@ -313,6 +323,7 @@ class Office_model extends CI_Model {
         if ($count === 'yes') {
             return $this->db->count_all_results();
         }
+        $this->db->order_by('id', 'DESC');
         $this->db->limit($limit, $offset);
         $query = $this->db->get();
         return $query->result_array();
@@ -331,6 +342,7 @@ class Office_model extends CI_Model {
         if ($count === 'yes') {
             return $this->db->count_all_results();
         }
+        $this->db->order_by('id', 'DESC');
         $this->db->limit($limit, $offset);
         $query = $this->db->get();
         return $query->result_array();

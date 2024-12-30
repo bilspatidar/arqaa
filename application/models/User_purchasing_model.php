@@ -98,6 +98,8 @@ class User_purchasing_model extends CI_Model {
                 $this->db->where($key, $value);
             }
         }
+
+        $this->db->order_by('id', 'DESC'); 
         // Apply limit and offset
         $this->db->limit($limit, $offset);
         
@@ -126,6 +128,8 @@ class User_purchasing_model extends CI_Model {
                 $this->db->where($key, $value);
             }
         }
+
+        $this->db->order_by('id', 'DESC'); 
         // Apply limit and offset
         $this->db->limit($limit, $offset);
         
@@ -155,6 +159,8 @@ class User_purchasing_model extends CI_Model {
                 $this->db->where($key, $value);
             }
         }
+
+        $this->db->order_by('id', 'DESC'); 
         // Apply limit and offset
         $this->db->limit($limit, $offset);
         
@@ -188,7 +194,7 @@ class User_purchasing_model extends CI_Model {
                 }
             }
         }
-    
+        $this->db->order_by('id', 'DESC');
         // Return row count if $count is 'yes'
         if ($count == 'yes') {
             return $this->db->count_all_results();
@@ -225,6 +231,7 @@ class User_purchasing_model extends CI_Model {
                 $this->db->where($key, $value);
             }
         }
+        $this->db->order_by('id', 'DESC');
         // Apply limit and offset
         $this->db->limit($limit, $offset);
         
@@ -268,7 +275,7 @@ class User_purchasing_model extends CI_Model {
                 $this->db->where($key, $value);
             }
         }
-        
+        $this->db->order_by('review_rating.id', 'DESC'); 
         // Apply limit and offset for pagination
         $this->db->limit($limit, $offset);
     
