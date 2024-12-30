@@ -1627,4 +1627,430 @@ public function pf_code_delete($id) {
     }
 }
 
+// List Head Office Records
+public function head_office_list_post() {
+    $input_data = file_get_contents('php://input');
+    $request_data = json_decode($input_data, true);
+
+    $id = $this->input->get('id') ? $this->input->get('id') : 0;
+    $page = isset($request_data['page']) ? $request_data['page'] : 1;
+    $limit = isset($request_data['limit']) ? $request_data['limit'] : 10;
+    $filterData = isset($request_data['filterData']) ? $request_data['filterData'] : [];
+
+    $getTokenData = $this->is_authorized(['superadmin', 'admin']);
+    $offset = ($page - 1) * $limit;
+
+    $totalRecords = $this->office_model->head_office_get('yes', $id, $limit, $offset, $filterData);
+    $data = $this->office_model->head_office_get('no', $id, $limit, $offset, $filterData);
+
+    $totalPages = ceil($totalRecords / $limit);
+
+    $response = [
+        'status' => true,
+        'data' => $data,
+        'pagination' => [
+            'page' => $page,
+            'totalPages' => $totalPages,
+            'totalRecords' => $totalRecords
+        ],
+        'message' => 'Head Office records fetched successfully.'
+    ];
+    $this->response($response, REST_Controller::HTTP_OK);
+}
+
+// Add or Update Head Office Records
+public function head_office_post($params = '') {
+    if ($params == 'add') {
+        $getTokenData = $this->is_authorized(['superadmin', 'admin']);
+        $usersData = json_decode(json_encode($getTokenData), true);
+        $session_id = $usersData['data']['id'];
+
+        $_POST = json_decode($this->input->raw_input_stream, true);
+
+        $this->form_validation->set_rules('country_id', 'Country ID', 'trim|required');
+        $this->form_validation->set_rules('state_id', 'State ID', 'trim|required');
+        $this->form_validation->set_rules('city_id', 'City ID', 'trim|required');
+        $this->form_validation->set_rules('office_name', 'Office Name', 'trim|required');
+
+        if ($this->form_validation->run() === false) {
+            $array_error = array_map(function ($val) {
+                return str_replace(["\r", "\n"], '', strip_tags($val));
+            }, array_filter(explode(".", trim(strip_tags(validation_errors())))));
+
+            $this->response([
+                'status' => FALSE,
+                'message' => 'Error in submit form',
+                'errors' => $array_error
+            ], REST_Controller::HTTP_BAD_REQUEST, '', 'error');
+            return;
+        }
+
+        $data = [
+            'country_id' => $this->input->post('country_id', TRUE),
+            'state_id' => $this->input->post('state_id', TRUE),
+            'city_id' => $this->input->post('city_id', TRUE),
+            'city_name' => $this->input->post('city_name', TRUE),
+            'office_name' => $this->input->post('office_name', TRUE),
+            'invoice_prefix' => $this->input->post('invoice_prefix', TRUE),
+            'address' => $this->input->post('address', TRUE),
+            'area' => $this->input->post('area', TRUE),
+            'owned_status' => $this->input->post('owned_status', TRUE),
+            'contact_person_one' => $this->input->post('contact_person_one', TRUE),
+            'contact_person_one_mobile' => $this->input->post('contact_person_one_mobile', TRUE),
+            'contact_person_one_email' => $this->input->post('contact_person_one_email', TRUE),
+            'contact_person_one_designation' => $this->input->post('contact_person_one_designation', TRUE),
+            'contact_person_two' => $this->input->post('contact_person_two', TRUE),
+            'contact_person_two_mobile' => $this->input->post('contact_person_two_mobile', TRUE),
+            'contact_person_two_designation' => $this->input->post('contact_person_two_designation', TRUE),
+            'rent_agreement_from' => $this->input->post('rent_agreement_from', TRUE),
+            'rent_agreement_to' => $this->input->post('rent_agreement_to', TRUE),
+            'sho_est_no' => $this->input->post('sho_est_no', TRUE),
+            'esi_no' => $this->input->post('esi_no', TRUE),
+            'gst_no' => $this->input->post('gst_no', TRUE),
+            'lwf_no' => $this->input->post('lwf_no', TRUE),
+            'added' => date('Y-m-d H:i:s'),
+            'addedBy' => $session_id
+        ];
+
+        if (!empty($_POST['document'])) {
+            try {
+                $base64_file = $_POST['document'];
+                $uploadFolder = 'head_office_documents';
+                $data['document'] = $this->upload_media->upload_and_save($base64_file, 100, [], $uploadFolder);
+            } catch (Exception $e) {
+                $this->response([
+                    'status' => FALSE,
+                    'message' => 'Document upload failed',
+                    'errors' => [$e->getMessage()]
+                ], REST_Controller::HTTP_INTERNAL_SERVER_ERROR, '', 'error');
+                return;
+            }
+        }
+
+        if ($res = $this->office_model->head_office_create($data)) {
+            $final = [
+                'status' => true,
+                'data' => $this->office_model->head_office_get($res),
+                'message' => 'Head Office record created successfully.'
+            ];
+            $this->response($final, REST_Controller::HTTP_OK);
+        } else {
+            $this->response([
+                'status' => FALSE,
+                'message' => 'Failed to create Head Office record',
+                'errors' => [$this->db->error()]
+            ], REST_Controller::HTTP_BAD_REQUEST, '', 'error');
+        }
+    }
+
+
+    if ($params == 'update') {
+            $getTokenData = $this->is_authorized(['superadmin', 'admin']);
+            $usersData = json_decode(json_encode($getTokenData), true);
+            $session_id = $usersData['data']['id'];
+    
+            $_POST = json_decode($this->input->raw_input_stream, true);
+    
+            $this->form_validation->set_rules('id', 'ID', 'trim|required|numeric');
+            $this->form_validation->set_rules('country_id', 'Country ID', 'trim|required');
+            $this->form_validation->set_rules('state_id', 'State ID', 'trim|required');
+            $this->form_validation->set_rules('city_id', 'City ID', 'trim|required');
+            $this->form_validation->set_rules('city_name', 'City Name', 'trim|required');
+            $this->form_validation->set_rules('office_name', 'Office Name', 'trim|required');
+    
+            if ($this->form_validation->run() === false) {
+                $array_error = array_map(function ($val) {
+                    return str_replace(["\r", "\n"], '', strip_tags($val));
+                }, array_filter(explode(".", trim(strip_tags(validation_errors())))));
+    
+                $this->response([
+                    'status' => FALSE,
+                    'message' => 'Error in submit form',
+                    'errors' => $array_error
+                ], REST_Controller::HTTP_BAD_REQUEST, '', 'error');
+            } else {
+                $id = $this->input->post('id', TRUE);
+                $data = [
+                    'country_id' => $this->input->post('country_id', TRUE),
+                    'state_id' => $this->input->post('state_id', TRUE),
+                    'city_id' => $this->input->post('city_id', TRUE),
+                    'city_name' => $this->input->post('city_name', TRUE),
+                    'office_name' => $this->input->post('office_name', TRUE),
+                    'invoice_prefix' => $this->input->post('invoice_prefix', TRUE),
+                    'address' => $this->input->post('address', TRUE),
+                    'area' => $this->input->post('area', TRUE),
+                    'owned_status' => $this->input->post('owned_status', TRUE),
+                    'contact_person_one' => $this->input->post('contact_person_one', TRUE),
+                    'contact_person_one_mobile' => $this->input->post('contact_person_one_mobile', TRUE),
+                    'contact_person_one_email' => $this->input->post('contact_person_one_email', TRUE),
+                    'contact_person_one_designation' => $this->input->post('contact_person_one_designation', TRUE),
+                    'contact_person_two' => $this->input->post('contact_person_two', TRUE),
+                    'contact_person_two_mobile' => $this->input->post('contact_person_two_mobile', TRUE),
+                    'contact_person_email' => $this->input->post('contact_person_email', TRUE),
+                    'contact_person_two_designation' => $this->input->post('contact_person_two_designation', TRUE),
+                    'rent_agreement_from' => $this->input->post('rent_agreement_from', TRUE),
+                    'rent_agreement_to' => $this->input->post('rent_agreement_to', TRUE),
+                    'sho_est_no' => $this->input->post('sho_est_no', TRUE),
+                    'esi_no' => $this->input->post('esi_no', TRUE),
+                    'gst_no' => $this->input->post('gst_no', TRUE),
+                    'lwf_no' => $this->input->post('lwf_no', TRUE),
+                    'updated' => date('Y-m-d H:i:s'),
+                    'updatedBy' => $session_id
+                ];
+    
+                if (!empty($_POST['document'])) {
+                    try {
+                        $base64_file = $_POST['document'];
+                        $uploadFolder = 'head_office_documents';
+                        $data['document'] = $this->upload_media->upload_and_save($base64_file, 100, [], $uploadFolder);
+                    } catch (Exception $e) {
+                        $this->response([
+                            'status' => FALSE,
+                            'message' => 'Document upload failed',
+                            'errors' => [$e->getMessage()]
+                        ], REST_Controller::HTTP_INTERNAL_SERVER_ERROR, '', 'error');
+                        return;
+                    }
+                }
+    
+                if ($this->office_model->head_office_update($data, $id)) {
+                    $final = [
+                        'status' => true,
+                        'data' => $this->office_model->head_office_get($id),
+                        'message' => 'Head Office record updated successfully.'
+                    ];
+                    $this->response($final, REST_Controller::HTTP_OK);
+                } else {
+                    $this->response([
+                        'status' => FALSE,
+                        'message' => 'There was a problem updating the Head Office record. Please try again.',
+                        'errors' => [$this->db->error()]
+                    ], REST_Controller::HTTP_BAD_REQUEST, '', 'error');
+                }
+            }
+    }
+    
+    
+}
+
+// Delete Head Office Record
+public function head_office_delete($id) {
+    $this->is_authorized(['superadmin', 'admin']);
+    $response = $this->office_model->head_office_delete($id);
+
+    if ($response) {
+        $this->response(['status' => true, 'message' => 'Head Office record deleted successfully.'], REST_Controller::HTTP_OK);
+    } else {
+        $this->response(['status' => false, 'message' => 'Head Office record not deleted'], REST_Controller::HTTP_BAD_REQUEST);
+    }
+}
+
+// Branch Office List Function
+public function branch_office_list_post() {
+    $input_data = file_get_contents('php://input');
+    $request_data = json_decode($input_data, true);
+
+    $id = $this->input->get('id') ? $this->input->get('id') : 0;
+    $page = isset($request_data['page']) ? $request_data['page'] : 1;
+    $limit = isset($request_data['limit']) ? $request_data['limit'] : 10;
+    $filterData = isset($request_data['filterData']) ? $request_data['filterData'] : [];
+
+    $getTokenData = $this->is_authorized(['superadmin', 'admin']);
+    $offset = ($page - 1) * $limit;
+
+    $totalRecords = $this->office_model->branch_office_get('yes', $id, $limit, $offset, $filterData);
+    $data = $this->office_model->branch_office_get('no', $id, $limit, $offset, $filterData);
+
+    $totalPages = ceil($totalRecords / $limit);
+
+    $response = [
+        'status' => true,
+        'data' => $data,
+        'pagination' => [
+            'page' => $page,
+            'totalPages' => $totalPages,
+            'totalRecords' => $totalRecords
+        ],
+        'message' => 'Branch Office records fetched successfully.'
+    ];
+    $this->response($response, REST_Controller::HTTP_OK);
+}
+
+// Create or Update Branch Office Records
+public function branch_office_post($params = '') {
+    if ($params == 'add') {
+        $getTokenData = $this->is_authorized(['superadmin', 'admin']);
+        $usersData = json_decode(json_encode($getTokenData), true);
+        $session_id = $usersData['data']['id'];
+
+        $_POST = json_decode($this->input->raw_input_stream, true);
+
+        $this->form_validation->set_rules('head_office_id', 'Head Office ID', 'trim|required');
+        $this->form_validation->set_rules('country_id', 'Country ID', 'trim|required');
+        $this->form_validation->set_rules('state_id', 'State ID', 'trim|required');
+        $this->form_validation->set_rules('city_id', 'City ID', 'trim|required');
+        $this->form_validation->set_rules('office_name', 'Office Name', 'trim|required');
+
+        if ($this->form_validation->run() === false) {
+            $array_error = array_map(function ($val) {
+                return str_replace(["\r", "\n"], '', strip_tags($val));
+            }, array_filter(explode(".", trim(strip_tags(validation_errors())))));
+
+            $this->response([
+                'status' => FALSE,
+                'message' => 'Error in submit form',
+                'errors' => $array_error
+            ], REST_Controller::HTTP_BAD_REQUEST, '', 'error');
+            return;
+        }
+
+        $data = [
+            'head_office_id' => $this->input->post('head_office_id', TRUE),
+            'country_id' => $this->input->post('country_id', TRUE),
+            'state_id' => $this->input->post('state_id', TRUE),
+            'city_id' => $this->input->post('city_id', TRUE),
+            'city_name' => $this->input->post('city_name', TRUE),
+            'office_name' => $this->input->post('office_name', TRUE),
+            'invoice_prefix' => $this->input->post('invoice_prefix', TRUE),
+            'address' => $this->input->post('address', TRUE),
+            'area' => $this->input->post('area', TRUE),
+            'owned_status' => $this->input->post('owned_status', TRUE),
+            'contact_person_one' => $this->input->post('contact_person_one', TRUE),
+            'contact_person_one_mobile' => $this->input->post('contact_person_one_mobile', TRUE),
+            'contact_person_one_email' => $this->input->post('contact_person_one_email', TRUE),
+            'contact_person_one_designation' => $this->input->post('contact_person_one_designation', TRUE),
+            'contact_person_two' => $this->input->post('contact_person_two', TRUE),
+            'contact_person_two_mobile' => $this->input->post('contact_person_two_mobile', TRUE),
+            'contact_person_email' => $this->input->post('contact_person_email', TRUE),
+            'contact_person_two_designation' => $this->input->post('contact_person_two_designation', TRUE),
+            'rent_agreement_from' => $this->input->post('rent_agreement_from', TRUE),
+            'rent_agreement_to' => $this->input->post('rent_agreement_to', TRUE),
+            'sho_est_no' => $this->input->post('sho_est_no', TRUE),
+            'esi_no' => $this->input->post('esi_no', TRUE),
+            'gst_no' => $this->input->post('gst_no', TRUE),
+            'lwf_no' => $this->input->post('lwf_no', TRUE),
+            'added' => date('Y-m-d H:i:s'),
+            'addedBy' => $session_id
+        ];
+
+        if (!empty($_POST['document'])) {
+            try {
+                $base64_file = $_POST['document'];
+                $uploadFolder = 'branch_office_documents';
+                $data['document'] = $this->upload_media->upload_and_save($base64_file, 100, [], $uploadFolder);
+            } catch (Exception $e) {
+                $this->response([
+                    'status' => FALSE,
+                    'message' => 'Document upload failed',
+                    'errors' => [$e->getMessage()]
+                ], REST_Controller::HTTP_INTERNAL_SERVER_ERROR, '', 'error');
+                return;
+            }
+        }
+
+        if ($res = $this->office_model->branch_office_create($data)) {
+            $final = [
+                'status' => true,
+                'data' => $this->office_model->branch_office_get($res),
+                'message' => 'Branch Office record created successfully.'
+            ];
+            $this->response($final, REST_Controller::HTTP_OK);
+        } else {
+            $this->response([
+                'status' => FALSE,
+                'message' => 'Failed to create Branch Office record',
+                'errors' => [$this->db->error()]
+            ], REST_Controller::HTTP_BAD_REQUEST, '', 'error');
+        }
+    }
+
+    if ($params == 'update') {
+        $getTokenData = $this->is_authorized(['superadmin', 'admin']);
+        $usersData = json_decode(json_encode($getTokenData), true);
+        $session_id = $usersData['data']['id'];
+
+        $_POST = json_decode($this->input->raw_input_stream, true);
+
+        $this->form_validation->set_rules('id', 'ID', 'trim|required|numeric');
+        $this->form_validation->set_rules('state_id', 'State ID', 'trim|required');
+        $this->form_validation->set_rules('office_name', 'Office Name', 'trim|required');
+
+        if ($this->form_validation->run() === false) {
+            $array_error = array_map(function ($val) {
+                return str_replace(["\r", "\n"], '', strip_tags($val));
+            }, array_filter(explode(".", trim(strip_tags(validation_errors())))));
+
+            $this->response([
+                'status' => FALSE,
+                'message' => 'Error in submit form',
+                'errors' => $array_error
+            ], REST_Controller::HTTP_BAD_REQUEST, '', 'error');
+        } else {
+            $id = $this->input->post('id', TRUE);
+            $data = [
+                'head_office_id' => $this->input->post('head_office_id', TRUE),
+                'country_id' => $this->input->post('country_id', TRUE),
+                'state_id' => $this->input->post('state_id', TRUE),
+                'city_id' => $this->input->post('city_id', TRUE),
+                'city_name' => $this->input->post('city_name', TRUE),
+                'office_name' => $this->input->post('office_name', TRUE),
+                'invoice_prefix' => $this->input->post('invoice_prefix', TRUE),
+                'address' => $this->input->post('address', TRUE),
+                'area' => $this->input->post('area', TRUE),
+                'owned_status' => $this->input->post('owned_status', TRUE),
+                'contact_person_one' => $this->input->post('contact_person_one', TRUE),
+                'contact_person_one_mobile' => $this->input->post('contact_person_one_mobile', TRUE),
+                'contact_person_one_email' => $this->input->post('contact_person_one_email', TRUE),
+                'contact_person_one_designation' => $this->input->post('contact_person_one_designation', TRUE),
+                'contact_person_two' => $this->input->post('contact_person_two', TRUE),
+                'contact_person_two_mobile' => $this->input->post('contact_person_two_mobile', TRUE),
+                'contact_person_email' => $this->input->post('contact_person_email', TRUE),
+                'contact_person_two_designation' => $this->input->post('contact_person_two_designation', TRUE),
+                'rent_agreement_from' => $this->input->post('rent_agreement_from', TRUE),
+                'rent_agreement_to' => $this->input->post('rent_agreement_to', TRUE),
+                'sho_est_no' => $this->input->post('sho_est_no', TRUE),
+                'esi_no' => $this->input->post('esi_no', TRUE),
+                'gst_no' => $this->input->post('gst_no', TRUE),
+                'lwf_no' => $this->input->post('lwf_no', TRUE),
+                'updated' => date('Y-m-d H:i:s'),
+                'updatedBy' => $session_id
+            ];
+
+            if (!empty($_POST['document'])) {
+                $base64_file = $_POST['document'];
+                $uploadFolder = 'branch_office_documents';
+                $data['document'] = $this->upload_media->upload_and_save($base64_file, 100, [], $uploadFolder);
+            }
+
+            if ($this->office_model->branch_office_update($data, $id)) {
+                $final = [
+                    'status' => true,
+                    'data' => $this->office_model->branch_office_get($id),
+                    'message' => 'Branch Office record updated successfully.'
+                ];
+                $this->response($final, REST_Controller::HTTP_OK);
+            } else {
+                $this->response([
+                    'status' => FALSE,
+                    'message' => 'There was a problem updating the Branch Office record. Please try again.',
+                    'errors' => [$this->db->error()]
+                ], REST_Controller::HTTP_BAD_REQUEST, '', 'error');
+            }
+        }
+    }
+}
+
+// Delete Branch Office Record
+public function branch_office_delete($id) {
+    $this->is_authorized(['superadmin', 'admin']);
+    $response = $this->office_model->branch_office_delete($id);
+
+    if ($response) {
+        $this->response(['status' => true, 'message' => 'Branch Office record deleted successfully.'], REST_Controller::HTTP_OK);
+    } else {
+        $this->response(['status' => false, 'message' => 'Branch Office record not deleted'], REST_Controller::HTTP_BAD_REQUEST);
+    }
+}
+
+
 }
