@@ -35,6 +35,8 @@ class Service_booking_model extends CI_Model {
                     $this->db->where('service_date', $filterData['service_date']);
                 }
             }
+
+            $this->db->order_by('id', 'DESC');
             $this->db->limit($limit, $offset);
             $query = $this->db->get();
             return $query->result_array();

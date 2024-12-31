@@ -63,7 +63,7 @@ class Category_model extends CI_Model {
             $this->db->where('CAST(added AS DATE) <=', $to_date);
         }
 
-        $this->db->order_by($this->primaryKey, 'desc');
+        $this->db->order_by('name', 'ASC');
 
         if($isCount == 'yes') {
             $all_res = $this->db->get();
