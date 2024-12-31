@@ -6,16 +6,45 @@ class Admin extends CI_Controller {
         parent::__construct(); 
        $this->lang->load('information','english');
     }
+    
+  
+    public function swicth_to_country(){
+           $country = $this->input->get('country_id');
+
+            if (!empty($country)) {
+                // Get existing user details from session
+                $user_details = $this->session->userdata('user_details');
+            
+                // If user details are empty, initialize as an empty array
+                if (empty($user_details)) {
+                    $user_details = [];
+                }
+            
+                // Add the country_id to user details
+                $user_details['country_id'] = $country;
+            
+                // Update the session with the new user details
+                $this->session->set_userdata('user_details', $user_details);
+            } else {
+                // Get existing user details from session
+                $user_details = $this->session->userdata('user_details');
+            
+                // If user details are not empty, remove 'country_id' from session
+                if (!empty($user_details) && isset($user_details['country_id'])) {
+                    unset($user_details['country_id']); // Remove country_id
+            
+                    // Update the session after removing country_id
+                    $this->session->set_userdata('user_details', $user_details);
+                }
+            }
+            
+            redirect(base_url().'admin/index','refresh');
+    }
 
     public function login(){
      
       $this->load->view('login');
-      // exit();
-      // if ($this->session->userdata('user_detais')) { 
-      //   redirect(base_url().'admin/index','refresh');
-      // } else {
-		  // $this->load->view('login');
-      // }
+     
     }
 	
 	 public function logout() {
@@ -31,7 +60,16 @@ class Admin extends CI_Controller {
       }
       
     }
-
+    public function forgot_password(){
+     
+      $this->load->view('forgot_password');
+   
+    }
+    public function otp_send(){
+     
+      $this->load->view('otp_send');
+   
+    }
 
     public function change_password(){
       is_login(array('superadmin','admin','agent','employee','manager'));

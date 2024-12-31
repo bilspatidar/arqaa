@@ -1,3 +1,4 @@
+
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
@@ -188,27 +189,140 @@ class Services_model extends CI_Model {
     }
     
 
-    public function get_all_services($count, $id = 0, $limit = 10, $offset = 0, $filterData = []) {
-        $this->db->select('*');
-        $this->db->from('services'); // Ensure the table name is correct
-    
+    public function get_all_services00($count, $id = 0, $limit = 10, $offset = 0, $filterData = []) {
+         $this->db->select("
+        {$this->table}.*, 
+        users.name as added_by_name, 
+        users.profile_pic as added_by_image, 
+        category.name as category_name, 
+        sub_category.name as subcategory_name
+      ");
+
+        $this->db->from($this->table);
+
+        // Join with users table on the addedBy field
+        $this->db->join('users', "{$this->table}.addedBy = users.id", 'left');
+
+       // Join with category table on category_id field
+       $this->db->join('category', "{$this->table}.category_id = category.id", 'left');
+
+       // Join with sub_category table on subcategory_id field
+        $this->db->join('sub_category', "{$this->table}.subcategory_id = sub_category.id", 'left');
+
+          // Add any necessary WHERE conditions or ORDER BY clauses
         if ($id > 0) {
-            $this->db->where('id', $id);
+          $this->db->where("{$this->table}.id", $id);
         }
-    
-        if (!empty($filterData)) {
-            foreach ($filterData as $key => $value) {
-                $this->db->where($key, $value); // Ensure filter data keys match the database column names
-            }
+       
+
+        // Filter by title
+        if (isset($filterData['name']) && !empty($filterData['name'])) {
+            $this->db->where('title', $filterData['name']);
         }
-    
-        if ($count === 'yes') {
-            return $this->db->count_all_results(); // Return total count
+
+        if (isset($filterData['user_id']) && !empty($filterData['user_id'])) {
+            $this->db->where("{$this->table}.addedBy", $filterData['user_id']);
+        }
+
+        // Filter by status
+        if (isset($filterData['status']) && !empty($filterData['status'])) {
+            $this->db->where('status', $filterData['status']);
+        }
+
+        // Filter by category_id
+        if (isset($filterData['category_id']) && !empty($filterData['category_id'])) {
+            $this->db->where("{$this->table}.category_id", $filterData['category_id']);
+        }
+
+        // Filter by sub_category_id
+        if (isset($filterData['sub_category_id']) && !empty($filterData['sub_category_id'])) {
+            $this->db->where("{$this->table}.sub_category_id", $filterData['sub_category_id']);
+        }
+
+        // Order by primary key in descending order
+        $this->db->order_by($this->primaryKey, 'desc');
+
+        // Return count of records if requested
+        if ($count == 'yes') {
+            return $this->db->count_all_results();
         } else {
-            $this->db->limit($limit, $offset);
-            $query = $this->db->get();
-            return $query->result_array(); // Return data as an array
+            // Apply pagination
+            $this->db->limit($limit, $page);
+            return $this->db->get()->result();
         }
     }
+
+    public function get_all_services($count, $id = 0, $limit = 10, $offset = 0, $filterData = []) {
+    $this->db->select("
+        {$this->table}.*, 
+        users.name as added_by_name, 
+        users.profile_pic as added_by_image, 
+        category.name as category_name, 
+        sub_category.name as subcategory_name,
+        COALESCE(AVG(review_rating.service_rating), 0) as average_rating,
+        COUNT(review_rating.id) as review_count
+    ");
+
+    $this->db->from($this->table);
+
+    // Join with users table on the addedBy field
+    $this->db->join('users', "{$this->table}.addedBy = users.id", 'left');
+
+    // Join with category table on category_id field
+    $this->db->join('category', "{$this->table}.category_id = category.id", 'left');
+
+    // Join with sub_category table on subcategory_id field
+    $this->db->join('sub_category', "{$this->table}.subcategory_id = sub_category.id", 'left');
+
+    // Join with review_rating table to get ratings
+    $this->db->join('review_rating', "{$this->table}.id = review_rating.service_id", 'left');
+
+    // Add any necessary WHERE conditions or ORDER BY clauses
+    if ($id > 0) {
+        $this->db->where("{$this->table}.id", $id);
+    }
+
+    // Filter by title
+    if (isset($filterData['name']) && !empty($filterData['name'])) {
+        $this->db->where('title', $filterData['name']);
+    }
+
+    if (isset($filterData['user_id']) && !empty($filterData['user_id'])) {
+        $this->db->where("{$this->table}.addedBy", $filterData['user_id']);
+    }
+
+    // Filter by status
+    if (isset($filterData['status']) && !empty($filterData['status'])) {
+        $this->db->where('status', $filterData['status']);
+    }
+
+    // Filter by category_id
+    if (isset($filterData['category_id']) && !empty($filterData['category_id'])) {
+        $this->db->where("{$this->table}.category_id", $filterData['category_id']);
+    }
+
+    // Filter by sub_category_id
+    if (isset($filterData['sub_category_id']) && !empty($filterData['sub_category_id'])) {
+        $this->db->where("{$this->table}.sub_category_id", $filterData['sub_category_id']);
+    }
+
+    // Group by service ID to ensure each service has a unique row
+    $this->db->group_by("{$this->table}.id");
+
+    // Order by primary key in descending order
+    $this->db->order_by($this->primaryKey, 'desc');
+
+    // Return count of records if requested
+    if ($count == 'yes') {
+        return $this->db->count_all_results();
+    } else {
+        // Apply pagination
+        $this->db->limit($limit, $offset);
+        return $this->db->get()->result();
+    }
 }
+
+
+}
+
 

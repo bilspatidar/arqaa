@@ -12,6 +12,15 @@ class Master extends CI_Controller {
     }
 
 
+
+public function country_tax_settings(){
+    
+      is_login(array('superadmin','admin'));
+      $header_data['page_title'] = $this->lang->line('country_tax_settings');
+      $this->load->view('includes/header',$header_data);
+      $this->load->view('master/country_tax_settings');
+      $this->load->view('includes/footer');
+}
 public function categories(){
     
       is_login(array('superadmin','admin'));
@@ -400,7 +409,19 @@ public function Monthly_fixed_cost(){
   is_login(array('superadmin','admin'));
   $header_data['page_title'] = $this->lang->line('Monthly_fixed_cost');
   $this->load->view('includes/header',$header_data);
-  $this->load->view('master/Monthly_fixed_cost');
+  $this->load->view('master/monthly_fixed_cost');
+  $this->load->view('includes/footer');
+  $this->load->view('includes/monthly_fixed_cost_js');
+}
+public function get_monthly_summury(){
+  echo"ssskssj";
+}
+public function pages_name(){
+    
+  is_login(array('superadmin','admin'));
+  $header_data['page_title'] = $this->lang->line('pages_name');
+  $this->load->view('includes/header',$header_data);
+  $this->load->view('master/pages_name');
   $this->load->view('includes/footer');
 }
 } 

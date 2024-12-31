@@ -17,8 +17,8 @@ class Internal_model extends CI_Model {
         $this->load->database();        
     }
 
-
-
+   
+   
     public function get_document_category() {
         $this->db->select("*");
         $this->db->from($this->table); 

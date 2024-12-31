@@ -21,6 +21,9 @@ class Common_controller extends CI_Controller {
      	   header('Access-Control-Allow-Origin: *');
 	}
 	
+	function ccc(){
+	    echo $this->Common->get_user_currency(70006);
+	}
 	
     public function edit_form(){
         is_login();
