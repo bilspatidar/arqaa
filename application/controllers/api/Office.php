@@ -431,7 +431,7 @@ class Office extends REST_Controller {
 
     public function financial_year_delete($id) {
         $this->is_authorized(array('superadmin', 'admin'));
-        $response = $this->office_model->designation_delete($id);
+        $response = $this->office_model->financial_delete($id);
 
         if ($response) {
             $this->response(['status' => true, 'message' => 'Financial_year deleted successfully.'], REST_Controller::HTTP_OK);
