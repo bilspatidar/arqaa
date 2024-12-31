@@ -15,37 +15,49 @@ class Pages extends REST_Controller {
         $this->load->model('pages_model');
 		$this->load->helper("security");
     }
-
     public function pages_list_post() {
         $input_data = file_get_contents('php://input');
         $request_data = json_decode($input_data, true);
     
-        $id = $this->input->get('id') ? $this->input->get('id') : 0;
-
-        $page = isset($request_data['page']) ? $request_data['page'] : 1; // Default to page 1 if not provided
-        $limit = isset($request_data['limit']) ? $request_data['limit'] : 10; // Default limit to 10 if not provided
+        $id = $this->input->get('id') ?: 0;
+        $pageNumber = isset($request_data['page']) ? $request_data['page'] : 1;
+        $limit = isset($request_data['limit']) ? $request_data['limit'] : 10;
         $filterData = isset($request_data['filterData']) ? $request_data['filterData'] : [];
     
-        $getTokenData = $this->is_authorized(array('superadmin','admin','company','freelancer'));
-        $offset = ($page - 1) * $limit;
+        // Authorization
+        $getTokenData = $this->is_authorized(['superadmin', 'admin', 'company', 'freelancer']);
     
-        $totalRecords =  $this->pages_model->get('yes', $id, $limit, $offset, $filterData);
-        $data =  $this->pages_model->get('no', $id, $limit, $offset, $filterData);
-    
+        $offset = ($pageNumber - 1) * $limit;
+        $totalRecords = $this->pages_model->get('yes', $id, $limit, $offset, $filterData);
+        $data = $this->pages_model->get('no', $id, $limit, $offset, $filterData);
         $totalPages = ceil($totalRecords / $limit);
+    
+        // Ensure $data is iterable
+        if (!empty($data)) {
+            foreach ($data as &$pageItem) {
+                if (is_object($pageItem) && isset($pageItem->description)) {
+                    $pageItem->description = strip_tags($pageItem->description);
+                } elseif (is_array($pageItem) && isset($pageItem['description'])) {
+                    $pageItem['description'] = strip_tags($pageItem['description']);
+                }
+            }
+            unset($pageItem);
+        }
     
         $response = [
             'status' => true,
             'data' => $data,
             'pagination' => [
-                'page' => $page,
+                'page' => $pageNumber,
                 'totalPages' => $totalPages,
                 'totalRecords' => $totalRecords
             ],
             'message' => 'Pages list fetched successfully.'
         ];
-        $this->response($response, REST_Controller::HTTP_OK); 
+        $this->response($response, REST_Controller::HTTP_OK);
     }
+    
+    
 
     public function pages_details_get(){
         $id = $this->input->get('id') ? $this->input->get('id') : 0;

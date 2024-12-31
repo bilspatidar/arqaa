@@ -29,13 +29,29 @@ class Regular_user_monthly_subscription extends REST_Controller {
         $limit = isset($request_data['limit']) ? $request_data['limit'] : 10; // Default limit to 10 if not provided
         $filterData = isset($request_data['filterData']) ? $request_data['filterData'] : [];
     
-        $getTokenData = $this->is_authorized(array('superadmin','admin','company','freelancer'));
+        $getTokenData = $this->is_authorized(array('superadmin', 'admin', 'company', 'freelancer'));
         $offset = ($page - 1) * $limit;
     
-        $totalRecords =  $this->regular_user_monthly_subscription_model->get('yes', $id, $limit, $offset, $filterData);
-        $data =  $this->regular_user_monthly_subscription_model->get('no', $id, $limit, $offset, $filterData);
+        $totalRecords = $this->regular_user_monthly_subscription_model->get('yes', $id, $limit, $offset, $filterData);
+        $data = $this->regular_user_monthly_subscription_model->get('no', $id, $limit, $offset, $filterData);
     
         $totalPages = ceil($totalRecords / $limit);
+    
+        // Remove tags from the "concept" field
+        if (!empty($data)) {
+            foreach ($data as &$item) {
+                if (is_object($item)) {
+                    if (isset($item->concept)) {
+                        $item->concept = strip_tags($item->concept);
+                    }
+                } elseif (is_array($item)) {
+                    if (isset($item['concept'])) {
+                        $item['concept'] = strip_tags($item['concept']);
+                    }
+                }
+            }
+            unset($item); // Unset reference to avoid side effects
+        }
     
         $response = [
             'status' => true,
@@ -47,8 +63,9 @@ class Regular_user_monthly_subscription extends REST_Controller {
             ],
             'message' => 'Suscripción Mensual Usuarios Regular fetched successfully.'
         ];
-        $this->response($response, REST_Controller::HTTP_OK); 
+        $this->response($response, REST_Controller::HTTP_OK);
     }
+    
     
     // public function regular_user_monthly_subscription_details_get(){
     //     $id = $this->input->get('id') ? $this->input->get('id') : 0;
