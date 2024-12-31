@@ -94,6 +94,22 @@ class Office_model extends CI_Model {
         return false;
     }
 
+    public function head_office_create($data) {
+        $this->db->insert('head_office', $data);
+        if ($this->db->affected_rows() > 0) {
+            return $this->db->insert_id();
+        }
+        return false;
+    }
+
+    public function branch_office_create($data) {
+        $this->db->insert('branch_office', $data);
+        if ($this->db->affected_rows() > 0) {
+            return $this->db->insert_id();
+        }
+        return false;
+    }
+
     /**
      * Get department(s) by ID or with filters
      *
@@ -117,6 +133,7 @@ class Office_model extends CI_Model {
         if ($count === 'yes') {
             return $this->db->count_all_results();
         }
+        $this->db->order_by('id', 'DESC');
         $this->db->limit($limit, $offset);
         $query = $this->db->get();
         return $query->result_array();
@@ -135,6 +152,7 @@ class Office_model extends CI_Model {
         if ($count === 'yes') {
             return $this->db->count_all_results();
         }
+        $this->db->order_by('id', 'DESC');
         $this->db->limit($limit, $offset);
         $query = $this->db->get();
         return $query->result_array();
@@ -153,6 +171,7 @@ class Office_model extends CI_Model {
         if ($count === 'yes') {
             return $this->db->count_all_results();
         }
+        $this->db->order_by('id', 'DESC');
         $this->db->limit($limit, $offset);
         $query = $this->db->get();
         return $query->result_array();
@@ -171,6 +190,7 @@ class Office_model extends CI_Model {
         if ($count === 'yes') {
             return $this->db->count_all_results();
         }
+        $this->db->order_by('id', 'DESC');
         $this->db->limit($limit, $offset);
         $query = $this->db->get();
         return $query->result_array();
@@ -189,6 +209,7 @@ class Office_model extends CI_Model {
         if ($count === 'yes') {
             return $this->db->count_all_results();
         }
+        $this->db->order_by('id', 'DESC');
         $this->db->limit($limit, $offset);
         $query = $this->db->get();
         return $query->result_array();
@@ -207,6 +228,7 @@ class Office_model extends CI_Model {
         if ($count === 'yes') {
             return $this->db->count_all_results();
         }
+        $this->db->order_by('id', 'DESC');
         $this->db->limit($limit, $offset);
         $query = $this->db->get();
         return $query->result_array();
@@ -225,6 +247,7 @@ class Office_model extends CI_Model {
         if ($count === 'yes') {
             return $this->db->count_all_results();
         }
+        $this->db->order_by('id', 'DESC');
         $this->db->limit($limit, $offset);
         $query = $this->db->get();
         return $query->result_array();
@@ -243,6 +266,7 @@ class Office_model extends CI_Model {
         if ($count === 'yes') {
             return $this->db->count_all_results();
         }
+        $this->db->order_by('id', 'DESC');
         $this->db->limit($limit, $offset);
         $query = $this->db->get();
         return $query->result_array();
@@ -261,6 +285,7 @@ class Office_model extends CI_Model {
         if ($count === 'yes') {
             return $this->db->count_all_results();
         }
+        $this->db->order_by('id', 'DESC');
         $this->db->limit($limit, $offset);
         $query = $this->db->get();
         return $query->result_array();
@@ -279,11 +304,50 @@ class Office_model extends CI_Model {
         if ($count === 'yes') {
             return $this->db->count_all_results();
         }
+        $this->db->order_by('id', 'DESC');
         $this->db->limit($limit, $offset);
         $query = $this->db->get();
         return $query->result_array();
     }
 
+    public function head_office_get($count = 'no', $id = 0, $limit = 10, $offset = 0, $filterData = []) {
+        $this->db->select('*')->from('head_office');
+        if ($id > 0) {
+            $this->db->where('id', $id);
+        }
+        if (!empty($filterData)) {
+            foreach ($filterData as $key => $value) {
+                $this->db->where($key, $value);
+            }
+        }
+        if ($count === 'yes') {
+            return $this->db->count_all_results();
+        }
+        $this->db->order_by('id', 'DESC');
+        $this->db->limit($limit, $offset);
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+
+    public function branch_office_get($count = 'no', $id = 0, $limit = 10, $offset = 0, $filterData = []) {
+        $this->db->select('*')->from('branch_office');
+        if ($id > 0) {
+            $this->db->where('id', $id);
+        }
+        if (!empty($filterData)) {
+            foreach ($filterData as $key => $value) {
+                $this->db->where($key, $value);
+            }
+        }
+        if ($count === 'yes') {
+            return $this->db->count_all_results();
+        }
+        $this->db->order_by('id', 'DESC');
+        $this->db->limit($limit, $offset);
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+    
     /**
      * Update department
      *
@@ -352,6 +416,20 @@ class Office_model extends CI_Model {
         $this->db->update('pf_code', $data);
         return $this->db->affected_rows() > 0;
     }
+
+    public function head_office_update($data, $id) {
+        $this->db->where('id', $id);
+        $this->db->update('head_office', $data);
+        return $this->db->affected_rows() > 0;
+    }
+
+    
+    public function branch_office_update($data, $id) {
+        $this->db->where('id', $id);
+        $this->db->update('branch_office', $data);
+        return $this->db->affected_rows() > 0;
+    }
+
     /**
      * Delete department by ID
      *
@@ -434,6 +512,22 @@ class Office_model extends CI_Model {
     public function pf_code_delete($id) {
         $this->db->where('id', $id);
         if ($this->db->delete('pf_code')) {
+            return true;
+        }
+        return false;
+    }
+
+    public function head_office_delete($id) {
+        $this->db->where('id', $id);
+        if ($this->db->delete('head_office')) {
+            return true;
+        }
+        return false;
+    }
+
+    public function branch_office_delete($id) {
+        $this->db->where('id', $id);
+        if ($this->db->delete('branch_office')) {
             return true;
         }
         return false;
