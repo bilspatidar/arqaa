@@ -1135,6 +1135,7 @@ class User extends REST_Controller {
 				$final['logged_in'] = (bool)true;
 				$final['user_type'] = $token_data['user_type'];
 				$final['id'] = $token_data['id'];
+				$final['currency_code'] = $this->Common->get_user_currency($user->id);
 				if ($user->user_type == 'superadmin') {
 					$final['redirect_url'] = base_url('admin/master/map');
 				} else {
@@ -1926,6 +1927,7 @@ public function signup_post() {
                 'access_token' => $tokenData,
                 'status' => true,
                 'id' => $res,
+                'currency_code' => $this->Common->get_user_currency($res),
                 'message' => 'Thank you for registering your new account!',
                 'note' => 'You have successfully Signup.',
                 'user_type' => $data['user_type'],

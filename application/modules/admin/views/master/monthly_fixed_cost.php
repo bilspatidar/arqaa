@@ -13,12 +13,13 @@
           <form id="filterForm">
             <div class="row">
               <!-- Year Dropdown -->
+              <input type="hidden" id="filterCountry" value="<?php echo $user_details['country_id']; ?>">
               <div class="col-md-2 form-group">
                   <?php $app_years = $this->Common->get_app_years(); 
                    $current_year  = date('Y');
                   ?>
                 <div class="yearDropdown position-relative">
-                  <select id="yearSelect" class="form-control select2">
+                  <select id="filterYear" class="form-control select2">
                     <option value="" disabled selected>Select Year</option>
                     <?php foreach($app_years as $year){ 
                      ?>
@@ -33,7 +34,7 @@
               <?php $current_month = date('m');?>
               <div class="col-md-2 form-group">
                 <div class="monthDropdown position-relative">
-                  <select id="monthSelect" class="form-control select2">
+                  <select id="filterMonth" class="form-control select2">
                     <option value="" disabled selected>Select Month</option>
                     <option value="01" <?php if($current_month=='01'){ echo'selected';} ?>>January</option>
                     <option value="02" <?php if($current_month=='02'){ echo'selected';} ?>>February</option>
@@ -53,7 +54,7 @@
 
               <!-- Filter Button -->
               <div class="col-md-3 form-group">
-                <?php $this->load->view('includes/filter_form_btn'); ?>
+                 <button type="button" class="btn btn-primary btn-continue" onclick="get_monthly_summury()">Submit</button>
               </div>
             </div>
           </form>
@@ -261,6 +262,7 @@
 <script>
   // Function to open the popup
 function openPopup() {
+    $("#costModalType").val('Fixed');
     document.getElementById("myModal").style.display = "flex";
 }
 
@@ -276,12 +278,13 @@ function confirmRemoval() {
 }
 
 function openPopup1() {
-    document.getElementById("myModal1").style.display = "flex";
+    $("#costModalType").val('Variable');
+    document.getElementById("myModal").style.display = "flex";
 }
 
 // Function to close the popup
 function closePopup1() {
-    document.getElementById("myModal1").style.display = "none";
+    document.getElementById("myModal").style.display = "none";
 }
 
 // Function to handle removal confirmation
@@ -324,19 +327,100 @@ function confirmRemoval1() {
 
 </div>
 
-<script>
-  $(document).ready(function(){
-    get_monthly_summury();
-  })
+<!-- Modal Structure -->
+<div id="myModal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <span class="close" onclick="closePopup()">&times;</span>
+        <h3 class="card-title">Add New</h3>
+        <p class="texth2">Here you can fill up your monthly cost</p>
 
-  function get_monthly_summury(){
-      $.ajax({
-         type: "GET",     
-         url: "<?php echo base_url(); ?>master/get_monthly_summury/",
-         success: function(msg) {
-          $("#monthly_summury").html(msg);
-        
-        }               
-    });
-  }
-</script>
+        <form class="form-sample" id="monthlyFixedCostForm" action="<?php echo API_DOMAIN; ?>api/expense/expense/add" method="POST">
+
+            <input type="hidden" id="costModalType" name="cost_type" value="Fixed">
+            <input type="hidden" name="country_id" value="<?php echo $user_details['country_id']; ?>">
+            <input type="hidden" name="currency" value="<?php echo $this->Common->get_currency_by_country_user($user_details['country_id'],'country'); ?>">
+            <input type="hidden" id="costMonth" name="month" value="<?php echo date('m');?>">
+            <input type="hidden" id="costYear" name="year" value="<?php echo date('Y');?>">
+
+
+            <!-- <h4 class="card-description"><?php echo $this->lang->line('add_new');?> </h4> -->
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="col-form-label"><?php echo $this->lang->line('concept');?></label>
+                        <input type="text" class="form-control" name="concept" />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="col-form-label"><?php echo $this->lang->line('cost');?> (<?php echo $this->Common->get_currency_by_country_user( $user_details['country_id'],'country');; ?>)</label>
+                        <input type="number" step="any" class="form-control" name="amount" />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="col-form-label"><?php echo $this->lang->line('%');?></label>
+                        <input type="number" step="any" class="form-control" name="tax" value="<?php echo $this->Common->get_tax_by_country( $user_details['country_id'],'country'); ?>" />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="col-form-label"><?php echo $this->lang->line('tax_concept');?></label>
+                        <input type="text" class="form-control" name="tax_concept" />
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+            <button type="submit" class="btn btn-primary mr-2"><?php echo $this->lang->line('submit');?></button>
+            <button class="btn btn-danger mr-2" type="reset"onclick="closePopup()"><?php echo $this->lang->line('cancel');?></button>
+            </div>
+        </form>
+        <br>
+    </div>
+</div>
+
+<div id="myModal1" class="modal" style="display: none;">
+    <div class="modal-content">
+        <span class="close" onclick="closePopup1()">&times;</span>
+        <h3 class="card-title">Add New</h3>
+        <p class="texth2">Here you can fill up your monthly cost</p>
+
+        <form class="form-sample" id="crudFormAddApiData" action="<?php echo API_DOMAIN; ?>api/category/category/add" method="POST">
+            <!-- <h4 class="card-description"><?php echo $this->lang->line('add_new');?> </h4> -->
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="col-form-label"><?php echo $this->lang->line('concept');?></label>
+                        <input type="text" class="form-control" name="name"  />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="col-form-label"><?php echo $this->lang->line('cost');?></label>
+                        <input type="text" class="form-control" name="Cost" />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="col-form-label"><?php echo $this->lang->line('%');?></label>
+                        <input type="text" class="form-control" name="%"  />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="col-form-label"><?php echo $this->lang->line('tax_concept');?></label>
+                        <input type="text" class="form-control" name="tax_concept" />
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+            <button type="submit" class="btn btn-primary mr-2"><?php echo $this->lang->line('submit');?></button>
+            <button class="btn btn-danger mr-2" type="reset"onclick="closePopup1()"><?php echo $this->lang->line('cancel');?></button>
+            </div>
+        </form>
+        <br>
+    </div>
+</div>
+

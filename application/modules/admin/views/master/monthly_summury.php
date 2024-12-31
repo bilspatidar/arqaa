@@ -1,7 +1,7 @@
 <!-- Table and Content Section -->
         <div class="row">
           <!-- First Column (Table) -->
-          <div class="col-md-5">
+          <div class="col-md-8">
             <div class="table-responsive">
             <h4>Monthly Fixed Cost</h4>
 
@@ -16,48 +16,25 @@
                   </tr>
                 </thead>
                 <tbody id="api_response_table_body dataTables_paginate">
-                <tr>
-                  <th>Rent</th>
-                    <th>$1,500</th>
-                    <th>21</th>
-                    <th>Non food</th>
-                    <th>$315</th>
-                    </tr>
+                  <?php $ttl_fix_cost = 0; $ttl_fix_cost_tax = 0; foreach($monthly_fixed_cost as $mfc){ ?>
                     <tr>
-                    <th>Rent</th>
-                    <th>$1,500</th>
-                    <th>21</th>
-                    <th>Non food</th>
-                    <th>$315</th>
+                      <th><?php echo $mfc->concept; ?></th>
+                      <th><?php echo $mfc->currency; ?> <?php echo $mfc->amount; ?></th>
+                      <th><?php echo $mfc->tax; ?></th>
+                      <th><?php echo $mfc->tax_concept; ?></th>
+                      <th><?php echo $mfc->currency; ?> <?php echo $tax_fix =  $this->Common->calculate_tax($mfc->amount,$mfc->tax); ?></th>
                     </tr>
+                    
+                  <?php $ttl_fix_cost+=$mfc->amount; $ttl_fix_cost_tax+=$tax_fix;  } ?>
                 </tbody>
               </table>
               <button class="btn btn-secendory"onclick="openPopup()">+ Add New</button>
             </div>
           </div>
 
-          <!-- Second Column (Empty) -->
-          <div class="col-md-1">
-            <!-- Empty or other content can go here -->
-          </div>
-          <!-- Third Column (Currency Dropdown) -->
-          <!-- <div class="col-md-2 mt-3">
-            
-                <h5 class=""><?php echo $this->lang->line('currency'); ?></h5>
-                <select name="currency" class="form-control select2">
-                  <option value=""><?php echo $this->lang->line('select_option'); ?></option>
-                  <?php
-                    $get_currencys = $this->Internal_model->get_currency();
-                    foreach ($get_currencys as $get_currency) { ?>
-                      <option value="<?php echo $get_currency->symbol; ?>"><?php echo $get_currency->name; ?> (<?php echo $get_currency->symbol; ?>)</option>
-                  <?php } ?>
-                </select>
-              
-          </div> -->
-          <div class="col-md-1">
-            <!-- Empty or other content can go here -->
-          </div>
-          <div class="col-md-3 mt-3">
+          
+         
+          <div class="col-md-4 mt-4">
            <h5 class="texth2 fs-2"><?php echo $this->lang->line('total'); ?></h5>
      <div class="card card2">
        <div class="table-responsive">
@@ -67,15 +44,15 @@
           <!-- Static Data -->
           <tr class="text-primary ">
             <td>Subtotal</td>
-            <td>$500</td>
+            <td><?php echo $filterCurrency; ?> <?php echo $ttl_fix_cost+$ttl_fix_cost_tax; ?></td>
           </tr>
           <tr>
             <td>Total without taxes</td>
-            <td>$450</td>
+            <td><?php echo $filterCurrency; ?> <?php echo $ttl_fix_cost; ?></td>
           </tr>
           <tr>
-            <td>Tax (21%) Non food</td>
-            <td>$50</td>
+            <td>Tax (<?php echo $filterTax; ?> %)</td>
+            <td><?php echo $filterCurrency; ?> <?php echo $ttl_fix_cost_tax; ?></td>
           </tr>
         </tbody>
       </table>
@@ -85,9 +62,9 @@
 </div>
 <div class="row">
           <!-- First Column (Table) -->
-          <div class="col-md-5">
-            <div class="table-responsive">
-              <h4>Monthly Fixed Cost</h4>
+          <div class="col-md-8">
+            <div class="table-responsive"><br><br>
+              <h4>Monthly Variable Cost</h4>
               <table style="border-collapse: collapse !important;" class="table table-hover js-basic-example dataTable table-custom spacing5">
                 <thead>
                   <tr>
@@ -100,20 +77,16 @@
                 </thead>
                 <tbody id="api_response_table_body dataTables_paginate">
                   <!-- Data will be dynamically inserted here -->
-                   <tr>
-                  <th>Rent</th>
-                    <th>$1,500</th>
-                    <th>21</th>
-                    <th>Non food</th>
-                    <th>$315</th>
-                    </tr>
+                  <?php $ttl_var_cost=0; $ttl_var_cost_tax=0; foreach($monthly_variable_cost as $mvc){ ?>
                     <tr>
-                    <th>Rent</th>
-                    <th>$1,500</th>
-                    <th>21</th>
-                    <th>Non food</th>
-                    <th>$315</th>
+                      <th><?php echo $mvc->concept; ?></th>
+                      <th><?php echo $mvc->currency; ?> <?php echo $mvc->amount; ?></th>
+                      <th><?php echo $mvc->tax; ?></th>
+                      <th><?php echo $mvc->tax_concept; ?></th>
+                      <th><?php echo $mvc->currency; ?> <?php echo $tax_var = $this->Common->calculate_tax($mvc->amount,$mvc->tax); ?></th>
                     </tr>
+                    
+                   <?php $ttl_var_cost+=$mvc->amount; $ttl_var_cost_tax+=$tax_var;  } ?>
                 </tbody>
               </table>
               <button class="btn btn-secendory"onclick="openPopup1()">+ Add New</button>
@@ -121,9 +94,7 @@
           </div>
 
           <!-- Second Column (Empty) -->
-          <div class="col-md-1">
-            <!-- Empty or other content can go here -->
-          </div>
+       
           <!-- Third Column (Currency Dropdown) -->
           <!-- <div class="col-md-2 mt-3">
             
@@ -138,10 +109,8 @@
                 </select>
               
           </div> -->
-          <div class="col-md-1">
-            <!-- Empty or other content can go here -->
-          </div>
-          <div class="col-md-3 mt-3">
+         
+          <div class="col-md-4 mt-4">
            <h5 class="texth2 fs-2"><?php echo $this->lang->line('total'); ?></h5>
      <div class="card card2">
        <div class="table-responsive">
@@ -151,15 +120,15 @@
           <!-- Static Data -->
           <tr class="text-primary ">
             <td>Subtotal</td>
-            <td>$500</td>
+            <td><?php echo $filterCurrency; ?> <?php echo $ttl_var_cost+$ttl_var_cost_tax; ?></td>
           </tr>
           <tr>
             <td>Total without taxes</td>
-            <td>$450</td>
+            <td><?php echo $filterCurrency; ?> <?php echo $ttl_var_cost; ?></td>
           </tr>
           <tr>
-            <td>Tax (21%) Non food</td>
-            <td>$50</td>
+            <td>Tax (<?php echo $filterTax; ?> %)</td>
+            <td><?php echo $filterCurrency; ?> <?php echo $ttl_var_cost_tax; ?></td>
           </tr>
         </tbody>
       </table>
@@ -171,13 +140,13 @@
 <div class="row mt-3 ml-2">
   <div class="col-md-4 card-section bg-primary text-white p-3">
     <h3>Monthly Sales</h3>
-    <h1>$563,518.13</h1>
+    <h1><?php echo $filterCurrency; ?> <?php echo $get_over_all_m_y[0]->total_amount;?></h1>
   </div> 
   <div class="col-md-1 "></div>
  
   <div class="col-md-4 offset-md-2 card-section bg-primary text-white p-3">
     <h3>Total Expense Tax Inc.</h3>
-    <h1>$3,005</h1>
+    <h1><?php echo $filterCurrency; ?> <?php echo $ttl_var_cost_tax+$ttl_fix_cost_tax; ?></h1>
   </div>
   
   <div class="col-md-1"></div>
@@ -211,13 +180,15 @@
                 stroke="white" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
           </div></td>
-        <td>--</td>
-        <td>41,204</td>
-        <td>$ 563,518.13</td>
-        <td>$ 118,339</td>
-        <td>$ 3,005</td>
-        <td>$ 445,179.13</td>
-        <td>$ 445,179.13</td>
+          <?php foreach($get_over_all_m_y as $oall){ ?>
+            <td>--</td>
+            <td>41,204</td>
+            <td>$ 563,518.13</td>
+            <td>$ 118,339</td>
+            <td>$ 3,005</td>
+            <td>$ 445,179.13</td>
+            <td>$ 445,179.13</td>
+        <?php } ?>
       </tr>
    
 <!-- Spacing Row (for dropdown) -->
@@ -253,7 +224,7 @@
       <tr class="mt-2"style="background-color: #4c4f52; border-top: 5px solid #22252a;">
         <td>
           <div class="d-flex align-items-center">
-            <b class="texth2">C. Profile</b>
+            <b class="texth2">CV Resume data</b>
             <svg onclick="toggleDropdown()" width="21" height="8" viewBox="0 0 21 13" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M17.9305 2.88886C17.9305 2.88886 12.2023 10.6666 10.1528 10.6666C8.10307 10.6666 2.375 2.88879 2.375 2.88879"
                 stroke="white" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" />
@@ -264,49 +235,18 @@
       </tr>
 
       <!-- Data Rows -->
+      <?php foreach($cv_resume_data as $crd){ ?>
       <tr>
-        <td>Micro Company</td>
-        <td>$14.99</td>
-        <td>6,000</td>
-        <td>$89,940</td>
+        <td><?php echo $crd->details; ?></td>
+        <td><?php echo $filterCurrency; ?> <?php echo $crd->amount; ?></td>
+        <td><?php echo $crd->total_count; ?></td>
+        <td><?php echo $filterCurrency; ?> <?php echo $crd->total_amount; ?></td>
+        <td><?php echo $filterCurrency; ?> <?php echo $tax_cv = $this->Common->calculate_tax($crd->total_amount,$crd->tax); ?> </td>
         <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
+        <td><?php echo $filterCurrency; ?> <?php echo  $after_tax_cv = $crd->total_amount-$tax_cv; ?></td>
+        <td><?php echo $filterCurrency; ?> <?php echo  $after_tax_cv; ?></td>
       </tr>
-
-      <tr>
-        <td>Small Profiles</td>
-        <td>$19.99</td>
-        <td>7,000</td>
-        <td>$139,930</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-      </tr>
-
-      <tr>
-        <td>Medium Profiles</td>
-        <td>$24.99</td>
-        <td>8,000</td>
-        <td>$124,950</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-      </tr>
-
-      <tr>
-        <td>Large Profiles</td>
-        <td>$49.99</td>
-        <td>3,237</td>
-        <td>$161,817.63</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-      </tr>
+    <?php } ?>
 
 
         <!-- Spacing Row (for dropdown) -->
@@ -314,7 +254,7 @@
         <tr class=""style="background-color: #4c4f52; border-top: 5px solid #22252a;">
           <td>
             <div class="d-flex align-items-center ">
-              <b class="texth2">Boost P.</b>
+              <b class="texth2">Boost Profile</b>
               <svg onclick="toggleDropdown()" width="21" height="8" viewBox="0 0 21 13" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M17.9305 2.88886C17.9305 2.88886 12.2023 10.6666 10.1528 10.6666C8.10307 10.6666 2.375 2.88879 2.375 2.88879"
                   stroke="white" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" />
@@ -325,50 +265,22 @@
         </tr>
 
         <!-- Data Rows -->
-        <tr>
-          <td>Position 1</td>
-          <td>$5.00</td>
-          <td>1</td>
-          <td>$5.00</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
+        <!-- Data Rows -->
+      <?php foreach($boost_profile_data as $bpd){ ?>
+      <tr>
+        <td><?php echo $bpd->details; ?></td>
+        <td><?php echo $filterCurrency; ?> <?php echo $bpd->amount; ?></td>
+        <td><?php echo $bpd->total_count; ?></td>
+        <td><?php echo $filterCurrency; ?> <?php echo $bpd->total_amount; ?></td>
+        <td><?php echo $filterCurrency; ?> <?php echo $tax_cv = $this->Common->calculate_tax($bpd->total_amount,$bpd->tax); ?> </td>
+        <td></td>
+        <td><?php echo $filterCurrency; ?> <?php echo  $after_tax_cv = $bpd->total_amount-$tax_cv; ?></td>
+        <td><?php echo $filterCurrency; ?> <?php echo  $after_tax_cv; ?></td>
+      </tr>
+    <?php } ?>
 
-        <tr>
-          <td>Position 2</td>
-          <td>$5.00</td>
-          <td>1</td>
-          <td>$5.00</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-
-        <tr>
-          <td>Position 3</td>
-          <td>$5.00</td>
-          <td>1</td>
-          <td>$5.00</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-
-        <tr>
-          <td>Position 4</td>
-          <td>$5.00</td>
-          <td>1</td>
-          <td>$5.00</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
         
+
 
         <!-- Spacing Row (for dropdown) -->
         <tr class="mt-3"style="background-color: #4c4f52; border-top: 5px solid #22252a;">
@@ -384,51 +296,52 @@
           <td colspan="7"></td>
         </tr>
 
-        <!-- Data Rows -->
-        <tr>
-          <td>Extra service 2</td>
-          <td>$14.99</td>
-          <td>5,270</td>
-          <td>$26,350</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
+        
+        <?php foreach($multiple_service_data as $msd){ ?>
+      <tr>
+        <td><?php echo $msd->details; ?></td>
+        <td><?php echo $filterCurrency; ?> <?php echo $msd->amount; ?></td>
+        <td><?php echo $msd->total_count; ?></td>
+        <td><?php echo $filterCurrency; ?> <?php echo $msd->total_amount; ?></td>
+        <td><?php echo $filterCurrency; ?> <?php echo $tax_cv = $this->Common->calculate_tax($msd->total_amount,$msd->tax); ?> </td>
+        <td></td>
+        <td><?php echo $filterCurrency; ?> <?php echo  $after_tax_cv = $msd->total_amount-$tax_cv; ?></td>
+        <td><?php echo $filterCurrency; ?> <?php echo  $after_tax_cv; ?></td>
+      </tr>
+    <?php } ?>
+
+
+
+
+        <!-- Spacing Row (for dropdown) -->
+        <tr class="mt-3"style="background-color: #4c4f52; border-top: 5px solid #22252a;">
+          <td>
+            <div class="d-flex align-items-center ">
+              <b class="texth2">Adv. Banner</b>
+              <svg onclick="toggleDropdown()" width="21" height="8" viewBox="0 0 21 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M17.9305 2.88886C17.9305 2.88886 12.2023 10.6666 10.1528 10.6666C8.10307 10.6666 2.375 2.88879 2.375 2.88879"
+                  stroke="white" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </div>
+          </td>
+          <td colspan="7"></td>
         </tr>
 
-        <tr>
-          <td>Extra service 3</td>
-          <td>$2.50</td>
-          <td>2,356</td>
-          <td>$5,890</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
+        
+        <?php foreach($advertisment_banner_data as $abd){ ?>
+      <tr>
+        <td><?php echo $abd->details; ?></td>
+        <td><?php echo $filterCurrency; ?> <?php echo $abd->amount; ?></td>
+        <td><?php echo $abd->total_count; ?></td>
+        <td><?php echo $filterCurrency; ?> <?php echo $abd->total_amount; ?></td>
+        <td><?php echo $filterCurrency; ?> <?php echo $tax_cv = $this->Common->calculate_tax($abd->total_amount,$abd->tax); ?> </td>
+        <td></td>
+        <td><?php echo $filterCurrency; ?> <?php echo  $after_tax_cv = $msd->total_amount-$tax_cv; ?></td>
+        <td><?php echo $filterCurrency; ?> <?php echo  $after_tax_cv; ?></td>
+      </tr>
+    <?php } ?>
 
-        <tr style="background-color: #4c4f52; border-top: 5px solid #22252a;">
-          <td>Banners</td>
-          <td>$2.50</td>
-          <td>2,356</td>
-          <td>$5,890</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-       
 
-        <tr style="background-color: #4c4f52; border-top: 5px solid #22252a;">
-          <td>CV’s</td>
-          <td>$2.50</td>
-          <td>2,356</td>
-          <td>$670</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
       </tbody>
     </table>
   </div>
@@ -457,91 +370,3 @@
   </div>
 </div>
 
-<!-- Modal Structure -->
-<div id="myModal" class="modal" style="display: none;">
-    <div class="modal-content">
-        <span class="close" onclick="closePopup()">&times;</span>
-        <h3 class="card-title">Add New</h3>
-        <p class="texth2">Here you can fill up your monthly cost</p>
-
-        <form class="form-sample" id="crudFormAddApiData" action="<?php echo API_DOMAIN; ?>api/category/category/add" method="POST">
-            <!-- <h4 class="card-description"><?php echo $this->lang->line('add_new');?> </h4> -->
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label class="col-form-label"><?php echo $this->lang->line('concept');?></label>
-                        <input type="text" class="form-control" name="name" required />
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label class="col-form-label"><?php echo $this->lang->line('cost');?></label>
-                        <input type="text" class="form-control" name="Cost" />
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label class="col-form-label"><?php echo $this->lang->line('%');?></label>
-                        <input type="text" class="form-control" name="%" required />
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label class="col-form-label"><?php echo $this->lang->line('tax_concept');?></label>
-                        <input type="text" class="form-control" name="tax_concept" />
-                    </div>
-                </div>
-            </div>
-            
-            <div class="form-group">
-            <button type="submit" class="btn btn-primary mr-2"><?php echo $this->lang->line('submit');?></button>
-            <button class="btn btn-danger mr-2" type="reset"onclick="closePopup()"><?php echo $this->lang->line('cancel');?></button>
-            </div>
-        </form>
-        <br>
-    </div>
-</div>
-
-<div id="myModal1" class="modal" style="display: none;">
-    <div class="modal-content">
-        <span class="close" onclick="closePopup1()">&times;</span>
-        <h3 class="card-title">Add New</h3>
-        <p class="texth2">Here you can fill up your monthly cost</p>
-
-        <form class="form-sample" id="crudFormAddApiData" action="<?php echo API_DOMAIN; ?>api/category/category/add" method="POST">
-            <!-- <h4 class="card-description"><?php echo $this->lang->line('add_new');?> </h4> -->
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label class="col-form-label"><?php echo $this->lang->line('concept');?></label>
-                        <input type="text" class="form-control" name="name" required />
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label class="col-form-label"><?php echo $this->lang->line('cost');?></label>
-                        <input type="text" class="form-control" name="Cost" />
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label class="col-form-label"><?php echo $this->lang->line('%');?></label>
-                        <input type="text" class="form-control" name="%" required />
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label class="col-form-label"><?php echo $this->lang->line('tax_concept');?></label>
-                        <input type="text" class="form-control" name="tax_concept" />
-                    </div>
-                </div>
-            </div>
-            
-            <div class="form-group">
-            <button type="submit" class="btn btn-primary mr-2"><?php echo $this->lang->line('submit');?></button>
-            <button class="btn btn-danger mr-2" type="reset"onclick="closePopup1()"><?php echo $this->lang->line('cancel');?></button>
-            </div>
-        </form>
-        <br>
-    </div>
-</div>
