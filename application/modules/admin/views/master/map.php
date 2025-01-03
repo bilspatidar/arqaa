@@ -223,7 +223,7 @@ margin-right: 6px;
             <a href="<?php echo base_url(); ?>admin/master/delete_country">
                 <button>Remove Country</button>
             </a>
-            <a href="<?php echo base_url();?>admin/index">
+            <a href="<?php echo base_url();?>admin/swicth_to_country">
                 <button>Global Dashboard</button>
             </a>
         </div>
@@ -269,6 +269,6 @@ margin-right: 6px;
 <script src="<?php echo base_url(); ?>assets/assets/bundles/mainscripts.bundle.js"></script>
 <script src="<?php echo base_url(); ?>assets/assets/js/pages/maps/jvectormap.js"></script><!-- Custom Js -->
 <!-- Template monster -->
-<script type="text/javascript" src="//themera.net/embed/themera.js?id=74746"></script> 
+<!--<script type="text/javascript" src="//themera.net/embed/themera.js?id=74746"></script> -->
 </body>
 

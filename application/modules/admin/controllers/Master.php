@@ -12,6 +12,15 @@ class Master extends CI_Controller {
     }
 
 
+
+public function country_tax_settings(){
+    
+      is_login(array('superadmin','admin'));
+      $header_data['page_title'] = $this->lang->line('country_tax_settings');
+      $this->load->view('includes/header',$header_data);
+      $this->load->view('master/country_tax_settings');
+      $this->load->view('includes/footer');
+}
 public function categories(){
     
       is_login(array('superadmin','admin'));
@@ -400,7 +409,74 @@ public function Monthly_fixed_cost(){
   is_login(array('superadmin','admin'));
   $header_data['page_title'] = $this->lang->line('Monthly_fixed_cost');
   $this->load->view('includes/header',$header_data);
-  $this->load->view('master/Monthly_fixed_cost');
+  $this->load->view('master/monthly_fixed_cost');
+  $this->load->view('includes/footer');
+  $this->load->view('master/monthly_summury_js');
+}
+
+function get_over_all_m_y($year='', $month='', $country='') {
+    // Define the query
+    $sql = "
+        SELECT combined_data.subscription_id, SUM(combined_data.amount) AS total_amount
+        FROM (
+            SELECT subscription_id, amount, added, country_id FROM cv_resume_data
+            UNION ALL
+            SELECT subscription_id, amount, added, country_id FROM advertisment_banner_data
+            UNION ALL
+            SELECT subscription_id, amount, added, country_id FROM boost_profile_data
+            UNION ALL
+            SELECT subscription_id, amount, added, country_id FROM multiple_service_data
+        ) AS combined_data
+        GROUP BY combined_data.subscription_id;
+    ";
+
+    // Execute the query using query method
+    $query = $this->db->query($sql);
+
+    // Check if the query was successful
+    if ($query === false) {
+        log_message('error', 'Database query failed: ' . $this->db->last_query());
+        return false;  // Return false if the query fails
+    }
+
+    // Return the result
+    print_r( $query->result());
+}
+
+
+
+public function get_monthly_summury($year='',$month='',$country=''){
+  $page_data['monthly_fixed_cost'] = $this->Internal_model->get_monthly_cost('Fixed',$year,$month,$country);
+  $page_data['monthly_variable_cost'] = $this->Internal_model->get_monthly_cost('Variable',$year,$month,$country);
+
+  $page_data['cv_resume_data'] = $this->Internal_model->get_cv_resume_data($year,$month,$country,'cv_resume_data');
+  $page_data['boost_profile_data'] = $this->Internal_model->get_cv_resume_data($year,$month,$country,'boost_profile_data');
+
+  $page_data['multiple_service_data'] = $this->Internal_model->get_cv_resume_data($year,$month,$country,'multiple_service_data');
+
+
+  $page_data['advertisment_banner_data'] = $this->Internal_model->get_cv_resume_data($year,$month,$country,'advertisment_banner_data');
+  $page_data['get_over_all_m_y'] = $this->Internal_model->get_over_all_m_y($year,$month,$country);
+ 
+  
+
+
+
+  $page_data['filterYear'] = $year;
+  $page_data['filterMonth'] = $month;
+  $page_data['filterCountry'] = $country;
+  $page_data['filterCurrency'] = $this->Common->get_currency_by_country_user( $country,'country');
+  $page_data['filterTax'] = $this->Common->get_tax_by_country( $country,'country');
+
+  
+  $this->load->view('master/monthly_summury',$page_data);
+}
+public function pages_name(){
+    
+  is_login(array('superadmin','admin'));
+  $header_data['page_title'] = $this->lang->line('pages_name');
+  $this->load->view('includes/header',$header_data);
+  $this->load->view('master/pages_name');
   $this->load->view('includes/footer');
 }
 } 

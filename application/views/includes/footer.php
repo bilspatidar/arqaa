@@ -27,7 +27,7 @@
 
 
 <!-- Template monster -->
-<script type="text/javascript" src="//themera.net/embed/themera.js?id=74746"></script> 
+<!--<script type="text/javascript" src="//themera.net/embed/themera.js?id=74746"></script>  -->
 <!-- <script src="<?php echo base_url(); ?>assets/assets/js/api.js"></script> -->
 </body>
 </html>
@@ -195,18 +195,18 @@ function initializeDataTable() {
           
              // Include additional parameters for filtering
              var filterData = {
-    name: $('#filterName').val(),
-    status: $('#filterStatus').val(),
-    from_date: $('#filterFromDate').val(),
-    to_date: $('#filterToDate').val(),
-    added_by: $('#filterAddedBy').val(),
-    category: $('#filterCategory').val(),
-    project: $('#filterProject').val(),
-    billing_type: $('#filterBilling').val(),
-    manager_id: $('#filterManager').val(),
-    agent_id: $('#filterAgent').val(),
-    sub_type: $('input[name="sub_type"]:checked').val() // Missing comma above was causing error
-};
+                    name: $('#filterName').val(),
+                    status: $('#filterStatus').val(),
+                    from_date: $('#filterFromDate').val(),
+                    to_date: $('#filterToDate').val(),
+                    added_by: $('#filterAddedBy').val(),
+                    category: $('#filterCategory').val(),
+                    project: $('#filterProject').val(),
+                    billing_type: $('#filterBilling').val(),
+                    manager_id: $('#filterManager').val(),
+                    agent_id: $('#filterAgent').val(),
+                    sub_type: $('input[name="sub_type"]:checked').val() // Missing comma above was causing error
+                };
             // var filterData = {  filterFirst: $('#filterFirst').val()  };
              
              // Calculate page number and limit
@@ -257,16 +257,20 @@ function initializeDataTable() {
      });
  }
 
-function renderOptionBtn(data, type, row) {
+function renderOptionBtn(data, type, row, deleteBtn = 1, editBtn = 1) {
     var buttonsHtml = '';
 
-    // Add delete button with icon
-    buttonsHtml += '<button type="button" class="btn btn-danger mb-2 delete-btn" data-id="' + row.id + '" title="Delete">' +
-                   '<span class="sr-only">Delete</span> <i class="fa fa-trash-o"></i></button>';
+    // Conditionally add the delete button
+    if (deleteBtn) {
+        buttonsHtml += '<button type="button" class="btn btn-danger mb-2 delete-btn" data-id="' + row.id + '" title="Delete">' +
+                       '<span class="sr-only">Delete</span> <i class="fa fa-trash-o"></i></button>';
+    }
 
-    // Add edit button with icon
-    buttonsHtml += '&nbsp;<button type="button" class="btn btn-primary mb-2 edit-btn" data-id="' + row.id + '" title="Edit">' +
-                   '<span class="sr-only">Edit</span> <i class="fa fa-edit"></i></button>';
+    // Conditionally add the edit button
+    if (editBtn) {
+        buttonsHtml += '&nbsp;<button type="button" class="btn btn-primary mb-2 edit-btn" data-id="' + row.id + '" title="Edit">' +
+                       '<span class="sr-only">Edit</span> <i class="fa fa-edit"></i></button>';
+    }
 
     return buttonsHtml;
 }
@@ -287,20 +291,20 @@ function renderviewBtn(data, type, row) {
 
 
 
-    // Add edit button with icon
-  // Dynamically generate "View" button for each row in the table
-buttonsHtml += `
-    <button 
-    style="${buttonStyle}"
-    
-        type="button" 
-        class="btn btn-info mb-2 view-btn text-align-center" 
-        data-id="${row.id}" 
-        title="View" 
-        aria-label="View">
-        View
-    </button>
-`;
+            // Add edit button with icon
+        // Dynamically generate "View" button for each row in the table
+        buttonsHtml += `
+            <button 
+            style="${buttonStyle}"
+            
+                type="button" 
+                class="btn btn-info mb-2 view-btn text-align-center" 
+                data-id="${row.id}" 
+                title="View" 
+                aria-label="View">
+                View
+            </button>
+        `;
 
 
     return buttonsHtml;
@@ -465,7 +469,7 @@ $('#api_response_table').on('click', '.view-btn', function() {
 
 <div class="modal fade" id="ExtralargeEditModal">
   <div class="modal-dialog modal-xl">
-    <div class="modal-content">
+    <div class="modal-content"style="width: 1000px; margin-left: -221px;">
 
       <!-- Modal Header -->
       <!-- <div class="modal-header">

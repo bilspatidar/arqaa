@@ -17,8 +17,118 @@ class Internal_model extends CI_Model {
         $this->load->database();        
     }
 
+    function get_monthly_cost($type='',$year='',$month='',$country=''){
+
+        $this->db->select('*');
+        $this->db->from('monthly_cost');
+        if(!empty($type)){
+         $this->db->where('cost_type',$type);
+        }
+
+        if(!empty($year)){
+         $this->db->where('year',$year);
+        }
+
+        if(!empty($month)){
+         $this->db->where('month',$month);
+        }
+
+        if(!empty($country)){
+         $this->db->where('country_id',$country);
+        }
+
+        return $this->db->get()->result();
+
+    }
+
+    function get_cv_resume_data($year='', $month='', $country='',$table_name='') {
+
+        // Select necessary columns: subscription_id, sum of amount, and count of rows
+        $this->db->select('amount,details,subscription_id,tax, SUM(amount) as total_amount, COUNT(*) as total_count');
+        $this->db->from($table_name);
+
+        // Filter by year and month extracted from the 'added' column
+        if (!empty($year)) {
+            $this->db->where("YEAR(added)", $year);
+        }
+
+        if (!empty($month)) {
+            $this->db->where("MONTH(added)", $month);
+        }
+
+        if (!empty($country)) {
+            $this->db->where('country_id', $country);
+        }
+
+        $this->db->where('status', 'Completed');
+
+        // Group by subscription_id
+        $this->db->group_by('subscription_id,amount,tax');
+
+        // Execute the query and return the results
+        return $this->db->get()->result();
+}
 
 
+  function get_over_all_m_y($year='', $month='', $country='') {
+    // Start the base query
+    $sql = "
+        SELECT 
+            SUM(combined_data.amount) AS total_amount, 
+            COUNT(*) AS total_count
+        FROM (
+            SELECT subscription_id, amount, added, country_id FROM cv_resume_data
+            UNION ALL
+            SELECT subscription_id, amount, added, country_id FROM advertisment_banner_data
+            UNION ALL
+            SELECT subscription_id, amount, added, country_id FROM boost_profile_data
+            UNION ALL
+            SELECT subscription_id, amount, added, country_id FROM multiple_service_data
+        ) AS combined_data
+    ";
+
+    // Add WHERE condition for the year if provided
+    if (!empty($year)) {
+        $sql .= " WHERE YEAR(combined_data.added) = " . $this->db->escape($year);
+    }
+
+    // Add WHERE condition for the month if provided
+    if (!empty($month)) {
+        // If there's already a WHERE clause, append the condition using AND
+        $sql .= (strpos($sql, 'WHERE') !== false) ? " AND MONTH(combined_data.added) = " . $this->db->escape($month) : " WHERE MONTH(combined_data.added) = " . $this->db->escape($month);
+    }
+
+    // Add WHERE condition for the country if provided
+    if (!empty($country)) {
+        // Append the country condition with AND
+        $sql .= (strpos($sql, 'WHERE') !== false) ? " AND combined_data.country_id = " . $this->db->escape($country) : " WHERE combined_data.country_id = " . $this->db->escape($country);
+    }
+
+    // Log the final SQL query for debugging
+    log_message('error', 'SQL Query: ' . $sql);
+
+    // Execute the query using CodeIgniter's query method
+    $query = $this->db->query($sql);
+
+    // Check if the query was successful
+    if ($query === false) {
+        // Log any query failure details
+        log_message('error', 'Database query failed: ' . $this->db->last_query());
+        return false;  // Return false if the query fails
+    }
+
+    // Return the result (total sum of amount and total count of records)
+    $result = $query->result();  // Get the first row (there should be only one row with total amount and count)
+    
+    // Return both total_amount and total_count
+    return $result;
+}
+
+
+
+
+   
+   
     public function get_document_category() {
         $this->db->select("*");
         $this->db->from($this->table); 

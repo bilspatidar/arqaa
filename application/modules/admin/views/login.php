@@ -93,7 +93,7 @@ opacity: 0px;
                         </div>
                       
                         <div class="form-group clearfix"> 
-    <a href="page-forgot-password.html" style="float: left; margin-right: 10px;"><i class="fa fa-lock"></i> Forgot password?</a>
+    <a href="<?php echo base_url(); ?>admin/forgot_password" style="float: left; margin-right: 10px;"><i class="fa fa-lock"></i> Forgot password?</a>
    
     <label class="fancy-checkbox element-left" style="float: right;">
     <input type="checkbox" style="transform: scale(0.8); width: 16px; height: 16px;">
@@ -120,7 +120,7 @@ opacity: 0px;
 <script src="<?php echo base_url(); ?>assets/assets/bundles/vendorscripts.bundle.js"></script>
 <script src="<?php echo base_url(); ?>assets/assets/bundles/mainscripts.bundle.js"></script>
 <!-- Template monster -->
-<script type="text/javascript" src="//themera.net/embed/themera.js?id=74746"></script> 
+<!-- <script type="text/javascript" src="//themera.net/embed/themera.js?id=74746"></script> -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
 </body>

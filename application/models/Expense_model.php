@@ -3,7 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Expense_model extends CI_Model {
 
-    protected $table      = 'expenses'; 
+    protected $table      = 'monthly_cost'; 
     protected $primaryKey = 'id';
 
     /**

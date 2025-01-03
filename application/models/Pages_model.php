@@ -18,8 +18,16 @@ class Pages_model extends CI_Model {
     }
 
     public function create($data) {
-        $this->db->insert($this->table, $data);
-        return $this->db->insert_id(); 
+        $page_name = $this->db->get_where($this->table,array('page_name'=>$data['page_name']));
+        if($page_name->num_rows()>0){
+            $this->db->where('id',$page_name->row()->id);
+            $this->db->update($this->table, $data);
+            return $page_name->row()->id; 
+        }
+        else{
+            $this->db->insert($this->table, $data);
+            return $this->db->insert_id(); 
+        }
     }
 
     public function show($id) {

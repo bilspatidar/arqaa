@@ -66,7 +66,7 @@ $lang['marketing'] ='Marketing';
 $lang['sales_this_week'] ='Sales this week';
 
 $lang['manage_your_staff'] = 'Manage Your Staff';
-$lang['Monthly_fixed_cost'] = 'Arqaa Cost Netherlands';
+$lang['Monthly_fixed_cost'] = 'Arqaa Cost';
 
 $lang['reported_users'] = 'Reported Users';
 $lang['elite_users'] = 'Elite Users';
@@ -93,8 +93,15 @@ $lang['news_categories_id'] = 'News Categories';
 $lang['subscriptionCompany'] = 'Company Subscription';
 $lang['ragistered_services'] = 'REGISTERED SERVICES';
 $lang['map'] = 'Map';
-
 $lang['subcategorys'] = 'Sub Categories';
+$lang['pages_name'] = 'Pages Name';
+$lang['cost'] = 'Cost';
+
+$lang['contact_no'] = 'Contact Number';
+$lang['alt_contact_no'] = 'Alt Contact Number';
+$lang['address1'] = 'Address 1';
+$lang['address2'] = 'Address 2';
+
 
 ///// Button ///////
 $lang['add_new'] = 'Add New';
@@ -103,6 +110,7 @@ $lang['add_new_plan'] = 'Add New Plan';
 $lang['apply_filter'] = 'Apply Filter';
 $lang['login'] = 'Login';
 $lang['submit'] = 'Submit';
+
 $lang['cancel'] = 'Cancel';
 $lang['maximize'] = 'Maximize';
 $lang['minimize'] = 'Minimize';
@@ -113,13 +121,13 @@ $lang['status'] = 'Status';
 $lang['Action'] = 'Actions';
 $lang['permision'] = 'Permision';
 
-$lang['nombre'] = 'Name';
+$lang['sname'] = 'Name';
 $lang['category_name'] = 'Category Name';
 $lang['subcategory_name'] = 'Sub Category Name';
 
 $lang['servicer_provider'] = 'Servicer Provider';
 
-$lang['name'] = 'First Name';
+// $lang['sname'] = 'Name';
 $lang['image'] = 'Image';
 $lang['select_status'] = 'Select Status';
 $lang['option'] = 'Option';

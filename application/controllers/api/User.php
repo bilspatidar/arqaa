@@ -60,6 +60,7 @@ class User extends REST_Controller {
                 $response = [
                     'status' => true,
                     'data' => 'Otp sent',
+					'email' => $email,
                     'message' => 'A verification code has been sent to your registered email.'
                 ];
                 $this->response($response, REST_Controller::HTTP_OK); 
@@ -1122,6 +1123,7 @@ class User extends REST_Controller {
 				$token_data['name'] = (string)$user->name;
 				$token_data['logged_in'] = (bool)true;
 				$token_data['status'] = (bool)$user->status;
+				$token_data['currency_code'] = $this->Common->get_user_currency($user->id);
 				
 				// Successful login
 				$tokenData = $this->authorization_token->generateToken($token_data);
@@ -1133,6 +1135,7 @@ class User extends REST_Controller {
 				$final['logged_in'] = (bool)true;
 				$final['user_type'] = $token_data['user_type'];
 				$final['id'] = $token_data['id'];
+				$final['currency_code'] = $this->Common->get_user_currency($user->id);
 				if ($user->user_type == 'superadmin') {
 					$final['redirect_url'] = base_url('admin/master/map');
 				} else {
@@ -1182,7 +1185,7 @@ class User extends REST_Controller {
 		}
 		
 	}
-	
+
 	public function update_password_post($params=''){
 		if(!empty($params)){
 			$getTokenData = $this->is_authorized($params);
@@ -1917,7 +1920,8 @@ public function signup_post() {
                 'name' => (string)$data['name'],
                 'user_type' => (string)$data['user_type'],
                 'logged_in' => true,
-                'status' => $data['status']
+                'status' => $data['status'],
+                'currency_code' => $this->Common->get_user_currency($res),
             ];
 
             // Generate token
@@ -1927,7 +1931,9 @@ public function signup_post() {
                 'access_token' => $tokenData,
                 'status' => true,
                 'id' => $res,
+
                 'ref_code' => $ref_code, // Include reference code in the response
+                'currency_code' => $this->Common->get_user_currency($res),
                 'message' => 'Thank you for registering your new account!',
                 'note' => 'You have successfully signed up.',
                 'user_type' => $data['user_type'],

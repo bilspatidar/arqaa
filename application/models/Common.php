@@ -9,6 +9,98 @@ class Common extends CI_Model {
        parent::__construct();
     }
     
+      public function get_app_years() {
+            $this->db->select("DISTINCT YEAR(added) as year");
+            $this->db->from('users');
+            return $this->db->get()->result();
+    }
+
+
+    
+    function calculate_tax($amt, $tax) {
+        if (!empty($amt) && !empty($tax) && $amt > 0) {
+            $tax_amount = ($amt * $tax) / 100;
+
+            return round($tax_amount, 2);
+        }
+
+        return 0;
+    }
+
+
+
+    function get_user_currency($user_id){
+	    $this->db->select('users.country_id, countries.currency_code');
+        $this->db->from('users');
+        $this->db->join('countries', 'countries.id = users.country_id');
+        $this->db->where('users.id', $user_id);
+        $u_c = $this->db->get(); 
+        if ($u_c->num_rows() > 0) {
+            return $u_c->row()->currency_code;
+        } else {
+            return "USD";
+        }
+
+	   
+	 }
+	 
+	 
+	 function get_tax_by_country($country_id, $type = 'country') {
+            // Start with selecting the 'tax' column from 'countries' table
+            $this->db->select('countries.tax');
+        
+            // Check if the type is 'user' and if so, join the 'users' table
+            if ($type === 'user') {
+                $this->db->join('users', 'users.country_id = countries.id', 'left'); // Join users table based on country_id
+                $this->db->where('users.id', $country_id);  // Filter based on user’s country_id
+            } else {
+                // If type is 'country', we just get the tax for the country directly
+                $this->db->where('countries.id', $country_id); 
+            }
+            
+            // Get the result
+            $result = $this->db->get('countries')->row();
+            
+            // Check if the 'tax' value is blank or 0, if so return 21
+            if (empty($result->tax) || $result->tax == 0) {
+                return 21;
+            }
+            
+            // Otherwise, return the actual 'tax' value
+            return $result->tax;
+        }
+      
+
+      function get_currency_by_country_user($country_id, $type = 'country') {
+            // Start with selecting the 'tax' column from 'countries' table
+            $this->db->select('countries.currency_code');
+            $this->db->limit(1);
+        
+            // Check if the type is 'user' and if so, join the 'users' table
+            if ($type === 'user') {
+                $this->db->join('users', 'users.country_id = countries.id', 'left'); // Join users table based on country_id
+                $this->db->where('users.id', $country_id);  // Filter based on user’s country_id
+            } else {
+                // If type is 'country', we just get the tax for the country directly
+                $this->db->where('countries.id', $country_id); 
+            }
+            
+            // Get the result
+            $result = $this->db->get('countries')->row();
+            
+            // Check if the 'tax' value is blank or 0, if so return 21
+            if (empty($result->currency_code)) {
+                return 'EUR';
+            }
+            
+            // Otherwise, return the actual 'tax' value
+            return $result->currency_code;
+        }
+
+
+
+	 
+    
 	 function get_user_country($user_id){
 	     $this->db->select('country_id');
 	     $this->db->from('users');

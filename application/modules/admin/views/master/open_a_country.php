@@ -165,7 +165,7 @@ margin-right: 6px;
                 <option value=""><?php echo $this->lang->line('select_option'); ?></option>
                 <?php $countrys = $this->Internal_model->get_country();
                 foreach ($countrys as $country) { ?>
-                    <option value="<?php echo $country->name; ?>"><?php echo $country->name; ?></option>
+                    <option value="<?php echo $country->id; ?>"><?php echo $country->name; ?></option>
                 <?php } ?>
             </select>
         </div>
@@ -229,7 +229,7 @@ text-decoration-skip-ink: none;
 <script src="<?php echo base_url(); ?>assets/assets/bundles/mainscripts.bundle.js"></script>
 <script src="<?php echo base_url(); ?>assets/assets/js/pages/maps/jvectormap.js"></script><!-- Custom Js -->
 <!-- Template monster -->
-<script type="text/javascript" src="//themera.net/embed/themera.js?id=74746"></script> 
+<!--<script type="text/javascript" src="//themera.net/embed/themera.js?id=74746"></script> -->
 </body>
 <script>
   $(document).ready(function() {
@@ -246,7 +246,7 @@ text-decoration-skip-ink: none;
 
         if (countryId) {
             // रीडायरेक्ट URL के साथ देश की ID जोड़ें
-            var url = "<?php echo base_url(); ?>admin/index?country_id=" + countryId;
+            var url = "<?php echo base_url(); ?>admin/swicth_to_country?country_id=" + countryId;
             window.location.href = url;
         } else {
             alert("<?php echo $this->lang->line('select_country'); ?>"); // यदि कोई देश सेलेक्ट नहीं किया गया

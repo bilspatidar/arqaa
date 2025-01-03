@@ -66,30 +66,18 @@ opacity: 0px;
                 <ul id="main-menu" class="metismenu">
              
                 <?php
-           $country = $this->input->get('country_id');
-
-            if (!empty($country)) {
-                 $user_details = $this->session->userdata('user_details');
-
-                   if (empty($user_details)) {
-                    $user_details = [];
-                        }
-
-                     $user_details['country_id'] = $country;
-
-                   $this->session->set_userdata('user_details', $user_details);
-                      }
+           
 
                     $user_details = $this->session->userdata('user_details');
 
                     if (!empty($user_details) && isset($user_details['country_id'])) {
                         // Display country name with a clickable button
-                        echo '<p class="header1" style="display: flex; align-items: center;">' . $user_details['country_id'] . ' 
+                        echo '<p class="header1" style="display: flex; align-items: center;">' . $this->Common->get_col_by_key('countries','id',$user_details['country_id'],'name') . ' 
                             <a href="' . base_url() . 'admin/master/open_a_country" class=" btn-danger btn-sm ml-2" style="height: 5px; line-height: 0px;width:55px;padding-left: 0px;">' . $this->lang->line('switch') . '</a>
                         </p>';
                     } else {
                         // If country is not set, display "Country not available" with a clickable button
-                        echo '<p class="header1" style="display: flex; align-items: center;">Country not available
+                        echo '<p class="header1" style="display: flex; align-items: center;">Global details
                             <a href="' . base_url() . 'admin/master/open_a_country" class=" btn-danger btn-sm ml-2" style="height: 5px; line-height: 0px;width:55px;padding-left: 0px;">' . $this->lang->line('switch') . '</a>
                         </p>';
                     }
@@ -256,7 +244,7 @@ opacity: 0px;
                     </li>
                    
                     <li>
-                        <a href="#" class=""></a>
+                    <a href="<?php echo base_url();?>admin/master/pages_name" class=""><i class=" icon-settings"></i><span><?php echo $this->lang->line('pages_name');?></span></a>
                     </li>
                     <li>
                         <a href="#" class=""></a>
