@@ -1881,6 +1881,9 @@ public function signup_post() {
             'message' => 'Error in submitting form'
         ], REST_Controller::HTTP_BAD_REQUEST);
     } else {
+        // Generate unique reference code
+        $ref_code = strtoupper(uniqid('REF_'));
+
         // Form data
         $data = [
             'name' => $this->input->post('name', true),
@@ -1893,7 +1896,7 @@ public function signup_post() {
             'user_type' => $this->input->post('user_type', true),
             'date_of_birth' => $this->input->post('date_of_birth', true),
             'state_id' => $this->input->post('state_id', true),
-			'city_id' => $this->input->post('city_id', true),
+            'city_id' => $this->input->post('city_id', true),
             'country_id' => $this->input->post('country_id', true),
             'zip_code' => $this->input->post('zip_code', true),
             'languages' => json_encode($this->input->post('languages')),
@@ -1901,7 +1904,8 @@ public function signup_post() {
             'about' => $this->input->post('about', true),
             'isTranslate' => $this->input->post('is_translate', true),
             'added' => date('Y-m-d H:i:s'),
-            'status' => 'Active'
+            'status' => 'Active',
+            'ref_code' => $ref_code // Add unique reference code
         ];
 
         // Insert into database
@@ -1923,8 +1927,9 @@ public function signup_post() {
                 'access_token' => $tokenData,
                 'status' => true,
                 'id' => $res,
+                'ref_code' => $ref_code, // Include reference code in the response
                 'message' => 'Thank you for registering your new account!',
-                'note' => 'You have successfully Signup.',
+                'note' => 'You have successfully signed up.',
                 'user_type' => $data['user_type'],
                 'logged_in' => true
             ], REST_Controller::HTTP_OK);
@@ -1932,12 +1937,13 @@ public function signup_post() {
             // User creation failed
             $this->response([
                 'status' => false,
-                'message' => 'There was a problem creating your new account. Please try again',
+                'message' => 'There was a problem creating your new account. Please try again.',
                 'errors' => [$this->db->error()]
             ], REST_Controller::HTTP_BAD_REQUEST);
         }
     }
 }
+
 
 // Callback function for validating date
 public function valid_date($date) {
@@ -1947,7 +1953,6 @@ public function valid_date($date) {
     }
     return true;
 }
-
 public function company_signup_post() {
     $_POST = json_decode($this->input->raw_input_stream, true);
 
@@ -1970,13 +1975,16 @@ public function company_signup_post() {
             'message' => 'Error in submitting form'
         ], REST_Controller::HTTP_BAD_REQUEST);
     } else {
+        // Generate unique reference code
+        $ref_code = strtoupper(uniqid('REF_'));
+
         // Form data including the new fields
         $data = [
             'company_name' => $this->input->post('company_name', true),
             'mobile' => $this->input->post('mobile', true),
             'email' => $this->input->post('email', true),
             'password' => password_hash($this->input->post('password', true), PASSWORD_DEFAULT),
-			'branch_office' => $this->input->post('branch_office', true),
+            'branch_office' => $this->input->post('branch_office', true),
             'website' => $this->input->post('website', true),
             'ccn' => $this->input->post('ccn', true),
             'business_activities' => $this->input->post('business_activities', true),
@@ -1990,10 +1998,9 @@ public function company_signup_post() {
             'languages' => json_encode($this->input->post('languages')),
             'linked_in' => $this->input->post('linked_in', true),
             'about' => $this->input->post('about', true),
+            'ref_code' => $ref_code, // Add the unique reference code
             'added' => date('Y-m-d H:i:s'),
-            'status' => 'Active',
-
-           
+            'status' => 'Active'
         ];
 
         // Insert into database
@@ -2002,7 +2009,7 @@ public function company_signup_post() {
             $token_data = [
                 'id' => (int)$res,
                 'email' => (string)$data['email'],
-                'name' => (string)$data['name'],
+                'name' => (string)$data['company_name'],
                 'user_type' => (string)$data['user_type'],
                 'logged_in' => true,
                 'status' => $data['status']
@@ -2015,21 +2022,23 @@ public function company_signup_post() {
                 'access_token' => $tokenData,
                 'status' => true,
                 'id' => $res,
-                'message' => 'Thank you for registering your new account!',
-                'note' => 'You have successfully Signup.',
+                'message' => 'Thank you for registering your company!',
+                'note' => 'You have successfully signed up.',
                 'user_type' => $data['user_type'],
-                'logged_in' => true
+                'logged_in' => true,
+                'ref_code' => $ref_code // Include the reference code in the response
             ], REST_Controller::HTTP_OK);
         } else {
             // User creation failed
             $this->response([
                 'status' => false,
-                'message' => 'There was a problem creating your new account. Please try again',
+                'message' => 'There was a problem creating your new company account. Please try again',
                 'errors' => [$this->db->error()]
             ], REST_Controller::HTTP_BAD_REQUEST);
         }
     }
 }
+
 
 
 
